@@ -1,0 +1,43 @@
+<!<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Notes</title>
+    <link rel="stylesheet" href="styles.css" media="all">
+</head>
+<body class="skin1">
+    <header>
+        <h1>Notes</h1>
+        <a href="#" class="new-note">Create new Note</a>
+
+        <select>
+            <option name="skin1" value="skin1">Light Skin</option>
+            <option name="skin2" value="skin1">Dark Skin</option>
+        </select>
+
+        <section class="filter">
+            <a href="#" class="filter-due-date">By due date</a>
+            <a href="#" class="filter-create-date">By create date</a>
+            <a href="#" class="filter-importance">Importance</a>
+            <a href="#" class="filter-finished">Show finished</a>
+        </section>
+
+    </header>
+
+    <main role="main">
+        <ul class="note-list">
+            <li>
+                <h2>[Note Title]</h2>
+                <p>[Description]</p>
+                <span class="due-date">[Due Date]</span>
+                <span class="importance">[Importance]</span>
+                <input type="checkbox">
+                <span class="">[Done Date]</span>
+                <a href="#">Edit</a>
+            </li>
+        </ul>
+    </main>
+
+    <script src="scripts.js"></script>
+</body>
+</html>
