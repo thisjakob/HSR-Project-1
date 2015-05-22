@@ -1,0 +1,43 @@
+
+
+.note {
+    display: block;
+    margin-top: 30px;
+    margin-left: 10px;
+    width: 100%;
+}
+
+.item {
+    display: flex;
+    margin: 10px;
+    width: 97%;
+}
+
+.desc {
+    width: 30%;
+}
+
+input {
+    width: 70%;
+}
+
+#desc input {
+    height: 100px;
+}
+
+#date input {
+    width: 120px;
+}
+.btn {
+    margin: 10px;
+    padding: 10px;
+}
+
+#btn_save {
+    width: 98%;
+}
+
+#btn_cancel {
+    float: right;
+    width: 20%;
+}
