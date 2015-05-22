@@ -9,25 +9,26 @@
 <body>
     <main role="main">
         <div class="note">
-            <div id="title" class="item">
+            <div class="item">
                 <div class="desc">Title</div>
-                <input type="text" name="title">
+                <input id="title" type="text" name="title">
             </div>
-            <div id="desc" class="item">
+            <div class="item">
                 <div class="desc">Description</div>
-                <input type="text" name="desc">
+                <input id="desc" type="text" name="desc">
             </div>
-            <div id="importance" class="item">
+            <div class="item">
                 <div class="desc">Importance</div>
-                <input type="text" name="importance">
+                <input id="importance" type="text" name="importance">
             </div>
-            <div id="date" class="item">
+            <div class="item">
                 <div class="desc">Date</div>
-                <input type="date" name="date">
+                <input id="date" type="date" name="date">
             </div>
         </div>
-        <button id="btn_save" class="btn">Save</button>
-        <button id="btn_cancel" class="btn">Cancel</button>
+        <button id="btn_save" class="btn" type="button" onclick="save()">Save</button>
+        <button id="btn_cancel" class="btn" type="button" onclick="cancel()">Cancel</button>
     </main>
+    <script src="scripts.js"></script>
 </body>
 </html>
