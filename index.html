@@ -1,4 +1,4 @@
-<!<!doctype html>
+<!doctype html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -7,19 +7,24 @@
 </head>
 <body class="skin1">
     <header>
-        <h1>Notes</h1>
-        <a href="#" class="new-note">Create new Note</a>
+        <h1 class="hidden">Notes</h1>
 
-        <select>
-            <option name="skin1" value="skin1">Light Skin</option>
-            <option name="skin2" value="skin1">Dark Skin</option>
-        </select>
+        <section class="functions">
+            <h2 class="hidden">Functions</h2>
+            <a href="#" class="new-note btn">Create new Note</a>
+
+            <select class="style-switch btn">
+                <option name="skin1" value="skin1">Light Skin</option>
+                <option name="skin2" value="skin1">Dark Skin</option>
+            </select>
+        </section>
 
         <section class="filter">
-            <a href="#" class="filter-due-date">By due date</a>
-            <a href="#" class="filter-create-date">By create date</a>
-            <a href="#" class="filter-importance">Importance</a>
-            <a href="#" class="filter-finished">Show finished</a>
+            <h2 class="hidden">Filter Options</h2>
+            <a href="#" class="filter-due-date btn">By due date</a>
+            <a href="#" class="filter-create-date btn">By create date</a>
+            <a href="#" class="filter-importance btn">Importance</a>
+            <a href="#" class="filter-finished btn">Show finished</a>
         </section>
 
     </header>
