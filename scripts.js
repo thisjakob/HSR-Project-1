@@ -26,9 +26,18 @@ if (notes.length > 0) {
     // Application object. Handles all overall functions
     var Notes = {
 
+        noteTmpl : null,
+        allNotes : null,
+        listNode : null,
+
         // attach event handlers
         init : function () {
-            console.log('Notes init');
+            this.allNotes = this.getAllNotes();
+            var list = this.listNode = document.getElementsByClassName('note-list')[0];
+            this.noteTmpl = list.innerHTML;
+            this.listNode.innerHTML = '';
+
+            this.render();
         },
 
         // switch skin
@@ -39,6 +48,26 @@ if (notes.length > 0) {
         // get all notes from LocalStorage
         getAllNotes : function () {
             return JSON.parse( localStorage.getItem('notes') ) || [];
+        },
+
+        // render list of all notes
+        render : function () {
+            var notes = this.allNotes;
+
+            for ( var i = 0; i < notes.length; i++) {
+                var note = notes[i],
+                    html = this.noteTmpl;
+
+                html = html.replace(/\{id\}/g, note.id);
+                html = html.replace(/\{note-title\}/, note.title);
+                html = html.replace(/\{description\}/, note.desc);
+                html = html.replace(/\{due-date\}/, note['due-date']);
+                html = html.replace(/\{done-date\}/, note['done-date']);
+                html = html.replace(/\{importance\}/, note.importance);
+
+                this.listNode.innerHTML = this.listNode.innerHTML + html;
+
+            }
         },
 
         // sort notes
@@ -68,16 +97,20 @@ if (notes.length > 0) {
             var me = this;
             if ( window.location.hash.match(/new/) ) {
                 this.createNote();
-                document.getElementById('btn_save').addEventListener('click', function(){
-                    me.saveNote.apply(me, arguments);
-                });
-                document.getElementById('btn_cancel').addEventListener('click', function(){
-                    window.location.href = 'index.html';
-                });
-
             } else {
-                this.getNote( window.location.hash.split('#')[1] );
+                this.populateNote(
+                    this.getNote( window.location.hash.split('#')[1] )
+                );
             }
+
+            // event handler
+            document.getElementById('btn_save').addEventListener('click', function(){
+                me.saveNote.apply(me, arguments);
+            });
+            document.getElementById('btn_cancel').addEventListener('click', function(){
+                window.location.href = 'index.html';
+            });
+
         },
 
         // create new note
@@ -98,16 +131,25 @@ if (notes.length > 0) {
             return 'No note with the ID "' + id + '" found.';
         },
 
+        populateNote : function( note ) {
+            document.getElementById("NoteId").value = note.id;
+            document.getElementById("title").value = note.title;
+            document.getElementById("desc").value = note.desc;
+            document.getElementById("importance").value = note.importance;
+            document.getElementById("due-date").value = note['due-date'];
+        },
+
         // save note to localStorage
         saveNote : function () {
             var allNotes = this.allNotes;
-            var note = '{'
-                    + '"id":"' + document.getElementById("NoteId").value +'",'
-                    + '"title":"' + document.getElementById("title").value + '"'
-                    + '"desc":"' + document.getElementById("desc").value + '"'
-                    + '"importance":"' + document.getElementById("importance").value + '",'
-                    + '"date":"' + document.getElementById("date").value + '"'
-                + '}';
+            var note = {
+                'id' : document.getElementById("NoteId").value,
+                'title' : document.getElementById("title").value,
+                'desc' : document.getElementById("desc").value,
+                'importance' : document.getElementById("importance").value,
+                'due-date' : document.getElementById("due-date").value,
+                'done-date' : ''
+            };
             allNotes.push(note);
             localStorage.setItem("notes", JSON.stringify(allNotes));
 
