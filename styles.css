@@ -8,12 +8,16 @@ body {
 }
 
 .btn {
-    margin: 0;
+    margin: 0 0 0 10px;
     padding: 5px 10px;
     background: #ccc;
     border: 1px solid #333;
     text-decoration: none;
     color: black;
+}
+
+.btn:first-of-type{
+    margin-left: 0;
 }
 
 .hidden {
@@ -25,12 +29,10 @@ body {
 header {
     height: 100px;
     padding: 10px;
-    background: red;
 }
 
 main {
     padding: 10px;
-    background: yellow;
 }
 
 .functions,
@@ -39,6 +41,36 @@ main {
     justify-content: space-between;
     margin-bottom: 20px;
 }
+
+.note-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.note-list li {
+    display: flex;
+}
+
+.note-list .title-desc {
+    flex-grow: 3;
+    order: 0;
+}
+
+.note-list .dates {
+    order: -1;
+}
+
+.note-list .note-title {
+    margin: 0;
+    padding: 0;
+}
+
+.note-list .due-date,
+.note-list .done-date {
+    display: block;
+}
+
 
 /* Styles for the notes page */
 .note {
@@ -68,13 +100,4 @@ input {
 
 #date {
     width: 120px;
-}
-
-#btn_save {
-    width: 98%;
-}
-
-#btn_cancel {
-    float: right;
-    width: 20%;
 }

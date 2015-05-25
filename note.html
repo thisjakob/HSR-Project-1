@@ -4,31 +4,32 @@
     <meta charset="UTF-8">
     <title>Note</title>
     <link rel="stylesheet" media="screen" href="styles.css">
-    <script src="scripts.js"></script>
 </head>
 <body>
     <main role="main">
-        <div class="note">
-            <div class="item">
-                <div class="desc">Title</div>
-                <input id="title" type="text" name="title">
-            </div>
-            <div class="item">
-                <div class="desc">Description</div>
-                <input id="desc" type="text" name="desc">
-            </div>
-            <div class="item">
-                <div class="desc">Importance</div>
-                <input id="importance" type="text" name="importance">
-            </div>
-            <div class="item">
-                <div class="desc">Date</div>
-                <input id="date" type="date" name="date">
-            </div>
-        </div>
-        <button id="btn_save" class="btn" type="button" onclick="save()">Save</button>
-        <button id="btn_cancel" class="btn" type="button" onclick="cancel()">Cancel</button>
+        <label for="NoteId" class="item">
+            <span class="desc">Note ID</span>
+            <input id="NoteId" type="text" name="NoteId" disabled="disabled" >
+        </label>
+        <label for="title" class="item">
+            <span class="desc">Title</span>
+            <input id="title" type="text" name="title">
+        </label>
+        <label class="item">
+            <span class="desc">Description</span>
+            <input id="desc" type="text" name="desc">
+        </label>
+        <label class="item">
+            <span class="desc">Importance</span>
+            <input id="importance" type="text" name="importance">
+        </label>
+        <label class="item">
+            <span class="desc">Date</span>
+            <input id="date" type="date" name="date">
+        </label>
+        <button id="btn_save" class="btn" type="button">Save</button>
+        <button id="btn_cancel" class="btn" type="button">Cancel</button>
     </main>
-    <script src="note.js"></script>
+    <script src="scripts.js"></script>
 </body>
 </html>
