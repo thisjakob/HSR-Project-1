@@ -100,8 +100,7 @@ if (notes.length > 0) {
 
         // save note to localStorage
         saveNote : function () {
-            var me = this;
-            var allNotes = me.allNotes;
+            var allNotes = this.allNotes;
             var note = '{'
                     + '"id":"' + document.getElementById("NoteId").value +'",'
                     + '"title":"' + document.getElementById("title").value + '"'
@@ -111,9 +110,13 @@ if (notes.length > 0) {
                 + '}';
             allNotes.push(note);
             localStorage.setItem("notes", JSON.stringify(allNotes));
+
+            // navigate to notes list
+            window.location.href = 'index.html';
         }
     };
 
+    // onload event handler
     window.addEventListener('load',function(){
         if ( window.location.href.match(/note\.html/) ){
             Note.init();
