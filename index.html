@@ -31,21 +31,21 @@
 
     <main role="main">
         <ul class="note-list">
-            <li>
+            <li id="{id}">
                 <div class="title-desc">
-                    <h2 class="note-title">[Note Title]</h2>
-                    <p class="note-desc">[Description]</p>
+                    <h2 class="note-title">{note-title}</h2>
+                    <p class="note-desc">{description}</p>
                 </div>
                 <div class="dates">
-                    <span class="due-date">[Due Date]</span>
+                    <span class="due-date">{due-date}</span>
                     <label for="DoneDate" class="done-date">
-                        Finished <span class="date">[Done Date]</span>
+                        Finished <span class="date">{done-date}</span>
                         <input type="checkbox" id="DoneDate">
                     </label>
                 </div>
                 <div class="additional">
-                    <span class="importance">[Importance]</span>
-                    <a href="note.html">Edit</a>
+                    <span class="importance">{importance}</span>
+                    <a href="note.html#{id}">Edit</a>
                 </div>
             </li>
         </ul>
