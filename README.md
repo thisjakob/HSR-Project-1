@@ -3,4 +3,6 @@
 ## to do
 - create better ID than just a timestamp (some kind of short hash example: hj48i)
 - create form validation
-- render notes list
+- [done] render notes list
+- style switch
+
