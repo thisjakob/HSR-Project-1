@@ -24,7 +24,7 @@ if (notes.length > 0) {
 (function(document, window){
 
     // Application object. Handles all overall functions
-    var Notes = {
+    var Notelist = {
 
         noteTmpl : null,
         allNotes : null,
@@ -90,7 +90,7 @@ if (notes.length > 0) {
     // Handles all functions for a single note
     var Note = {
 
-        allNotes : Notes.getAllNotes(),
+        allNotes : Notelist.getAllNotes(),
 
         // attach event handlers
         init : function (){
@@ -115,7 +115,7 @@ if (notes.length > 0) {
 
         // create new note
         createNote : function () {
-            document.getElementById('NoteId').value = Notes.getNewID();
+            document.getElementById('NoteId').value = Notelist.getNewID();
         },
 
         // get note from localStorage
@@ -163,7 +163,7 @@ if (notes.length > 0) {
         if ( window.location.href.match(/note\.html/) ){
             Note.init();
         } else {
-            Notes.init();
+            Notelist.init();
         }
 
     },false);
