@@ -3,9 +3,9 @@
     // Application object. Handles all overall functions
     var Notelist = {
 
-        noteTmpl : null,
+        localStorageHandle : 'notes',
         allNotes : null,
-        listNode : null,
+        noteTmpl : null,
 
         // attach event handlers
         init : function () {
@@ -95,8 +95,6 @@
 
     // Handles all functions for a single note
     var Note = {
-
-        allNotes : Notelist.getAllNotes(),
 
         // attach event handlers
         init : function (){
