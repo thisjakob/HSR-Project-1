@@ -1,27 +1,4 @@
-/*
-//localStorage.removeItem("notes");
-var notes = localStorage.getItem("notes");
-if( !notes )
-{
-    localStorage.setItem("notes", JSON.stringify([]));
-    var notes = localStorage.getItem("notes");
-}
-notes = JSON.parse(notes);
-if (notes.length > 0) {
-    localStorage.setItem("cmd", "0");
-    var note = JSON.parse(notes[notes.length - 1]);
-    var title = note.title;
-    var desc = note.desc;
-    var importance = note.importance;
-    var date = note.date;
-    console.log("Note 0: " + title + "; " + desc + "; " + importance + "; " + date);
-} else {
-    localStorage.setItem("cmd", "new");
-}
-*/
-
-
-(function(document, window){
+(function($, document, window){
 
     // Application object. Handles all overall functions
     var Notelist = {
@@ -33,11 +10,20 @@ if (notes.length > 0) {
         // attach event handlers
         init : function () {
             this.allNotes = this.getAllNotes();
-            var list = this.listNode = document.getElementsByClassName('note-list')[0];
-            this.noteTmpl = list.innerHTML;
-            this.listNode.innerHTML = '';
 
-            this.render();
+            if ( window.location.href.match(/note\.html/) ){
+                Note.init();
+            } else {
+                var me = this,
+                    list = $('.note-list').first();
+
+                me.noteTmpl = list.html();
+
+                list.removeClass('hidden').html('');
+
+                this.render();
+
+            }
         },
 
         // switch skin
@@ -158,14 +144,14 @@ if (notes.length > 0) {
         }
     };
 
-    // onload event handler
-    window.addEventListener('load',function(){
-        if ( window.location.href.match(/note\.html/) ){
-            Note.init();
-        } else {
-            Notelist.init();
+            // navigate to notes list
+            window.location.href = 'index.html';
         }
+    };
 
-    },false);
-})(document, window);
+    // init onready
+    $(function(){
+        Notelist.init();
+    });
+})(jQuery, document, window);
 
