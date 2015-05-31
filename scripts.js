@@ -23,9 +23,16 @@
 
                 this.render();
 
-                // attach event handler
+                // click handler for all delete links
                 list.on('click','.delete',function(){
                     me.deleteNote.call(me, $(this).parents('li').attr('id') );
+                    me.render();
+                });
+
+                // click handler for created date sort button
+                $('#sort-create-date').on('click', function(e){
+                    e.preventDefault();
+                    me.sort.call(me);
                     me.render();
                 });
             }
@@ -76,8 +83,10 @@
         },
 
         // sort notes
-        sortNotes : function () {
-
+        sort : function () {
+            this.allNotes.sort(function(a,b){
+                return a.created < b.created;
+            });
         },
 
         // show/hide finished notes
@@ -162,6 +171,7 @@
                 'title' : $("#title").val(),
                 'desc' : $("#desc").val(),
                 'importance' : $("#importance").val(),
+                'created' : new Date().getTime(),
                 'due-date' : $("#due-date").val(),
                 'done-date' : ''
             };
