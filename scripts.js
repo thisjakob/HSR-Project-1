@@ -109,10 +109,10 @@
             }
 
             // event handler
-            document.getElementById('btn_save').addEventListener('click', function(){
-                me.saveNote.apply(me, arguments);
+            $('#btn_save').on('click', function(){
+                me.save.apply(me, arguments);
             });
-            document.getElementById('btn_cancel').addEventListener('click', function(){
+            $('#btn_cancel').on('click', function(){
                 window.location.href = 'index.html';
             });
 
