@@ -135,18 +135,17 @@
         },
 
         // save note to localStorage
-        saveNote : function () {
-            var allNotes = this.allNotes;
+        save : function () {
             var note = {
-                'id' : document.getElementById("NoteId").value,
-                'title' : document.getElementById("title").value,
-                'desc' : document.getElementById("desc").value,
-                'importance' : document.getElementById("importance").value,
-                'due-date' : document.getElementById("due-date").value,
+                'id' : $("#NoteId").val(),
+                'title' : $("#title").val(),
+                'desc' : $("#desc").val(),
+                'importance' : $("#importance").val(),
+                'due-date' : $("#due-date").val(),
                 'done-date' : ''
             };
-            allNotes.push(note);
-            localStorage.setItem("notes", JSON.stringify(allNotes));
+
+            Notelist.addNote( note );
 
             // navigate to notes list
             window.location.href = 'index.html';
