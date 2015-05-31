@@ -40,18 +40,20 @@
         render : function () {
             var notes = this.allNotes;
 
+            // clear note list
+            $('.note-list').first().html( '' );
+
+            // (re)populate with current notes in list
             for ( var i = 0; i < notes.length; i++) {
                 var note = notes[i],
                     html = this.noteTmpl;
 
-                html = html.replace(/\{id\}/g, note.id);
-                html = html.replace(/\{note-title\}/, note.title);
-                html = html.replace(/\{description\}/, note.desc);
-                html = html.replace(/\{due-date\}/, note['due-date']);
-                html = html.replace(/\{done-date\}/, note['done-date']);
-                html = html.replace(/\{importance\}/, note.importance);
-
-                this.listNode.innerHTML = this.listNode.innerHTML + html;
+                html = html.replace(/\{id\}/g, note.id)
+                    .replace(/\{note-title\}/, note.title)
+                    .replace(/\{description\}/, note.desc)
+                    .replace(/\{due-date\}/, note['due-date'])
+                    .replace(/\{done-date\}/, note['done-date'])
+                    .replace(/\{importance\}/, note.importance);
 
             }
         },
