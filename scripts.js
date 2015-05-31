@@ -103,7 +103,7 @@
             var me = this; // save a reference to the Note object in var me
 
             if ( window.location.hash.match(/new/) ) {
-                this.createNote();
+                this.create();
             } else {
                 this.populateNote(
                     this.getNote( window.location.hash.split('#')[1] )
@@ -121,21 +121,9 @@
         },
 
         // create new note
-        createNote : function () {
-            document.getElementById('NoteId').value = Notelist.getNewID();
-        },
-
-        // get note from localStorage
-        getNote : function (id) {
-            var allNotes = this.allNotes;
-
-            for (var i = 0; i < allNotes.length; i++) {
-                if ( allNotes[i].id === id ) {
-                    return allNotes.splice(i, 1)[0];
-                }
-            }
-
-            return 'No note with the ID "' + id + '" found.';
+        // just generate a new ID and write it to the document
+        create : function () {
+            $('#NoteId').val( Notelist.getNewID() );
         },
 
         populateNote : function( note ) {
