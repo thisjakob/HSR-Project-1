@@ -9,3 +9,6 @@
 - filter finished notes
 - sort notes by finished date / created date / importance
 
+## Ideas for additional features
+- undo delete note
+
