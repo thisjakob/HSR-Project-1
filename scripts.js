@@ -23,6 +23,11 @@
 
                 this.render();
 
+                // attach event handler
+                list.on('click','.delete',function(){
+                    me.deleteNote.call(me, $(this).parents('li').attr('id') );
+                    me.render();
+                });
             }
         },
 
@@ -84,6 +89,8 @@
         // => for now just use a timestamp
         getNewID : function () {
             return new Date().getTime().toString();
+        },
+
         // finds a particular note by its ID
         // returns a single note object
         findNote : function ( id ) {
@@ -91,6 +98,19 @@
                     return (note.id === id) ? true : false;
                 })[0];
         },
+
+        // remove a note from allNotes and save the new list to localStorage
+        deleteNote : function ( id ) {
+            var notes = this.allNotes;
+
+            for ( var i = 0; i < notes.length; i++ ) {
+                if ( notes[i].id === id ) {
+                    notes.splice(i, 1)[0];
+                    break;
+                }
+            }
+
+            this.save();
         }
     };
 
@@ -114,7 +134,9 @@
             $('#btn_cancel').on('click', function(){
                 window.location.href = 'index.html';
             });
-
+            $('#btn_delete').on('click', function(){
+                me.delete.apply(me, arguments);
+            });
         },
 
         // create new note
@@ -148,8 +170,11 @@
 
             // navigate to notes list
             window.location.href = 'index.html';
-        }
-    };
+        },
+
+        // delete note from localStorage
+        delete : function ( ) {
+            Notelist.deleteNote( $("#NoteId").val() );
 
             // navigate to notes list
             window.location.href = 'index.html';
