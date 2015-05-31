@@ -35,6 +35,13 @@
         save : function() {
             localStorage.setItem(this.localStorageHandle, JSON.stringify(this.allNotes));
         },
+
+        // add a new note to the notelist and save it
+        addNote : function ( note ) {
+            this.allNotes.push( note );
+            this.save();
+        },
+
         // get all notes from LocalStorage
         getAllNotes : function () {
             return JSON.parse( localStorage.getItem('notes') ) || [];
