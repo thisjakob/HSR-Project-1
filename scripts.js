@@ -72,6 +72,13 @@
         // => for now just use a timestamp
         getNewID : function () {
             return new Date().getTime().toString();
+        // finds a particular note by its ID
+        // returns a single note object
+        findNote : function ( id ) {
+            return $.grep( this.allNotes, function(note, index){
+                    return (note.id === id) ? true : false;
+                })[0];
+        },
         }
     };
 
