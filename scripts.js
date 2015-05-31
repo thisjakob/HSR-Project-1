@@ -67,7 +67,7 @@
         },
 
         // get new unused ID for a new note
-        // => just use a timestamp
+        // => for now just use a timestamp
         getNewID : function () {
             return new Date().getTime().toString();
         }
@@ -80,7 +80,8 @@
 
         // attach event handlers
         init : function (){
-            var me = this;
+            var me = this; // save a reference to the Note object in var me
+
             if ( window.location.hash.match(/new/) ) {
                 this.createNote();
             } else {
