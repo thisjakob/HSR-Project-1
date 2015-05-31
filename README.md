@@ -3,7 +3,7 @@
 ## to do
 - create better ID than just a timestamp (some kind of short hash example: hj48i)
 - add form validation
-- [done] ~~render notes list~
+- [done] ~~render notes list~~
 - style switch
 - [done] ~~add delete note~~
 - finish a note
