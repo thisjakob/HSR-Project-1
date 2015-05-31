@@ -8,5 +8,4 @@
 - add delete note
 - filter finished notes
 - sort notes by finished date / created date / importance
-- 
 
