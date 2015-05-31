@@ -66,6 +66,7 @@
                     .replace(/\{done-date\}/, note['done-date'])
                     .replace(/\{importance\}/, note.importance);
 
+                $('.note-list').first().append( html );
             }
         },
 
