@@ -105,9 +105,7 @@
             if ( window.location.hash.match(/new/) ) {
                 this.create();
             } else {
-                this.populateNote(
-                    this.getNote( window.location.hash.split('#')[1] )
-                );
+                this.populate();
             }
 
             // event handler
@@ -126,12 +124,14 @@
             $('#NoteId').val( Notelist.getNewID() );
         },
 
-        populateNote : function( note ) {
-            document.getElementById("NoteId").value = note.id;
-            document.getElementById("title").value = note.title;
-            document.getElementById("desc").value = note.desc;
-            document.getElementById("importance").value = note.importance;
-            document.getElementById("due-date").value = note['due-date'];
+        // populate the detail view of a single note with values
+        populate : function( ) {
+            var note = Notelist.findNote( window.location.hash.split('#')[1] );
+            $("#NoteId").val( note.id );
+            $("#title").val( note.title );
+            $("#desc").val( note.desc );
+            $("#importance").val( note.importance);
+            $("#due-date").val( note['due-date'] );
         },
 
         // save note to localStorage
