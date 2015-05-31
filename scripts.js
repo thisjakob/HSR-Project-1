@@ -31,6 +31,10 @@
 
         },
 
+        // save the entire notelist to localStorage
+        save : function() {
+            localStorage.setItem(this.localStorageHandle, JSON.stringify(this.allNotes));
+        },
         // get all notes from LocalStorage
         getAllNotes : function () {
             return JSON.parse( localStorage.getItem('notes') ) || [];
