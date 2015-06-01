@@ -4,7 +4,7 @@
 - create better ID than just a timestamp (some kind of short hash example: hj48i)
 - add form validation
 - [done] ~~render notes list~~
-- style switch
+- [done] style switch
 - [done] ~~add delete note~~
 - finish note
 - filter finished notes

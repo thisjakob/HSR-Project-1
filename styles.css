@@ -7,6 +7,10 @@ body {
     padding: 0;
 }
 
+body.skin-dark {
+    background: darkgray;
+}
+
 .btn {
     margin: 0 0 0 10px;
     padding: 5px 10px;

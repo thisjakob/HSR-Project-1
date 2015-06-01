@@ -35,12 +35,15 @@
                     me.sort.call(me);
                     me.render();
                 });
+
+                // change handler for style switcher
+                $('.style-switch').on('change', this.switchStyle);
             }
         },
 
         // switch skin
         switchStyle : function () {
-
+            $('body').removeClass().addClass($(".style-switch option:selected").val());
         },
 
         // save the entire notelist to localStorage
