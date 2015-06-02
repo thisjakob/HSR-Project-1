@@ -40,11 +40,11 @@
                     me.render();
                 });
 
-                // click handler for filter finished
-                $('.filter-finished').on('click', me.toggleFinishedNotes);
-
                 // change handler for input finished
-                $('input.done').on('change', me.hideNote);
+                $('input.done').on('change', me.finishNote);
+
+                // click handler for filter finished
+                $('#filter-finished').on('click', me.toggleFinishedNotes);
 
                 // change handler for style switcher
                 $('.style-switch').on('change', me.switchStyle);
@@ -65,13 +65,6 @@
         addNote : function ( note ) {
             this.allNotes.push( note );
             this.save();
-        },
-
-        // hide note
-        hideNote : function ( note ) {
-            if ($('input.filter-finished').text() === Notelist.finished_btn.show) {
-                $(this).closest('li').hide();
-            }
         },
 
         // get all notes from LocalStorage
@@ -109,20 +102,39 @@
             });
         },
 
+        // finish note
+        finishNote : function ( note ) {
+            if ($(this).is(':checked')) {
+                // todo new due date
+                var date = Date();
+                console.log("Finished at " + date);
+
+                // disable edit
+                $(this).closest('li').find('a.edit').addClass('disableClick');
+
+                // show or hide note depend on filter finished
+                if ($('#filter-finished').hasClass('hide')) {
+                    $(this).closest('li').hide();
+                }
+            } else {
+                // note is editable again
+                $(this).closest('li').find('a.edit').removeClass('disableClick');
+            }
+        },
+
         // show/hide finished notes
         toggleFinishedNotes : function() {
-            if ($(this).text() === Notelist.finished_btn.show)
+            if ($(this).hasClass('hide'))
             {
                 // show finished
                 $('input.done:checked').closest('li').show();
-                $(this).text(Notelist.finished_btn.hide);
+                $(this).removeClass('hide').text(Notelist.finished_btn.hide);
             }
             else
             {
                 // hide finished
-                var sel = $('input.done:checked');
                 $('input.done:checked').closest('li').hide();
-                $(this).text(Notelist.finished_btn.show);
+                $(this).addClass('hide').text(Notelist.finished_btn.show);
             };
         },
 

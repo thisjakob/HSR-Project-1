@@ -75,6 +75,10 @@ main {
     display: block;
 }
 
+.disableClick{
+    pointer-events: none;
+    color: lightgray;
+}
 
 /* Styles for the notes page */
 .note {

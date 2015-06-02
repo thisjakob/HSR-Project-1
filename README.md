@@ -6,10 +6,12 @@
 - [done] ~~render notes list~~
 - [done] style switch (remove all classe from body!)
 - [done] ~~add delete note~~
-- [doing] finish note
-- [doing] filter finished notes
+- [doing] finish note (to do save new due date)
+- [done] filter finished notes
 - sort notes by finished date / created date / importance
 
 ## Ideas for additional features
 - undo delete note
 
+## failure
+- edit/save will create new note
