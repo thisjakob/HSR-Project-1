@@ -4,10 +4,10 @@
 - create better ID than just a timestamp (some kind of short hash example: hj48i)
 - add form validation
 - [done] ~~render notes list~~
-- [done] style switch
+- [done] style switch (remove all classe from body!)
 - [done] ~~add delete note~~
-- finish note
-- filter finished notes
+- [doing] finish note
+- [doing] filter finished notes
 - sort notes by finished date / created date / importance
 
 ## Ideas for additional features

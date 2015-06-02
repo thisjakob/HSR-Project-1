@@ -6,6 +6,10 @@
         localStorageHandle : 'notes',
         allNotes : null,
         noteTmpl : null,
+        finished_btn : {
+            show : "Show finished",
+            hide : "Hide finished"
+        },
 
         // attach event handlers
         init : function () {
@@ -36,8 +40,14 @@
                     me.render();
                 });
 
+                // click handler for filter finished
+                $('.filter-finished').on('click', me.toggleFinishedNotes);
+
+                // change handler for input finished
+                $('input.done').on('change', me.hideNote);
+
                 // change handler for style switcher
-                $('.style-switch').on('change', this.switchStyle);
+                $('.style-switch').on('change', me.switchStyle);
             }
         },
 
@@ -55,6 +65,13 @@
         addNote : function ( note ) {
             this.allNotes.push( note );
             this.save();
+        },
+
+        // hide note
+        hideNote : function ( note ) {
+            if ($('input.filter-finished').text() === Notelist.finished_btn.show) {
+                $(this).closest('li').hide();
+            }
         },
 
         // get all notes from LocalStorage
@@ -94,7 +111,19 @@
 
         // show/hide finished notes
         toggleFinishedNotes : function() {
-
+            if ($(this).text() === Notelist.finished_btn.show)
+            {
+                // show finished
+                $('input.done:checked').closest('li').show();
+                $(this).text(Notelist.finished_btn.hide);
+            }
+            else
+            {
+                // hide finished
+                var sel = $('input.done:checked');
+                $('input.done:checked').closest('li').hide();
+                $(this).text(Notelist.finished_btn.show);
+            };
         },
 
         // get new unused ID for a new note
