@@ -6,12 +6,14 @@
 - [done] ~~render notes list~~
 - [done] style switch
 - [done] ~~add delete note~~
-- [doing] finish note (to do save new due date)
+- [doing] finish note (todo save done date)
 - [done] filter finished notes
 - sort notes by finished date / created date / importance
 
 ## Ideas for additional features
 - undo delete note
+- settings: last skin, last filter
+- search text
 
 ## failure
 - edit/save will create new note

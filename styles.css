@@ -75,7 +75,11 @@ main {
     display: block;
 }
 
-.disableClick{
+.note-list.hideFinishedNotes li.done {
+    display: none;
+}
+
+li.done a.edit{
     pointer-events: none;
     color: lightgray;
 }
