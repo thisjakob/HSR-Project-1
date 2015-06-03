@@ -53,7 +53,12 @@
 
         // switch skin
         switchStyle : function () {
-            $('body').removeClass().addClass($(".style-switch option:selected").val());
+            // remove not selected body style classes
+            $(".style-switch option:not(:selected)").each(function(i, val){
+                $('body').removeClass(val.value);
+            });
+            // set body style class
+            $('body').addClass($(".style-switch option:selected").val());
         },
 
         // save the entire notelist to localStorage
@@ -105,7 +110,7 @@
         // finish note
         finishNote : function ( note ) {
             if ($(this).is(':checked')) {
-                // todo new due date
+                // todo new done date
                 var date = Date();
                 console.log("Finished at " + date);
 
@@ -114,7 +119,7 @@
 
                 // show or hide note depend on filter finished
                 if ($('#filter-finished').hasClass('hide')) {
-                    $(this).closest('li').hide();
+                    $(this).closest('li').hide(); // todo addClass('done')
                 }
             } else {
                 // note is editable again
@@ -127,13 +132,13 @@
             if ($(this).hasClass('hide'))
             {
                 // show finished
-                $('input.done:checked').closest('li').show();
+                $('input.done:checked').closest('li').show(); // todo $('ul').removeClass('hideFinishedNotes')
                 $(this).removeClass('hide').text(Notelist.finished_btn.hide);
             }
             else
             {
                 // hide finished
-                $('input.done:checked').closest('li').hide();
+                $('input.done:checked').closest('li').hide();// todo $('ul').addClass('hideFinishedNotes')
                 $(this).addClass('hide').text(Notelist.finished_btn.show);
             };
         },
