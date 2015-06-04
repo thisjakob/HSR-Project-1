@@ -30,7 +30,7 @@
     </header>
 
     <main role="main">
-        <ul class="note-list hidden">
+        <ul class="note-list hidden hideFinishedNotes">
             <li id="{id}">
                 <div class="title-desc">
                     <h2 class="note-title">{note-title}</h2>
@@ -38,7 +38,7 @@
                 </div>
                 <div class="dates">
                     <span class="due-date">{due-date}</span>
-                    <label for="DoneDate" class="done-date">
+                    <label class="done-date">
                         Finished <span class="date">{done-date}</span>
                         <input type="checkbox" class="done">
                     </label>
