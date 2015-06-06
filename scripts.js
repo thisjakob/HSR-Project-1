@@ -1,35 +1,36 @@
 ;(function($, document, window, undefined){
 
-    // Application object. Handles all overall functions
-    var Notelist = {
+    // Application object. Handles all overall
+    // Using the Revealing Module Pattern
+    var Notelist = (function(){
 
-        localStorageHandle : 'notes',
-        allNotes : null,
-        noteTmpl : null,
-        finished_btn : {
-            show : "Show finished",
-            hide : "Hide finished"
-        },
+        var localStorageHandle = 'notes',
+            allNotes = [],
+            noteTmpl = '',
+            finished_btn = {
+                show : "Show finished",
+                hide : "Hide finished"
+            };
 
         // attach event handlers
-        init : function () {
-            this.allNotes = this.getAllNotes();
+        var init = function () {
+            console.log('init Notelist');
+            console.log(this);
+
+
+            allNotes = loadNotes();
 
             if ( window.location.href.match(/note\.html/) ){
                 Note.init();
             } else {
-                var me = this,
-                    list = $('.note-list').first();
+                var me = this;
 
-                me.noteTmpl = list.html();
-
-                list.removeClass('hidden').html('');
-
-                this.render();
-                me.loadSettings();
-
+                loadSettings();
+                loadNoteTmpl();
+                render();
+                
                 // click handler for all delete links
-                list.on('click','.delete',function(){
+                $('.note-list').first().on('click','.delete',function(){
                     me.deleteNote.call(me, $(this).parents('li').attr('id') );
                     me.render();
                 });
@@ -50,58 +51,69 @@
                 // change handler for style switcher
                 $('.style-switch').on('change', me.switchStyle);
             }
-        },
+        };
+
+        var loadNoteTmpl = function(){
+            var list = $('.note-list').first();
+            noteTmpl = list.html();
+            list.removeClass('hidden').html('');
+        };
+
+        var getNoteTmpl = function(){
+            return noteTmpl;
+        };
 
         // load settings
-        loadSettings : function() {
+        var loadSettings = function() {
             // todo load settings
             console.log("todo load settings");
-        },
+        };
 
         // save settings
-        saveSettings : function() {
+        var saveSettings = function() {
             // todo save settings
             console.log("todo save settings");
-        },
+        };
 
         // switch skin
-        switchStyle : function () {
+        var switchStyle = function () {
             // remove not selected body style classes
             $(".style-switch option:not(:selected)").each(function(i, val){
                 $('body').removeClass(val.value);
             });
             // set body style class
             $('body').addClass($(".style-switch option:selected").val());
-            Notelist.saveSettings();
-        },
+            saveSettings();
+        };
 
         // save the entire notelist to localStorage
-        save : function() {
-            localStorage.setItem(this.localStorageHandle, JSON.stringify(this.allNotes));
-        },
+        var save = function() {
+            localStorage.setItem(localStorageHandle, JSON.stringify(allNotes));
+        };
 
         // add a new note to the notelist and save it
-        addNote : function ( note ) {
-            this.allNotes.push( note );
-            this.save();
-        },
+        var addNote = function ( note ) {
+            allNotes.push( note );
+            save();
+        };
 
         // get all notes from LocalStorage
-        getAllNotes : function () {
+        var loadNotes = function () {
             return JSON.parse( localStorage.getItem('notes') ) || [];
-        },
+        };
 
         // render list of all notes
-        render : function () {
-            var notes = this.allNotes;
+        var render = function () {
+            var notes = allNotes,
+                list = $('.note-list').first();
 
             // clear note list
-            $('.note-list').first().html( '' );
+            list.html( '' );
 
             // (re)populate with current notes in list
             for ( var i = 0; i < notes.length; i++) {
                 var note = notes[i],
-                    html = this.noteTmpl;
+                    html = getNoteTmpl();
 
                 html = html.replace(/\{id\}/g, note.id)
                     .replace(/\{note-title\}/, note.title)
@@ -110,19 +122,19 @@
                     .replace(/\{done-date\}/, note['done-date'])
                     .replace(/\{importance\}/, note.importance);
 
-                $('.note-list').first().append( html );
+                list.append( html );
             }
-        },
+        };
 
         // sort notes
-        sort : function () {
-            this.allNotes.sort(function(a,b){
+        var sort = function () {
+            allNotes.sort(function(a,b){
                 return a.created < b.created;
             });
-        },
+        };
 
         // finish note
-        finishNote : function () {
+        var finishNote = function () {
             if ($(this).is(':checked')) {
                 // todo new done date
                 var date = new Date();
@@ -139,42 +151,42 @@
                 // delete done from note
                 $(this).closest('li').removeClass('done');
             }
-        },
+        };
 
         // show/hide finished notes
-        toggleFinishedNotes : function() {
+        var toggleFinishedNotes = function() {
             if ($(this).hasClass('hide'))
             {
                 // show finished
                 $('.note-list').removeClass('hideFinishedNotes');
-                $(this).removeClass('hide').text(Notelist.finished_btn.hide);
+                $(this).removeClass('hide').text(finished_btn.hide);
             }
             else
             {
                 // hide finished
                 $('.note-list').addClass('hideFinishedNotes');
-                $(this).addClass('hide').text(Notelist.finished_btn.show);
-            };
-            Notelist.saveSettings();
-        },
+                $(this).addClass('hide').text(finished_btn.show);
+            }
+            saveSettings();
+        };
 
         // get new unused ID for a new note
         // => for now just use a timestamp
-        getNewID : function () {
+        var getNewID =function () {
             return new Date().getTime().toString();
-        },
+        };
 
         // finds a particular note by its ID
         // returns a single note object
-        findNote : function ( id ) {
-            return $.grep( this.allNotes, function(note, index){
-                    return (note.id === id) ? true : false;
+        var findNote = function ( id ) {
+            return $.grep( allNotes, function(note, index){
+                    return (note.id === id);
                 })[0];
-        },
+        };
 
         // remove a note from allNotes and save the new list to localStorage
-        deleteNote : function ( id ) {
-            var notes = this.allNotes;
+        var deleteNote = function ( id ) {
+            var notes = allNotes;
 
             for ( var i = 0; i < notes.length; i++ ) {
                 if ( notes[i].id === id ) {
@@ -183,9 +195,21 @@
                 }
             }
 
-            this.save();
-        }
-    };
+            save();
+        };
+
+        return {
+            getNoteTmpl : getNoteTmpl,
+            init : init,
+            getNewId : getNewID,
+            findNote : findNote,
+            addNote : addNote,
+            deleteNote : deleteNote,
+            render : render,
+            loadSettings : loadSettings,
+            getNewID : getNewID
+        };
+    })();
 
     // Handles all functions for a single note
     var Note = {
