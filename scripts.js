@@ -1,4 +1,4 @@
-(function($, document, window){
+;(function($, document, window, undefined){
 
     // Application object. Handles all overall functions
     var Notelist = {
