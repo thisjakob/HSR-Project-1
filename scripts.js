@@ -101,6 +101,19 @@
             save();
         };
 
+        var updateNote = function ( note ) {
+            var notes = allNotes;
+
+            for ( var i = 0; i < notes.length; i++ ) {
+                if ( notes[i].id === note.id ) {
+                    notes[i] = note;
+                    break;
+                }
+            }
+
+            save();
+        };
+
         // get all notes from LocalStorage
         var loadNotes = function () {
             return JSON.parse( localStorage.getItem('notes') ) || [];
@@ -208,6 +221,7 @@
             getNewId : getNewID,
             findNote : findNote,
             addNote : addNote,
+            updateNote : updateNote,
             deleteNote : deleteNote,
             render : render,
             loadSettings : loadSettings,
@@ -218,6 +232,8 @@
     // Handles all functions for a single note
     var Note = {
 
+        isNewNote : true,
+
         // attach event handlers
         init : function (){
             var me = this; // save a reference to the Note object in var me
@@ -225,6 +241,7 @@
             if ( window.location.hash.match(/new/) ) {
                 this.create();
             } else {
+                this.isNewNote = false;
                 this.populate();
             }
 
@@ -268,7 +285,11 @@
                 'done-date' : ''
             };
 
-            Notelist.addNote( note );
+            if ( this.isNewNote ) {
+                Notelist.addNote( note );
+            } else {
+                Notelist.updateNote( note );
+            }
 
             // navigate to notes list
             window.location.href = 'index.html';
