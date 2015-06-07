@@ -28,7 +28,7 @@
                 loadSettings();
                 loadNoteTmpl();
                 render();
-                
+
                 // click handler for all delete links
                 $('.note-list').first().on('click','.delete',function(){
                     me.deleteNote.call(me, $(this).parents('li').attr('id') );
@@ -53,12 +53,16 @@
             }
         };
 
+        // the template for each not is part of index.html
+        // find the template in the html code, save it and remove the template
+        // code from the html markup.
         var loadNoteTmpl = function(){
             var list = $('.note-list').first();
             noteTmpl = list.html();
             list.removeClass('hidden').html('');
         };
 
+        // Getter for the private propery "noteTmpl"
         var getNoteTmpl = function(){
             return noteTmpl;
         };
