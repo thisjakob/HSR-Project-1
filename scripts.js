@@ -17,7 +17,6 @@
             console.log('init Notelist');
             console.log(this);
 
-
             allNotes = loadNotes();
 
             if ( window.location.href.match(/note\.html/) ){
@@ -43,13 +42,13 @@
                 });
 
                 // change handler for input finished
-                $('input.done').on('change', me.finishNote);
+                $('input.done').on('change', finishNote);
 
                 // click handler for filter finished
-                $('#filter-finished').on('click', me.toggleFinishedNotes);
+                $('#filter-finished').on('click', toggleFinishedNotes);
 
                 // change handler for style switcher
-                $('.style-switch').on('change', me.switchStyle);
+                $('.style-switch').on('change', switchStyle);
             }
         };
 
