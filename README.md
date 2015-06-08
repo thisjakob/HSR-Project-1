@@ -1,6 +1,3 @@
-# HSR-Project-1
-# neues Projekt
-=======
 # HSR-Project-1: Notes
 
 ## to do
