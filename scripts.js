@@ -1,5 +1,90 @@
 ;(function($, document, window, undefined){
 
+    /*
+     * App module
+     * Handles all view related stuff like initialization, event handler, etc.
+     * Private properties and functions are prefixed with an underscore
+     * Public functions are not prefixed
+     */
+    var App = (function(){
+
+        /*
+         * private properties
+         */
+        var _localStorageHandlePrefix = 'notes_',
+            _localStorageHandle_Settings = 'settings',
+            _localStorageHandle_Data = 'data',
+            _defaultSettings = {
+                sortBy : 'dueDate',
+                sortOrder : 'asce',
+                showFinished : false
+            },
+            _settings = {};
+
+        /*
+         * initialization
+         */
+        var init = function(){
+            if ( window.location.href.match(/note\.html/) ) {
+                var note;
+                if ( window.location.hash.match(/new/) ) {
+                    note = new Note();
+                } else {
+                    var n = _loadNote( window.location.hash.split('#')[1] );
+                    note = new Note(n.id, n.title, n.description, n.dueDate, n.importance, n.doneDate, n.created, n.lastModified );
+                }
+                note.populate();
+
+                console.log(note);
+            } else {
+                _loadSettings();
+                _saveSettings();
+                console.log(_settings);
+                Notelist.init();
+            }
+        };
+
+        var _loadSettings = function(){
+            var key = _localStorageHandlePrefix + _localStorageHandle_Settings;
+            _settings = $.extend(
+                {},
+                _defaultSettings,
+                _load( key )
+            );
+        };
+
+        var _saveSettings = function(){
+            var key = _localStorageHandlePrefix + _localStorageHandle_Settings;
+            _save( key, _settings );
+        };
+
+        var _load = function ( key ) {
+            return JSON.parse( localStorage.getItem( key ) );
+        };
+
+        var _save = function ( key, data ) {
+            localStorage.setItem( key, JSON.stringify( data ) );
+        };
+
+        var createNoteId = function () {
+            return new Date().getTime().toString();
+        };
+
+        var leftpad = function ( num ) {
+            return ('0' + num).slice(-2);
+        };
+
+        /*
+         * return public methods
+         */
+        return {
+            init : init,
+            createNoteId : createNoteId,
+            leftpad : leftpad
+        };
+
+    })();
+
     // Application object. Handles all overall
     // Using the Revealing Module Pattern
     var Notelist = (function(){
@@ -61,7 +146,7 @@
             list.removeClass('hidden').html('');
         };
 
-        // Getter for the private propery "noteTmpl"
+        // Getter for the private property "noteTmpl"
         var getNoteTmpl = function(){
             return noteTmpl;
         };
@@ -228,6 +313,36 @@
         };
     })();
 
+
+    function Note ( id, title, desc, dueDate, importance, doneDate, created, modified) {
+        var now = new Date().getTime();
+
+        this.id = id || App.createNoteId();
+        this.title = title || '';
+        this.description = desc || '';
+        this.dueDate = dueDate || now;
+        this.importance = importance || 'normal';
+        this.doneDate = doneDate || null;
+        this.created = created || now;
+        this.lastModified = modified || now;
+    };
+
+    Note.prototype.finish = function() {
+        this.doneDate = new Date().getTime();
+    };
+
+    Note.prototype.populate = function() {
+        var dueDate = new Date(this.dueDate);
+
+        $("#NoteId").val( this.id );
+        $("#title").val( this.title );
+        $("#desc").val( this.description );
+        $("#importance").val( this.importance);
+        $("#due-date").val( dueDate.getFullYear() + '-' + App.leftpad( dueDate.getMonth()+1 ) + '-' + App.leftpad( dueDate.getDate() ) );
+    };
+
+
+    /*
     // Handles all functions for a single note
     var Note = {
 
@@ -302,10 +417,11 @@
             window.location.href = 'index.html';
         }
     };
+    */
 
     // init onready
     $(function(){
-        Notelist.init();
+        App.init();
     });
 })(jQuery, document, window);
 
