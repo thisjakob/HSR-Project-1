@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Notes</title>
+    <link rel="stylesheet" href="styles.css" media="all">
+</head>
+<body class="skin-light">
+    <header>
+        <h1 class="hidden">Notes</h1>
+
+        <section class="functions">
+            <h2 class="hidden">Functions</h2>
+            <a href="note.html#new" class="new-note btn">Create new Note</a>
+
+            <select class="style-switch btn">
+                <option name="skin1" value="skin-light">Light Skin</option>
+                <option name="skin2" value="skin-dark">Dark Skin</option>
+            </select>
+        </section>
+
+        <section class="filter">
+            <h2 class="hidden">Filter Options</h2>
+            <a href="#" id="sort-due-date" class="btn">By due date</a>
+            <a href="#" id="sort-create-date" class="btn">By create date</a>
+            <a href="#" id="sort-importance" class="btn">Importance</a>
+            <a href="#" id="filter-finished" class="hide btn">Show finished</a>
+        </section>
+
+    </header>
+
+    <main role="main">
+        <ul class="note-list hidden hideFinishedNotes">
+            <li id="{id}">
+                <div class="title-desc">
+                    <h2 class="note-title">{note-title}</h2>
+                    <p class="note-desc">{description}</p>
+                </div>
+                <div class="dates">
+                    <span class="due-date">{due-date}</span>
+                    <label class="done-date">
+                        Finished <span class="date">{done-date}</span>
+                        <input type="checkbox" class="done">
+                    </label>
+                </div>
+                <div class="additional">
+                    <span class="importance">{importance}</span>
+                    <a href="note.html#{id}" class="edit">Edit</a>
+                    <a href="javascript:void(0);" class="delete">Delete</a>
+                </div>
+            </li>
+        </ul>
+    </main>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script src="scripts.js"></script>
+</body>
+</html>

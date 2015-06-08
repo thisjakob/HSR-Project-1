@@ -1,0 +1,38 @@
+<!doctype html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>Note</title>
+    <link rel="stylesheet" media="screen" href="styles.css">
+</head>
+<body>
+    <main role="main">
+        <label for="NoteId" class="item">
+            <span class="desc">Note ID</span>
+            <input id="NoteId" type="text" name="NoteId" disabled="disabled" >
+        </label>
+        <label for="title" class="item">
+            <span class="desc">Title</span>
+            <input id="title" type="text" name="title">
+        </label>
+        <label class="item">
+            <span class="desc">Description</span>
+            <textarea id="desc" name="desc"></textarea>
+        </label>
+        <label class="item">
+            <span class="desc">Importance</span>
+            <input id="importance" type="text" name="importance">
+        </label>
+        <label class="item">
+            <span class="desc">Date</span>
+            <input id="due-date" type="date" name="due-date">
+        </label>
+        <button id="btn_save" class="btn" type="button">Save</button>
+        <button id="btn_cancel" class="btn" type="button">Cancel</button>
+        <button id="btn_delete" class="btn" type="button">Delete</button>
+    </main>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script src="scripts.js"></script>
+</body>
+</html>
