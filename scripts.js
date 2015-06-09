@@ -131,14 +131,23 @@
                 var note = notes[i],
                     html = getNoteTmpl();
 
+                var classdone = "";
+                if (note['done-date'] !== "") {
+                    classdone = "done";
+                }
+
                 html = html.replace(/\{id\}/g, note.id)
                     .replace(/\{note-title\}/, note.title)
                     .replace(/\{description\}/, note.desc)
                     .replace(/\{due-date\}/, note['due-date'])
                     .replace(/\{done-date\}/, note['done-date'])
-                    .replace(/\{importance\}/, note.importance);
+                    .replace(/\{importance\}/, note.importance)
+                    .replace(/\{done\}/, classdone);
 
                 list.append( html );
+                if (classdone === "done") {
+                    $("#" + note.id + " input")[0].checked = true;
+                }
             }
         };
 
@@ -151,22 +160,21 @@
 
         // finish note
         var finishNote = function () {
-            if ($(this).is(':checked')) {
-                // todo new done date
-                var date = new Date();
-                var id = this.closest('li').id;
-                console.log("Finished note with id " + id + " at " + date);
-                //Notelist.findNote(this.closest('li').id)['done-date'] = new Date();
-                //Notelist.save();
+            var note = findNote(this.closest('li').id);
 
+            if ($(this).is(':checked')) {
                 // set note to done
+                var date = new Date();
+                note['done-date'] = date.toISOString().substring(0,10);
                 $(this).closest('li').addClass('done');
             } else {
-                //Notelist.findNote(this.closest('li').id)['done-date'] = "";
-                //Notelist.save();
                 // delete done from note
+                note['done-date'] = "";
+                $(this).parent().find('span').innerHTMLs = "";
                 $(this).closest('li').removeClass('done');
             }
+            updateNote(note);
+            render();
         };
 
         // show/hide finished notes
