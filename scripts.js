@@ -13,8 +13,8 @@
                 hide : "Hide finished"
             },
             defaultSettings = {
-                sortBy : 'dueDate',
-                sortOrder : 'asce',
+                sortBy : 'dueDate', // [dueDate, createdDate, modifiedDate, importance]
+                sortOrder : 'asc', // [asc, desc]
                 showFinished : false
             },
             settings = {};
@@ -24,14 +24,16 @@
             console.log('init Notelist');
             console.log(this);
 
+            loadSettings();
             allNotes = loadNotes();
+            sort( settings.sortBy, settings.sortOrder );
+
 
             if ( window.location.href.match(/note\.html/) ){
                 Note.init();
             } else {
                 var me = this;
 
-                loadSettings();
                 loadNoteTmpl();
                 render();
 
@@ -42,9 +44,15 @@
                 });
 
                 // click handler for created date sort button
-                $('#sort-create-date').on('click', function(e){
+                $('a.btn.sort').on('click', function(e){
                     e.preventDefault();
-                    sort.call(me);
+                    var sortBy = this.href.split('#')[1];
+                    var newSortOrder = (settings.sortOrder === 'desc') ? 'asc' : 'desc';
+                    sort.call(me, sortBy, newSortOrder);
+                    updateSetting('sortBy', sortBy);
+                    updateSetting('sortOrder', newSortOrder);
+                    saveSettings();
+
                     me.render();
                 });
 
@@ -147,15 +155,15 @@
                     html = getNoteTmpl();
 
                 var classdone = "";
-                if (note['done-date'] !== "") {
+                if (note.doneDate !== "") {
                     classdone = "done";
                 }
 
                 html = html.replace(/\{id\}/g, note.id)
                     .replace(/\{note-title\}/, note.title)
-                    .replace(/\{description\}/, note.desc)
-                    .replace(/\{due-date\}/, note['due-date'])
-                    .replace(/\{done-date\}/, note['done-date'])
+                    .replace(/\{description\}/, note.description)
+                    .replace(/\{dueDate\}/, note.dueDate)
+                    .replace(/\{doneDate\}/, note.doneDate)
                     .replace(/\{importance\}/, note.importance)
                     .replace(/\{done\}/, classdone);
 
@@ -174,10 +182,10 @@
             }
         };
 
-        // sort notes
-        var sort = function () {
+        // sort notes by the given property
+        var sort = function ( sortBy, sortOrder ) {
             allNotes.sort(function(a,b){
-                return a.created < b.created;
+                return (sortOrder === 'desc') ? a[ sortBy ] > b[ sortBy ] : a[ sortBy ] < b[ sortBy ];
             });
         };
 
@@ -188,11 +196,11 @@
             if ($(this).is(':checked')) {
                 // set note to done
                 var date = new Date();
-                note['done-date'] = date.toISOString().substring(0,10);
+                note.DoneDate = date.toISOString().substring(0,10);
                 $(this).closest('li').addClass('done');
             } else {
                 // delete done from note
-                note['done-date'] = "";
+                note.DoneDate = "";
                 $(this).parent().find('span').innerHTMLs = "";
                 $(this).closest('li').removeClass('done');
             }
@@ -300,9 +308,9 @@
             var note = Notelist.findNote( window.location.hash.split('#')[1] );
             $("#NoteId").val( note.id );
             $("#title").val( note.title );
-            $("#desc").val( note.desc );
+            $("#desc").val( note.description );
             $("#importance").val( note.importance);
-            $("#due-date").val( note['due-date'] );
+            $("#dueDate").val( note['dueDate'] );
         },
 
         // save note to localStorage
@@ -310,11 +318,12 @@
             var note = {
                 'id' : $("#NoteId").val(),
                 'title' : $("#title").val(),
-                'desc' : $("#desc").val(),
+                'description' : $("#desc").val(),
                 'importance' : $("#importance").val(),
-                'created' : new Date().getTime(),
-                'due-date' : $("#due-date").val(),
-                'done-date' : ''
+                'createdDate' : new Date().getTime(), // To do: handle creation vs. edited!!
+                'modifiedDate' : new Date().getTime(),
+                'dueDate' : $("#dueDate").val(),
+                'doneDate' : ''
             };
 
             if ( this.isNewNote ) {

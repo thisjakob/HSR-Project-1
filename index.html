@@ -21,9 +21,10 @@
 
         <section class="filter">
             <h2 class="hidden">Filter Options</h2>
-            <a href="#" id="sort-due-date" class="btn">By due date</a>
-            <a href="#" id="sort-create-date" class="btn">By create date</a>
-            <a href="#" id="sort-importance" class="btn">Importance</a>
+            <a href="#dueDate" id="sort-due-date" class="btn sort">By due date</a>
+            <a href="#createdDate" id="sort-create-date" class="btn sort">By create date</a>
+            <a href="#modifiedDate" id="sort-modified-date" class="btn sort">By modified date</a>
+            <a href="#importance" id="sort-importance" class="btn sort">Importance</a>
             <a href="#" id="filter-finished" class="hide btn">Show finished</a>
         </section>
 
@@ -37,9 +38,9 @@
                     <p class="note-desc">{description}</p>
                 </div>
                 <div class="dates">
-                    <span class="due-date">{due-date}</span>
+                    <span class="dueDate">{dueDate}</span>
                     <label class="done-date">
-                        Finished <span class="date">{done-date}</span>
+                        Finished <span class="date">{doneDate}</span>
                         <input type="checkbox" class="done">
                     </label>
                 </div>
