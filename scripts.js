@@ -4,13 +4,20 @@
     // Using the Revealing Module Pattern
     var Notelist = (function(){
 
-        var localStorageHandle = 'notes',
+        var localStorageHandle_Data = 'notes-data',
+            localStorageHandle_Settings = 'notes-settings',
             allNotes = [],
             noteTmpl = '',
             finished_btn = {
                 show : "Show finished",
                 hide : "Hide finished"
-            };
+            },
+            defaultSettings = {
+                sortBy : 'dueDate',
+                sortOrder : 'asce',
+                showFinished : false
+            },
+            settings = {};
 
         // attach event handlers
         var init = function () {
@@ -37,7 +44,7 @@
                 // click handler for created date sort button
                 $('#sort-create-date').on('click', function(e){
                     e.preventDefault();
-                    me.sort.call(me);
+                    sort.call(me);
                     me.render();
                 });
 
@@ -68,14 +75,22 @@
 
         // load settings
         var loadSettings = function() {
-            // todo load settings
-            console.log("todo load settings");
+            $.extend(
+                settings,
+                defaultSettings,
+                JSON.parse( localStorage.getItem( localStorageHandle_Settings ) ) || {}
+            );
         };
 
         // save settings
         var saveSettings = function() {
-            // todo save settings
-            console.log("todo save settings");
+            localStorage.setItem( localStorageHandle_Settings, JSON.stringify(settings) );
+        };
+
+        // update one particular setting and save it
+        var updateSetting = function ( setting, value ) {
+            settings[ setting ] = value;
+            saveSettings();
         };
 
         // switch skin
@@ -91,7 +106,7 @@
 
         // save the entire notelist to localStorage
         var save = function() {
-            localStorage.setItem(localStorageHandle, JSON.stringify(allNotes));
+            localStorage.setItem(localStorageHandle_Data, JSON.stringify(allNotes));
         };
 
         // add a new note to the notelist and save it
@@ -115,7 +130,7 @@
 
         // get all notes from LocalStorage
         var loadNotes = function () {
-            return JSON.parse( localStorage.getItem('notes') ) || [];
+            return JSON.parse( localStorage.getItem( localStorageHandle_Data ) ) || [];
         };
 
         // render list of all notes
@@ -145,9 +160,15 @@
                     .replace(/\{done\}/, classdone);
 
                 list.append( html );
+
                 if (classdone === "done") {
                     $("#" + note.id + " input")[0].checked = true;
                 }
+            }
+
+            if ( !settings.showFinished ) {
+                list.addClass( 'hideFinishedNotes' );
+                $(this).addClass('hide').text(finished_btn.show);
             }
         };
 
@@ -184,14 +205,16 @@
                 // show finished
                 $('.note-list').removeClass('hideFinishedNotes');
                 $(this).removeClass('hide').text(finished_btn.hide);
+                updateSetting('showFinished', true );
             }
             else
             {
                 // hide finished
                 $('.note-list').addClass('hideFinishedNotes');
                 $(this).addClass('hide').text(finished_btn.show);
+                updateSetting('showFinished', false);
             }
-            saveSettings();
+
         };
 
         // get new unused ID for a new note
