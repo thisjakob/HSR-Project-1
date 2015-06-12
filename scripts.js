@@ -168,7 +168,9 @@
 
             if ( !settings.showFinished ) {
                 list.addClass( 'hideFinishedNotes' );
-                $(this).addClass('hide').text(finished_btn.show);
+                $('#filter-finished').addClass('hide').text(finished_btn.show);
+            } else {
+                $('#filter-finished').removeClass('hide').text( finished_btn.hide );
             }
         };
 
