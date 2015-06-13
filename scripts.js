@@ -320,13 +320,13 @@
                 'title' : $("#title").val(),
                 'description' : $("#desc").val(),
                 'importance' : $("#importance").val(),
-                'createdDate' : new Date().getTime(), // To do: handle creation vs. edited!!
                 'modifiedDate' : new Date().getTime(),
                 'dueDate' : $("#dueDate").val(),
                 'doneDate' : ''
             };
 
             if ( this.isNewNote ) {
+                note.createdDate = new Date().getTime();
                 Notelist.addNote( note );
             } else {
                 Notelist.updateNote( note );
