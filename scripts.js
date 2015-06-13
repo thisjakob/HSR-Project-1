@@ -18,6 +18,11 @@
                 showFinished : false
             },
             settings = {};
+            importance = {
+                1 : "High",
+                2 : "Medium",
+                3 : "Low"
+            };
 
         // attach event handlers
         var init = function () {
@@ -164,7 +169,7 @@
                     .replace(/\{description\}/, note.description.replace(/\n/g,'<br>'))
                     .replace(/\{dueDate\}/, note.dueDate)
                     .replace(/\{doneDate\}/, note.doneDate)
-                    .replace(/\{importance\}/, note.importance)
+                    .replace(/\{importance\}/, importance[note.importance])
                     .replace(/\{done\}/, classdone);
 
                 list.append( html );
@@ -284,6 +289,11 @@
                 this.isNewNote = false;
                 this.populate();
             }
+
+            // write text for options in drop down
+            $("#importance option[value=1]").text(importance[1]);
+            $("#importance option[value=2]").text(importance[2]);
+            $("#importance option[value=3]").text(importance[3]);
 
             // event handler
             $('#btn_save').on('click', function(){
