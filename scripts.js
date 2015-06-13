@@ -161,7 +161,7 @@
 
                 html = html.replace(/\{id\}/g, note.id)
                     .replace(/\{note-title\}/, note.title)
-                    .replace(/\{description\}/, note.description)
+                    .replace(/\{description\}/, note.description.replace(/\n/g,'<br>'))
                     .replace(/\{dueDate\}/, note.dueDate)
                     .replace(/\{doneDate\}/, note.doneDate)
                     .replace(/\{importance\}/, note.importance)
