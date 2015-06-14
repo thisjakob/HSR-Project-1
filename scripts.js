@@ -157,25 +157,6 @@
             localStorage.setItem(localStorageHandle_Data, JSON.stringify(allNotes, savedProperties));
         };
 
-        // add a new note to the notelist and save it
-        var addNote = function ( note ) {
-            allNotes.push( note );
-            save();
-        };
-
-        var updateNote = function ( note ) {
-            var notes = allNotes;
-
-            for ( var i = 0; i < notes.length; i++ ) {
-                if ( notes[i].id === note.id ) {
-                    notes[i] = note;
-                    break;
-                }
-            }
-
-            save();
-        };
-
         // get all notes from LocalStorage
         var loadNotes = function () {
             var notes = JSON.parse( localStorage.getItem( localStorageHandle_Data ) ) || [];
@@ -291,8 +272,6 @@
             getAllNotes : getAllNotes,
             getNoteTmpl : getNoteTmpl,
             findNote : findNote,
-            addNote : addNote,
-            updateNote : updateNote,
             indexOfNote : indexOfNote,
             render : render,
             save : save
