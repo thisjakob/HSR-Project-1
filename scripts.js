@@ -33,7 +33,36 @@
 
 
             if ( window.location.href.match(/note\.html/) ){
-                Note.init();
+                var note;
+
+                $('#importance option').each(function(index, element){
+                    $(element).text(importance[index+1]);
+                });
+
+                if ( window.location.hash.match(/new/) ) {
+                    note = new Note( {}, Notelist);
+                    $('#btn_delete').remove();
+                } else {
+                    note = findNote( window.location.hash.split('#')[1]) ;
+                }
+                note.populate();
+
+                // event handler
+                $('#btn_save').on('click', function(){
+                    note.title = $('#title').val();
+                    note.description = $('#desc').val();
+                    note.importance = $('#importance').val();
+                    note.dueDate = $('#dueDate').val();
+                    note.save();
+                    window.location.href = 'index.html';
+                });
+                $('#btn_cancel').on('click', function(){
+                    window.location.href = 'index.html';
+                });
+                $('#btn_delete').on('click', function(){
+                    me.delete.apply(me, arguments);
+                });
+
             } else {
                 var me = this;
 
@@ -154,7 +183,7 @@
             if ( notes ) {
                 // Create a Note object for each note
                 for ( var i = 0, l = notes.length; i < l; i++) {
-                    notes[i] = new Note_( notes[i], Notelist );
+                    notes[i] = new Note( notes[i], Notelist );
                 }
             }
 
@@ -242,21 +271,30 @@
                 })[0];
         };
 
+        var indexOfNote = function ( id ) {
+            for ( var i = 0, l = allNotes.length; i < l; i++ ) {
+                if ( allNotes[i].id === id ) {
+                    return i;
+                }
+            }
+
+            return -1; // not found
+        };
+
         var getAllNotes = function () {
             return allNotes;
         };
 
         return {
-            getNoteTmpl : getNoteTmpl,
-            getAllNotes : getAllNotes,
             init : init,
-            getNewId : getNewID,
+            getNewID : getNewID,
+            getAllNotes : getAllNotes,
+            getNoteTmpl : getNoteTmpl,
             findNote : findNote,
             addNote : addNote,
             updateNote : updateNote,
+            indexOfNote : indexOfNote,
             render : render,
-            loadSettings : loadSettings,
-            getNewID : getNewID,
             save : save
         };
     })();
@@ -268,7 +306,7 @@
      * - properties: all the properties for this note
      * - list: reference to the note list containing this note
      */
-    function Note_ ( properties, list ) {
+    function Note ( properties, list ) {
         var now = new Date().getTime();
 
         this.list = list;
@@ -278,8 +316,8 @@
         this.title = '';
         this.description = '';
         this.dueDate = now;
-        this.importance = 'normal';
-        this.doneDate = null;
+        this.importance = 2;
+        this.doneDate = '';
         this.createdDate = now;
         this.modifiedDate = now;
 
@@ -287,21 +325,31 @@
         $.extend( this, properties );
     };
 
-    Note_.prototype.populate = function() {
+    Note.prototype.save = function() {
+        var l = this.list,
+            i = l.indexOfNote( this.id),
+            notes = l.getAllNotes();
+
+        ( i < 0 ) ? notes.push( this ) : notes[ i ] = this;
+
+        l.save();
+    };
+
+    Note.prototype.populate = function() {
         var dueDate = new Date(this.dueDate);
 
         $("#NoteId").val( this.id );
         $("#title").val( this.title );
         $("#desc").val( this.description );
         $("#importance").val( this.importance);
-        $("#due-date").val( dueDate.getFullYear() + '-' + App.leftpad( dueDate.getMonth()+1 ) + '-' + App.leftpad( dueDate.getDate() ) );
+        $("#due-date").val( this.dueDate );
     };
 
-    Note_.prototype.finish = function() {
+    Note.prototype.finish = function() {
         this.doneDate = new Date().getTime();
     };
 
-    Note_.prototype.delete = function() {
+    Note.prototype.delete = function() {
         var l = this.list;
         var notes = l.getAllNotes();
 
@@ -316,7 +364,7 @@
         l.render();
     };
 
-    Note_.prototype.update = function ( ) {
+    Note.prototype.update = function ( ) {
         var l = this.list;
         var notes = l.getAllNotes();
 
@@ -330,92 +378,10 @@
         l.save();
     };
 
-    Note_.prototype.finish = function ( reverse ) {
+    Note.prototype.finish = function ( reverse ) {
         this.doneDate = ( reverse ) ? '' : new Date().getTime();
         this.update();
         this.list.render();
-    };
-
-
-    // Handles all functions for a single note
-    var Note = {
-
-        isNewNote : true,
-
-        // attach event handlers
-        init : function (){
-            var me = this; // save a reference to the Note object in var me
-
-            if ( window.location.hash.match(/new/) ) {
-                this.create();
-            } else {
-                this.isNewNote = false;
-                this.populate();
-            }
-
-            // write text for options in drop down
-            $("#importance option[value=1]").text(importance[1]);
-            $("#importance option[value=2]").text(importance[2]);
-            $("#importance option[value=3]").text(importance[3]);
-
-            // event handler
-            $('#btn_save').on('click', function(){
-                me.save.apply(me, arguments);
-            });
-            $('#btn_cancel').on('click', function(){
-                window.location.href = 'index.html';
-            });
-            $('#btn_delete').on('click', function(){
-                me.delete.apply(me, arguments);
-            });
-        },
-
-        // create new note
-        // just generate a new ID and write it to the document
-        create : function () {
-            $('#NoteId').val( Notelist.getNewID() );
-        },
-
-        // populate the detail view of a single note with values
-        populate : function( ) {
-            var note = Notelist.findNote( window.location.hash.split('#')[1] );
-            $("#NoteId").val( note.id );
-            $("#title").val( note.title );
-            $("#desc").val( note.description );
-            $("#importance").val( note.importance);
-            $("#dueDate").val( note['dueDate'] );
-        },
-
-        // save note to localStorage
-        save : function () {
-            var note = {
-                'id' : $("#NoteId").val(),
-                'title' : $("#title").val(),
-                'description' : $("#desc").val(),
-                'importance' : $("#importance").val(),
-                'modifiedDate' : new Date().getTime(),
-                'dueDate' : $("#dueDate").val(),
-                'doneDate' : ''
-            };
-
-            if ( this.isNewNote ) {
-                note.createdDate = new Date().getTime();
-                Notelist.addNote( note );
-            } else {
-                Notelist.updateNote( note );
-            }
-
-            // navigate to notes list
-            window.location.href = 'index.html';
-        },
-
-        // delete note from localStorage
-        delete : function ( ) {
-            Notelist.deleteNote( $("#NoteId").val() );
-
-            // navigate to notes list
-            window.location.href = 'index.html';
-        }
     };
 
     // init onready
