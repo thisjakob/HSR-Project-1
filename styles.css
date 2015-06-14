@@ -18,10 +18,23 @@ body.skin-dark {
     border: 1px solid #333;
     text-decoration: none;
     color: black;
+    font-size: 12px;
 }
 
 .btn:first-of-type{
     margin-left: 0;
+}
+
+.btn span {
+    padding: 2px 0 1px 0;
+    margin-right: 5px;
+    font-size: 12px;
+}
+
+.btn.new-note {
+    border-color: rgb(89, 107, 32);
+    background: rgb(115,146,17);
+    color: rgb(233, 247, 191);
 }
 
 .hidden {
