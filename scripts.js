@@ -40,11 +40,19 @@
                 loadNoteTmpl();
                 render();
 
+                var list = $('.note-list');
                 // click handler for all delete links
-                $('.note-list').first().on('click','.delete',function(){
-                    //var note = me.findNote( $(this).parents('li').attr('id') );
-                    //note.delete();
+                list.on('click','.delete',function(e){
                     me.findNote( $(this).parents('li').attr('id') ).delete();
+                });
+
+                // change handler for input finished
+                list.on('change', 'input.done', function(e){
+                    var el = $(this);
+                    var note = me.findNote(
+                        el.parents('li').toggleClass('done').attr('id')
+                    );
+                    ( el.is(':checked') ) ? note.finish() : note.finish( true );
                 });
 
                 // click handler for created date sort button
@@ -61,9 +69,6 @@
 
                     me.render();
                 });
-
-                // change handler for input finished
-                $('input.done').on('change', finishNote);
 
                 // click handler for filter finished
                 $('#filter-finished').on('click', toggleFinishedNotes);
@@ -204,25 +209,6 @@
             });
         };
 
-        // finish note
-        var finishNote = function () {
-            var note = findNote(this.closest('li').id);
-
-            if ($(this).is(':checked')) {
-                // set note to done
-                var date = new Date();
-                note.DoneDate = date.toISOString().substring(0,10);
-                $(this).closest('li').addClass('done');
-            } else {
-                // delete done from note
-                note.DoneDate = "";
-                $(this).parent().find('span').innerHTMLs = "";
-                $(this).closest('li').removeClass('done');
-            }
-            updateNote(note);
-            render();
-        };
-
         // show/hide finished notes
         var toggleFinishedNotes = function() {
             if ($(this).hasClass('hide'))
@@ -342,6 +328,12 @@
         }
 
         l.save();
+    };
+
+    Note_.prototype.finish = function ( reverse ) {
+        this.doneDate = ( reverse ) ? '' : new Date().getTime();
+        this.update();
+        this.list.render();
     };
 
 
