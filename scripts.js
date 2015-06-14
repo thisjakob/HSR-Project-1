@@ -17,18 +17,13 @@
                 sortOrder : 'asc', // [asc, desc]
                 showFinished : false
             },
-<<<<<<< Updated upstream
-            settings = {};
+            settings = {},
             importance = {
                 1 : "High",
                 2 : "Medium",
                 3 : "Low"
-            };
-=======
-            settings = {},
+            },
             savedProperties = ['id','title','description','dueDate','importance','doneDate','createdDate','modifiedDate'];
-
->>>>>>> Stashed changes
 
         // attach event handlers
         var init = function () {
