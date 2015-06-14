@@ -53,8 +53,10 @@
                     var sortBy = this.href.split('#')[1];
                     var newSortOrder = (settings.sortOrder === 'desc') ? 'asc' : 'desc';
                     sort.call(me, sortBy, newSortOrder);
-                    updateSetting('sortBy', sortBy);
-                    updateSetting('sortOrder', newSortOrder);
+                    updateSettings({
+                        sortBy : sortBy,
+                        sortOrder : newSortOrder
+                    });
                     saveSettings();
 
                     me.render();
@@ -100,8 +102,8 @@
         };
 
         // update one particular setting and save it
-        var updateSetting = function ( setting, value ) {
-            settings[ setting ] = value;
+        var updateSettings = function ( newSettings ) {
+            $.extend( settings, newSettings );
             saveSettings();
         };
 
@@ -228,14 +230,14 @@
                 // show finished
                 $('.note-list').removeClass('hideFinishedNotes');
                 $(this).removeClass('hide').text(finished_btn.hide);
-                updateSetting('showFinished', true );
+                updateSettings( {showFinished : true} );
             }
             else
             {
                 // hide finished
                 $('.note-list').addClass('hideFinishedNotes');
                 $(this).addClass('hide').text(finished_btn.show);
-                updateSetting('showFinished', false);
+                updateSettings( {showFinished : false} );
             }
 
         };
