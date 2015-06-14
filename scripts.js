@@ -1,4 +1,4 @@
-;(function($, document, window, undefined){
+;(function($, document, window, moment, undefined){
 
     // Application object. Handles all overall
     // Using the Revealing Module Pattern
@@ -365,5 +365,5 @@
     $(function(){
         Notelist.init();
     });
-})(jQuery, document, window);
+})(jQuery, document, window, moment);
 
