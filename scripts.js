@@ -17,18 +17,21 @@
                 sortOrder : 'asc', // [asc, desc]
                 showFinished : false
             },
+<<<<<<< Updated upstream
             settings = {};
             importance = {
                 1 : "High",
                 2 : "Medium",
                 3 : "Low"
             };
+=======
+            settings = {},
+            savedProperties = ['id','title','description','dueDate','importance','doneDate','createdDate','modifiedDate'];
+
+>>>>>>> Stashed changes
 
         // attach event handlers
         var init = function () {
-            console.log('init Notelist');
-            console.log(this);
-
             loadSettings();
             allNotes = loadNotes();
             sort( settings.sortBy, settings.sortOrder );
@@ -44,8 +47,9 @@
 
                 // click handler for all delete links
                 $('.note-list').first().on('click','.delete',function(){
-                    me.deleteNote.call(me, $(this).parents('li').attr('id') );
-                    me.render();
+                    //var note = me.findNote( $(this).parents('li').attr('id') );
+                    //note.delete();
+                    me.findNote( $(this).parents('li').attr('id') ).delete();
                 });
 
                 // click handler for created date sort button
@@ -119,7 +123,7 @@
 
         // save the entire notelist to localStorage
         var save = function() {
-            localStorage.setItem(localStorageHandle_Data, JSON.stringify(allNotes));
+            localStorage.setItem(localStorageHandle_Data, JSON.stringify(allNotes, savedProperties));
         };
 
         // add a new note to the notelist and save it
@@ -143,7 +147,16 @@
 
         // get all notes from LocalStorage
         var loadNotes = function () {
-            return JSON.parse( localStorage.getItem( localStorageHandle_Data ) ) || [];
+            var notes = JSON.parse( localStorage.getItem( localStorageHandle_Data ) ) || [];
+
+            if ( notes ) {
+                // Create a Note object for each note
+                for ( var i = 0, l = notes.length; i < l; i++) {
+                    notes[i] = new Note_( notes[i], Notelist );
+                }
+            }
+
+            return notes || [];
         };
 
         // render list of all notes
@@ -246,33 +259,94 @@
                 })[0];
         };
 
-        // remove a note from allNotes and save the new list to localStorage
-        var deleteNote = function ( id ) {
-            var notes = allNotes;
-
-            for ( var i = 0; i < notes.length; i++ ) {
-                if ( notes[i].id === id ) {
-                    notes.splice(i, 1)[0];
-                    break;
-                }
-            }
-
-            save();
+        var getAllNotes = function () {
+            return allNotes;
         };
 
         return {
             getNoteTmpl : getNoteTmpl,
+            getAllNotes : getAllNotes,
             init : init,
             getNewId : getNewID,
             findNote : findNote,
             addNote : addNote,
             updateNote : updateNote,
-            deleteNote : deleteNote,
             render : render,
             loadSettings : loadSettings,
-            getNewID : getNewID
+            getNewID : getNewID,
+            save : save
         };
     })();
+
+    /*
+     * Note object
+     * Trying to bring an object oriented note in here :-)
+     *
+     * - properties: all the properties for this note
+     * - list: reference to the note list containing this note
+     */
+    function Note_ ( properties, list ) {
+        var now = new Date().getTime();
+
+        this.list = list;
+
+        // default values
+        this.id = list.getNewID();
+        this.title = '';
+        this.description = '';
+        this.dueDate = now;
+        this.importance = 'normal';
+        this.doneDate = null;
+        this.createdDate = now;
+        this.modifiedDate = now;
+
+        // merge with given properties
+        $.extend( this, properties );
+    };
+
+    Note_.prototype.populate = function() {
+        var dueDate = new Date(this.dueDate);
+
+        $("#NoteId").val( this.id );
+        $("#title").val( this.title );
+        $("#desc").val( this.description );
+        $("#importance").val( this.importance);
+        $("#due-date").val( dueDate.getFullYear() + '-' + App.leftpad( dueDate.getMonth()+1 ) + '-' + App.leftpad( dueDate.getDate() ) );
+    };
+
+    Note_.prototype.finish = function() {
+        this.doneDate = new Date().getTime();
+    };
+
+    Note_.prototype.delete = function() {
+        var l = this.list;
+        var notes = l.getAllNotes();
+
+        for ( var i = 0, length = notes.length; i < length; i++ ) {
+            if ( notes[i].id === this.id ) {
+                notes.splice(i, 1)[0];
+                break;
+            }
+        }
+
+        l.save();
+        l.render();
+    };
+
+    Note_.prototype.update = function () {
+        var l = this.list;
+        var notes = l.getAllNotes();
+
+        for ( var i = 0, length = notes.length; i < length; i++ ) {
+            if ( notes[i].id === note.id ) {
+                notes[i] = note;
+                break;
+            }
+        }
+
+        l.save();
+    };
+
 
     // Handles all functions for a single note
     var Note = {
