@@ -315,8 +315,6 @@
     };
 
     Note.prototype.populate = function() {
-        var dueDate = new Date(this.dueDate);
-
         $("#NoteId").val( this.id );
         $("#title").val( this.title );
         $("#desc").val( this.description );
