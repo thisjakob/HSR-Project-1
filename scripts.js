@@ -8,10 +8,6 @@
             localStorageHandle_Settings = 'notes-settings',
             allNotes = [],
             noteTmpl = '',
-            finished_btn = {
-                show : "Show finished",
-                hide : "Hide finished"
-            },
             defaultSettings = {
                 sortBy : 'dueDate', // [dueDate, createdDate, modifiedDate, importance]
                 sortOrder : 'asc', // [asc, desc]
@@ -206,9 +202,8 @@
 
             if ( !settings.showFinished ) {
                 list.addClass( 'hideFinishedNotes' );
-                $('#filter-finished').addClass('hide').text(finished_btn.show);
             } else {
-                $('#filter-finished').removeClass('hide').text( finished_btn.hide );
+                $('#filter-finished span').removeClass('fa-square-o');
             }
         };
 
@@ -220,20 +215,17 @@
         };
 
         // show/hide finished notes
-        var toggleFinishedNotes = function() {
-            if ($(this).hasClass('hide'))
-            {
+        var toggleFinishedNotes = function(e) {
+            e.preventDefault();
+            var icon = $(this).find('span').toggleClass('fa-square-o');
+            if ( icon.hasClass('fa-square-o') ) {
                 // show finished
-                $('.note-list').removeClass('hideFinishedNotes');
-                $(this).removeClass('hide').text(finished_btn.hide);
-                updateSettings( {showFinished : true} );
-            }
-            else
-            {
-                // hide finished
                 $('.note-list').addClass('hideFinishedNotes');
-                $(this).addClass('hide').text(finished_btn.show);
                 updateSettings( {showFinished : false} );
+            } else {
+                // hide finished
+                $('.note-list').removeClass('hideFinishedNotes');
+                updateSettings( {showFinished : true} );
             }
 
         };
