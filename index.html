@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Notes</title>
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="styles.css" media="all">
 </head>
 <body class="skin-light">
@@ -11,7 +12,7 @@
 
         <section class="functions">
             <h2 class="hidden">Functions</h2>
-            <a href="note.html#new" class="new-note btn">Create new Note</a>
+            <a href="note.html#new" class="new-note btn"><span class="fa fa-plus"></span>Add Note</a>
 
             <select class="style-switch btn">
                 <option name="skin1" value="skin-light">Light Skin</option>
@@ -21,11 +22,11 @@
 
         <section class="filter">
             <h2 class="hidden">Filter Options</h2>
-            <a href="#dueDate" id="sort-due-date" class="btn sort">By due date</a>
-            <a href="#createdDate" id="sort-create-date" class="btn sort">By create date</a>
-            <a href="#modifiedDate" id="sort-modified-date" class="btn sort">By modified date</a>
-            <a href="#importance" id="sort-importance" class="btn sort">Importance</a>
-            <a href="#" id="filter-finished" class="hide btn">Show finished</a>
+            <a href="#showFinished" id="filter-finished" class="btn"><span class="fa fa-check-square-o fa-square-o"></span>Show finished</a>
+            <a href="#dueDate" id="sort-due-date" class="btn sort"><span class="fa fa-sort-amount-asc"></span>By due date</a>
+            <a href="#createdDate" id="sort-create-date" class="btn sort"><span class="fa fa-sort-amount-asc"></span>By create date</a>
+            <a href="#modifiedDate" id="sort-modified-date" class="btn sort"><span class="fa fa-sort-amount-asc"></span>By modified date</a>
+            <a href="#importance" id="sort-importance" class="btn sort"><span class="fa fa-sort-amount-asc"></span>Importance</a>
         </section>
 
     </header>
@@ -46,8 +47,8 @@
                 </div>
                 <div class="additional">
                     <span class="importance">{importance}</span>
-                    <a href="note.html#{id}" class="edit">Edit</a>
-                    <a href="javascript:void(0);" class="delete">Delete</a>
+                    <a href="note.html#{id}" class="edit"><span class="fa fa-pencil"></span>Edit</a>
+                    <a href="javascript:void(0);" class="delete"><span class="fa fa-trash-o"></span>Delete</a>
                 </div>
             </li>
         </ul>
