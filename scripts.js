@@ -305,7 +305,7 @@
         var l = this.list;
         var notes = l.getAllNotes();
 
-        for ( var i = 0, length = notes.length; i < length; i++ ) {
+        for ( var i = 0, len = notes.length; i < len; i++ ) {
             if ( notes[i].id === this.id ) {
                 notes.splice(i, 1)[0];
                 break;
@@ -316,13 +316,13 @@
         l.render();
     };
 
-    Note_.prototype.update = function () {
+    Note_.prototype.update = function ( ) {
         var l = this.list;
         var notes = l.getAllNotes();
 
-        for ( var i = 0, length = notes.length; i < length; i++ ) {
-            if ( notes[i].id === note.id ) {
-                notes[i] = note;
+        for ( var i = 0, len = notes.length; i < len; i++ ) {
+            if ( notes[i].id === this.id ) {
+                notes[i] = this;
                 break;
             }
         }
