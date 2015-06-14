@@ -193,7 +193,7 @@
                     .replace(/\{note-title\}/, note.title)
                     .replace(/\{description\}/, note.description.replace(/\n/g,'<br>'))
                     .replace(/\{dueDate\}/, note.dueDate)
-                    .replace(/\{doneDate\}/, note.doneDate)
+                    .replace(/\{doneDate\}/, (note.doneDate == "") ? '' : moment(note.doneDate).format('YYYY-MM-DD'))
                     .replace(/\{importance\}/, importance[note.importance])
                     .replace(/\{done\}/, classdone);
 
@@ -241,7 +241,7 @@
         // get new unused ID for a new note
         // => for now just use a timestamp
         var getNewID =function () {
-            return new Date().getTime().toString();
+            return moment().valueOf().toString();
         };
 
         // finds a particular note by its ID
@@ -286,7 +286,7 @@
      * - list: reference to the note list containing this note
      */
     function Note ( properties, list ) {
-        var now = new Date().getTime();
+        var now = moment().valueOf();
 
         this.list = list;
 
@@ -319,11 +319,11 @@
         $("#title").val( this.title );
         $("#desc").val( this.description );
         $("#importance").val( this.importance);
-        $("#due-date").val( this.dueDate );
+        $("#dueDate").val( this.dueDate );
     };
 
     Note.prototype.finish = function() {
-        this.doneDate = new Date().getTime();
+        this.doneDate = moment().valueOf();
     };
 
     Note.prototype.delete = function() {
@@ -356,7 +356,7 @@
     };
 
     Note.prototype.finish = function ( reverse ) {
-        this.doneDate = ( reverse ) ? '' : new Date().getTime();
+        this.doneDate = ( reverse ) ? '' : moment().valueOf();
         this.update();
         this.list.render();
     };
