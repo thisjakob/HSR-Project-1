@@ -45,6 +45,7 @@ body.skin-dark {
 header {
     height: 100px;
     padding: 10px;
+    border-bottom: 1px solid #333;
 }
 
 main {
@@ -67,6 +68,7 @@ main {
 .note-list li {
     display: flex;
     margin-top: 10px;
+    border-bottom: 1px solid #333;
 }
 
 .note-list .title-desc {

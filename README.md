@@ -14,5 +14,7 @@
 - undo delete note
 - settings: last skin, last filter
 - search text
+- expand / collapse dates and description
+- header fixed
 
 ## failure
