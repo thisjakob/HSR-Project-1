@@ -52,6 +52,10 @@ main {
     padding: 10px;
 }
 
+input {
+    width: 70%;
+}
+
 .functions,
 .filter {
     display: flex;
@@ -76,16 +80,14 @@ main {
 
 .note-list .dates {
     order: -1;
+    display: flex;
+    flex-direction: column;
+    width: 23%;
 }
 
 .note-list .note-title {
     margin: 0;
     padding: 0;
-}
-
-.note-list .due-date,
-.note-list .done-date {
-    display: block;
 }
 
 .note-list.hideFinishedNotes li.done {
@@ -115,8 +117,8 @@ li.done a.edit{
     width: 30%;
 }
 
-input {
-    width: 70%;
+.dates input {
+    width: 10%;
 }
 
 #desc {

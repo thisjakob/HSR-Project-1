@@ -6,7 +6,7 @@
 - [done] ~~render notes list~~
 - [done] style switch
 - [done] ~~add delete note~~
-- [doing] finish note (todo save done date)
+- [done] finish note
 - [done] filter finished notes
 - sort notes by finished date / created date / importance
 
@@ -16,4 +16,3 @@
 - search text
 
 ## failure
-- edit/save will create new note
