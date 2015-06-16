@@ -9,8 +9,8 @@
             allNotes = [],
             noteTmpl = '',
             defaultSettings = {
-                sortBy : 'dueDate', // [dueDate, createdDate, modifiedDate, importance]
-                sortOrder : 'asc', // [asc, desc]
+                sortBy : 'createdDate', // [dueDate, createdDate, modifiedDate, importance]
+                sortOrder : 'desc', // [asc, desc]
                 showFinished : false
             },
             settings = {},
@@ -25,8 +25,6 @@
         var init = function () {
             loadSettings();
             allNotes = loadNotes();
-            sort( settings.sortBy, settings.sortOrder );
-
 
             if ( window.location.href.match(/note\.html/) ){
                 var note;
@@ -63,6 +61,7 @@
                 var me = this;
 
                 // default sorting
+                sort( settings.sortBy, settings.sortOrder );
                 var element = $('a[href*="' + settings.sortBy + '"]');
                 element.addClass('current');
                 element.find('span').removeClass('fa-sort-amount-desc fa-sort-amount-asc').addClass('fa-sort-amount-' + settings.sortOrder);
@@ -202,6 +201,7 @@
                     .replace(/\{description\}/, note.description.replace(/\n/g,'<br>'))
                     .replace(/\{dueDate\}/, note.dueDate)
                     .replace(/\{doneDate\}/, (note.doneDate == "") ? '' : moment(note.doneDate).format('YYYY-MM-DD'))
+                    .replace(/\{createdDate\}/, moment(note.createdDate).format('YYYY-MM-DD HH:mm:ss'))
                     .replace(/\{importance\}/, importance[note.importance])
                     .replace(/\{done\}/, classdone);
 
@@ -222,8 +222,14 @@
         // sort notes by the given property
         var sort = function ( sortBy, sortOrder ) {
             allNotes.sort(function(a,b){
-                return (sortOrder === 'desc') ? a[ sortBy ] > b[ sortBy ] : a[ sortBy ] < b[ sortBy ];
+                return (sortOrder === 'desc') ? a[ sortBy ] < b[ sortBy ] : a[ sortBy ] > b[ sortBy ];
             });
+
+            // because importance is ordered by the numeric value (High = 1, Low = 3)
+            // we need to reverse the order
+            if ( sortBy === 'importance' ) {
+                allNotes.reverse();
+            }
         };
 
         // show/hide finished notes
