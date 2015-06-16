@@ -24,6 +24,10 @@ body.skin-dark {
     margin-left: 0;
 }
 
+.btn.current {
+    background: rgb(252, 252, 179);
+}
+
 .btn span {
     padding: 2px 0 1px 0;
     margin-right: 5px;

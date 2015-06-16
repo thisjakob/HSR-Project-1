@@ -62,6 +62,12 @@
             } else {
                 var me = this;
 
+                // default sorting
+                var element = $('a[href*="' + settings.sortBy + '"]');
+                element.addClass('current');
+                element.find('span').removeClass('fa-sort-amount-desc fa-sort-amount-asc').addClass('fa-sort-amount-' + settings.sortOrder);
+
+                // render list
                 loadNoteTmpl();
                 render();
 
@@ -83,7 +89,8 @@
                 // click handler for created date sort button
                 $('a.btn.sort').on('click', function(e){
                     e.preventDefault();
-                    var sortBy = this.href.split('#')[1];
+                    var element = $(this);
+                    var sortBy = element.attr('href').split('#')[1];
                     var newSortOrder = (settings.sortOrder === 'desc') ? 'asc' : 'desc';
                     sort.call(me, sortBy, newSortOrder);
                     updateSettings({
@@ -91,6 +98,11 @@
                         sortOrder : newSortOrder
                     });
                     saveSettings();
+
+                    // update sort icon
+                    element.siblings('a').removeClass('current');
+                    element.addClass('current');
+                    element.find('span').removeClass('fa-sort-amount-desc fa-sort-amount-asc').addClass('fa-sort-amount-' + settings.sortOrder);
 
                     me.render();
                 });
@@ -227,7 +239,6 @@
                 $('.note-list').removeClass('hideFinishedNotes');
                 updateSettings( {showFinished : true} );
             }
-
         };
 
         // get new unused ID for a new note
