@@ -111,6 +111,9 @@
 
                 // change handler for style switcher
                 $('.style-switch').on('change', switchStyle);
+
+                // collapse or expand all description and date
+                $('#collapse-expand').on('click', toggleCollapseExpand);
             }
         };
 
@@ -245,6 +248,16 @@
                 $('.note-list').removeClass('hideFinishedNotes');
                 updateSettings( {showFinished : true} );
             }
+        };
+
+        var toggleCollapseExpand = function (e) {
+            e.preventDefault();
+            var cmdOld = $(this).text(), cmdNew = "";
+            ( cmdOld === "Collapse") ? cmdNew = "Expand" : cmdNew = "Collapse";
+            $(this).contents().last()[0].textContent = cmdNew;
+            $(this).find('span').removeClass('icon-collapse icon-expand').addClass('icon-' + cmdNew.toLowerCase());
+            $('.note-desc').toggle();
+            $('.createdDate').toggle();
         };
 
         // get new unused ID for a new note

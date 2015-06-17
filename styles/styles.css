@@ -106,6 +106,7 @@ main {
     flex-direction: row;
     justify-content: space-between;
     width: 18%;
+    margin-bottom: 5px;
 }
 
 .note-list .commands {
@@ -117,6 +118,10 @@ main {
 li.done a.edit{
     pointer-events: none;
     color: lightgray;
+}
+
+#collapse-expand {
+    width: 60px;
 }
 
 /* Styles for the notes page */
