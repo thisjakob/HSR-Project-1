@@ -112,7 +112,6 @@ main {
 .note-list .commands {
     display: flex;
     flex-direction: column;
-    justify-content: space-around;
 }
 
 li.done a.edit{
