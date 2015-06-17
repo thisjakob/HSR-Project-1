@@ -11,7 +11,8 @@
             defaultSettings = {
                 sortBy : 'createdDate', // [dueDate, createdDate, modifiedDate, importance]
                 sortOrder : 'desc', // [asc, desc]
-                showFinished : false
+                showFinished : false,
+                collapsed : false
             },
             settings = {},
             importance = {
@@ -220,6 +221,8 @@
             } else {
                 $('#filter-finished span').removeClass('fa-square-o');
             }
+
+            // todo settings for collapse/expand
         };
 
         // sort notes by the given property
@@ -251,9 +254,14 @@
         };
 
         var toggleCollapseExpand = function (e) {
-            e.preventDefault();
             var cmd = $(this).text();
-            ( cmd === "Collapse") ? cmd = "Expand" : cmd = "Collapse";
+            if ( cmd === "Collapse") {
+                cmd = "Expand";
+                updateSettings( { collapsed : false } );
+            } else {
+                cmd = "Collapse"
+                updateSettings( { collapsed : true } );
+            }
             $(this).contents().last()[0].textContent = cmd;
             $(this).find('span').removeClass('icon-collapse icon-expand').addClass('icon-' + cmd.toLowerCase());
             $('.note-desc').toggle();
