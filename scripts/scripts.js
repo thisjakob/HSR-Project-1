@@ -252,10 +252,10 @@
 
         var toggleCollapseExpand = function (e) {
             e.preventDefault();
-            var cmdOld = $(this).text(), cmdNew = "";
-            ( cmdOld === "Collapse") ? cmdNew = "Expand" : cmdNew = "Collapse";
-            $(this).contents().last()[0].textContent = cmdNew;
-            $(this).find('span').removeClass('icon-collapse icon-expand').addClass('icon-' + cmdNew.toLowerCase());
+            var cmd = $(this).text();
+            ( cmd === "Collapse") ? cmd = "Expand" : cmd = "Collapse";
+            $(this).contents().last()[0].textContent = cmd;
+            $(this).find('span').removeClass('icon-collapse icon-expand').addClass('icon-' + cmd.toLowerCase());
             $('.note-desc').toggle();
             $('.createdDate').toggle();
         };
