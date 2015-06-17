@@ -113,6 +113,9 @@ main {
     display: flex;
     flex-direction: column;
 }
+.note-list .commands .btn {
+    margin-bottom: 5px;
+}
 
 li.done a.edit{
     pointer-events: none;
