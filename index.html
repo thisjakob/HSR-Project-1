@@ -2,13 +2,13 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Notes</title>
+    <title>Easy Notes</title>
     <link rel="stylesheet" href="styles/font-awesome.min.css">
     <link rel="stylesheet" href="styles/styles.css" media="all">
 </head>
 <body class="skin-light">
     <header>
-        <h1 class="hidden">Notes</h1>
+        <h1>Easy Notes</h1>
 
         <section class="functions">
             <h2 class="hidden">Functions</h2>
@@ -22,12 +22,12 @@
 
         <section class="filter">
             <h2 class="hidden">Filter Options</h2>
-            <a href="#showFinished" id="filter-finished" class="btn"><span class="fa fa-check-square-o fa-square-o"></span>Show finished</a>
-            <a href="#dueDate" id="sort-due-date" class="btn sort"><span class="fa fa-sort-amount-desc"></span>By due date</a>
-            <a href="#createdDate" id="sort-create-date" class="btn sort"><span class="fa fa-sort-amount-desc"></span>By create date</a>
-            <a href="#modifiedDate" id="sort-modified-date" class="btn sort"><span class="fa fa-sort-amount-desc"></span>By modified date</a>
+            <a href="#showFinished" id="filter-finished"><span class="fa fa-check-square-o fa-square-o"></span></a>
+            <label id="search"><span>Search</span><input name="search" value=""></label>
+            <a href="#dueDate" id="sort-due-date" class="btn sort"><span class="fa fa-sort-amount-desc"></span>Due Date</a>
+            <a href="#createdDate" id="sort-create-date" class="btn sort"><span class="fa fa-sort-amount-desc"></span>Created</a>
+            <a href="#modifiedDate" id="sort-modified-date" class="btn sort"><span class="fa fa-sort-amount-desc"></span>Modified</a>
             <a href="#importance" id="sort-importance" class="btn sort"><span class="fa fa-sort-amount-desc"></span>Importance</a>
-            <a href="#collapse" id="collapse-expand" class="btn"><span class="icon-collapse"></span>Collapse</a>
         </section>
 
     </header>
@@ -35,24 +35,25 @@
     <main role="main">
         <ul class="note-list hidden">
             <li id="{id}" class="{done}">
-                <div class="title-desc">
-                    <h2 class="note-title">{note-title}</h2>
-                    <p class="note-desc">{description}</p>
-                </div>
-                <div class="dates">
-                    <span class="dueDate">{dueDate}</span>
+                <div class="core">
                     <label class="done-date">
                         <input type="checkbox" class="done">
-                        Finished <span class="date">{doneDate}</span>
                     </label>
-                    <span class="createdDate">{createdDate}</span>
+                    <div class="title-desc">
+                        <h2 class="note-title">{note-title}</h2>
+                        <p class="note-desc">{description}</p>
+                    </div>
+                    <span class="dueDate">{dueDate}</span>
+                    <div class="commands">
+                        <a href="note.html#{id}" class="edit" title="Edit"><span class="fa fa-pencil"></span></a>
+                        <a href="javascript:void(0);" class="delete" title="Delete"><span class="fa fa-trash-o"></span></a>
+                    </div>
                 </div>
                 <div class="additional">
+                    <span class="doneDate">{doneDate}</span>
+                    <span class="createdDate">{createdDate}</span>
+                    <span class="modifiedDate">{modifiedDate}</span>
                     <span class="importance">{importance}</span>
-                    <div class="commands">
-                        <a href="note.html#{id}" class="btn edit"><span class="fa fa-pencil"></span>Edit</a>
-                        <a href="javascript:void(0);" class="btn delete"><span class="fa fa-trash-o"></span>Delete</a>
-                    </div>
                 </div>
             </li>
         </ul>

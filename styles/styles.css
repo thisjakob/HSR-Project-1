@@ -5,10 +5,11 @@ body {
     max-width: 800px;
     margin: 0 auto;
     padding: 0;
+    font-family: Arial, Helvetica, sans-serif;
 }
 
 body.skin-dark {
-    background: darkgray;
+    background: #ccc;
 }
 
 .btn {
@@ -31,7 +32,7 @@ body.skin-dark {
 .btn span {
     padding: 2px 0 1px 0;
     margin-right: 5px;
-    font-size: 12px;
+    font-size: 1em;
 }
 
 .btn.new-note {
@@ -47,7 +48,6 @@ body.skin-dark {
 
 /* Styles for the overview page */
 header {
-    height: 100px;
     padding: 10px;
     border-bottom: 1px solid #333;
 }
@@ -63,6 +63,25 @@ main {
     margin-bottom: 20px;
 }
 
+.filter {
+    margin-bottom: 0;
+}
+
+
+#search{
+    position: relative;
+}
+
+#search span {
+    position: absolute;
+    top: 2px;
+    left: 2px;
+}
+
+#search input {
+    padding: 2px;
+}
+
 .note-list {
     list-style: none;
     padding: 0;
@@ -70,9 +89,30 @@ main {
 }
 
 .note-list li {
+    padding: 5px 0;
+    border-bottom: 1px solid #ccc;
+}
+
+.note-list .core{
     display: flex;
-    margin-top: 10px;
-    border-bottom: 1px solid #333;
+}
+
+.note-list li .additional,
+.note-list li .note-desc {
+    display: none;
+}
+
+.note-list li.expanded .additional,
+.note-list li.expanded .note-desc {
+    display: block;
+}
+
+.note-list li.done .commands {
+    visibility: hidden;
+}
+
+.note-list.hideFinishedNotes li.done {
+    display: none;
 }
 
 .note-list .title-desc {
@@ -81,49 +121,21 @@ main {
     width: 60%;
 }
 
-.note-list .dates {
-    order: -1;
-    display: flex;
-    flex-direction: column;
-    width: 22%;
-}
-
-.note-list .dates input {
-    width: 10%;
-}
-
 .note-list .note-title {
-    margin: 0;
+    font-size: 1.1em;
+    margin: 0 10px;
     padding: 0;
 }
 
-.note-list.hideFinishedNotes li.done {
-    display: none;
+.note-list .dueDate {
+    padding: 3px;
+    margin-right: 10px;
+    font-size: .8em;
+    color: #ccc;
 }
 
 .note-list .additional {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    width: 18%;
     margin-bottom: 5px;
-}
-
-.note-list .commands {
-    display: flex;
-    flex-direction: column;
-}
-.note-list .commands .btn {
-    margin-bottom: 5px;
-}
-
-li.done a.edit{
-    pointer-events: none;
-    color: lightgray;
-}
-
-#collapse-expand {
-    width: 60px;
 }
 
 /* Styles for the notes page */
@@ -134,25 +146,25 @@ li.done a.edit{
     width: 100%;
 }
 
-.item {
+.note .item {
     display: flex;
     margin: 10px;
     width: 97%;
 }
 
-.desc {
+.note .desc {
     width: 30%;
 }
 
-input {
+.note input {
     width: 70%;
 }
 
-#desc {
+.note #desc {
     height: 100px;
     width: 528px;
 }
 
-#date {
+.note #date {
     width: 120px;
 }
