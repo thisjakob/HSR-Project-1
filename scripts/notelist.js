@@ -170,6 +170,7 @@
                     .replace(/\{dueDate\}/, note.dueDate)
                     .replace(/\{doneDate\}/, (note.doneDate == "") ? '' : moment(note.doneDate).format('YYYY-MM-DD'))
                     .replace(/\{createdDate\}/, moment(note.createdDate).format('YYYY-MM-DD HH:mm:ss'))
+                    .replace(/\{modifiedDate\}/, moment(note.modifiedDate).format('YYYY-MM-DD HH:mm:ss'))
                     .replace(/\{importance\}/, importance[note.importance])
                     .replace(/\{done\}/, classdone);
 
