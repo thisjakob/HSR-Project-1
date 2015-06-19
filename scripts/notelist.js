@@ -1,44 +1,36 @@
 ;(function($, document, window, moment, undefined){
+    // namespacing
+    var ns = window.eznotes = window.eznotes || {};
 
     // Application object. Handles all overall
     // Using the Revealing Module Pattern
-    var Notelist = (function(){
-
-        var localStorageHandle_Data = 'notes-data',
-            localStorageHandle_Settings = 'notes-settings',
-            allNotes = [],
+    ns.Notelist = (function(){
+        var allNotes = [],
             noteTmpl = '',
-            defaultSettings = {
-                sortBy : 'createdDate', // [dueDate, createdDate, modifiedDate, importance]
-                sortOrder : 'desc', // [asc, desc]
-                showFinished : false,
-                collapsed : false
-            },
             settings = {},
             importance = {
                 1 : "High",
                 2 : "Medium",
                 3 : "Low"
-            },
-            savedProperties = ['id','title','description','dueDate','importance','doneDate','createdDate','modifiedDate'];
+            };
 
         // attach event handlers
         var init = function () {
-            loadSettings();
-            allNotes = loadNotes();
+            settings = ns.Data.loadSettings();
+            allNotes = ns.Data.loadNotes();
 
             if ( window.location.href.match(/note\.html/) ){
-                var note;
+                var note, me = this;
 
                 $('#importance option').each(function(index, element){
                     $(element).text(importance[index+1]);
                 });
 
                 if ( window.location.hash.match(/new/) ) {
-                    note = new Note( {}, Notelist);
+                    note = new ns.Note( {}, this);
                     $('#btn_delete').remove();
                 } else {
-                    note = findNote( window.location.hash.split('#')[1]) ;
+                    note = this.findNote( window.location.hash.split('#')[1]) ;
                 }
                 note.populate();
 
@@ -65,7 +57,9 @@
                 sort( settings.sortBy, settings.sortOrder );
                 var element = $('a[href*="' + settings.sortBy + '"]');
                 element.addClass('current');
-                element.find('span').removeClass('fa-sort-amount-desc fa-sort-amount-asc').addClass('fa-sort-amount-' + settings.sortOrder);
+                element.find('span')
+                    .removeClass('fa-sort-amount-desc fa-sort-amount-asc')
+                    .addClass('fa-sort-amount-' + settings.sortOrder);
 
                 // render list
                 loadNoteTmpl();
@@ -97,12 +91,13 @@
                         sortBy : sortBy,
                         sortOrder : newSortOrder
                     });
-                    saveSettings();
 
                     // update sort icon
                     element.siblings('a').removeClass('current');
                     element.addClass('current');
-                    element.find('span').removeClass('fa-sort-amount-desc fa-sort-amount-asc').addClass('fa-sort-amount-' + settings.sortOrder);
+                    element.find('span')
+                        .removeClass('fa-sort-amount-desc fa-sort-amount-asc')
+                        .addClass('fa-sort-amount-' + settings.sortOrder);
 
                     me.render();
                 });
@@ -132,24 +127,9 @@
             return noteTmpl;
         };
 
-        // load settings
-        var loadSettings = function() {
-            $.extend(
-                settings,
-                defaultSettings,
-                JSON.parse( localStorage.getItem( localStorageHandle_Settings ) ) || {}
-            );
-        };
-
-        // save settings
-        var saveSettings = function() {
-            localStorage.setItem( localStorageHandle_Settings, JSON.stringify(settings) );
-        };
-
-        // update one particular setting and save it
+        // update one or more particular setting(s) and save it
         var updateSettings = function ( newSettings ) {
-            $.extend( settings, newSettings );
-            saveSettings();
+            ns.Data.saveSettings( $.extend( settings, newSettings ) );
         };
 
         // switch skin
@@ -160,26 +140,6 @@
             });
             // set body style class
             $('body').addClass($(".style-switch option:selected").val());
-            saveSettings();
-        };
-
-        // save the entire notelist to localStorage
-        var save = function() {
-            localStorage.setItem(localStorageHandle_Data, JSON.stringify(allNotes, savedProperties));
-        };
-
-        // get all notes from LocalStorage
-        var loadNotes = function () {
-            var notes = JSON.parse( localStorage.getItem( localStorageHandle_Data ) ) || [];
-
-            if ( notes ) {
-                // Create a Note object for each note
-                for ( var i = 0, l = notes.length; i < l; i++) {
-                    notes[i] = new Note( notes[i], Notelist );
-                }
-            }
-
-            return notes || [];
         };
 
         // render list of all notes
@@ -278,8 +238,8 @@
         // returns a single note object
         var findNote = function ( id ) {
             return $.grep( allNotes, function(note, index){
-                    return (note.id === id);
-                })[0];
+                return (note.id === id);
+            })[0];
         };
 
         var indexOfNote = function ( id ) {
@@ -296,6 +256,10 @@
             return allNotes;
         };
 
+        var save = function(notes) {
+            ns.Data.saveNotes(notes);
+        };
+
         return {
             init : init,
             getNewID : getNewID,
@@ -308,92 +272,9 @@
         };
     })();
 
-    /*
-     * Note object
-     * Trying to bring an object oriented note in here :-)
-     *
-     * - properties: all the properties for this note
-     * - list: reference to the note list containing this note
-     */
-    function Note ( properties, list ) {
-        var now = moment().valueOf();
-
-        this.list = list;
-
-        // default values
-        this.id = list.getNewID();
-        this.title = '';
-        this.description = '';
-        this.dueDate = now;
-        this.importance = 2;
-        this.doneDate = '';
-        this.createdDate = now;
-        this.modifiedDate = now;
-
-        // merge with given properties
-        $.extend( this, properties );
-    };
-
-    Note.prototype.save = function() {
-        var l = this.list,
-            i = l.indexOfNote( this.id),
-            notes = l.getAllNotes();
-
-        ( i < 0 ) ? notes.push( this ) : notes[ i ] = this;
-
-        l.save();
-    };
-
-    Note.prototype.populate = function() {
-        $("#NoteId").val( this.id );
-        $("#title").val( this.title );
-        $("#desc").val( this.description );
-        $("#importance").val( this.importance);
-        $("#dueDate").val( this.dueDate );
-    };
-
-    Note.prototype.finish = function() {
-        this.doneDate = moment().valueOf();
-    };
-
-    Note.prototype.delete = function() {
-        var l = this.list;
-        var notes = l.getAllNotes();
-
-        for ( var i = 0, len = notes.length; i < len; i++ ) {
-            if ( notes[i].id === this.id ) {
-                notes.splice(i, 1)[0];
-                break;
-            }
-        }
-
-        l.save();
-        l.render();
-    };
-
-    Note.prototype.update = function ( ) {
-        var l = this.list;
-        var notes = l.getAllNotes();
-
-        for ( var i = 0, len = notes.length; i < len; i++ ) {
-            if ( notes[i].id === this.id ) {
-                notes[i] = this;
-                break;
-            }
-        }
-
-        l.save();
-    };
-
-    Note.prototype.finish = function ( reverse ) {
-        this.doneDate = ( reverse ) ? '' : moment().valueOf();
-        this.update();
-        this.list.render();
-    };
-
     // init onready
     $(function(){
-        Notelist.init();
+        ns.Notelist.init();
     });
 })(jQuery, document, window, moment);
 
