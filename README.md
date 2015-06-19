@@ -16,5 +16,6 @@
 - search text
 - expand / collapse dates and description
 - header fixed
+- show importance high as red flag oder medium as orange flag
 
 ## failure
