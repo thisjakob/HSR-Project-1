@@ -18,7 +18,7 @@ body.skin-dark {
     border: 1px solid #333;
     text-decoration: none;
     color: black;
-    font-size: 12px;
+    font-size: .8em;
 }
 
 .btn:first-of-type{
@@ -107,12 +107,27 @@ main {
     display: block;
 }
 
+.commands a {
+    padding: 3px;
+    color: #333;
+    text-decoration: none;
+    font-size: 1.2em;
+}
+
 .note-list li.done .commands {
     visibility: hidden;
 }
 
 .note-list.hideFinishedNotes li.done {
     display: none;
+}
+
+.note-list .doneDate {
+    display: none;
+}
+
+.note-list .done .doneDate {
+    display: inline;
 }
 
 .note-list .title-desc {
@@ -127,6 +142,10 @@ main {
     padding: 0;
 }
 
+.note-list .note-desc {
+    margin: 10px;
+}
+
 .note-list .dueDate {
     padding: 3px;
     margin-right: 10px;
@@ -135,8 +154,20 @@ main {
 }
 
 .note-list .additional {
-    margin-bottom: 5px;
+    margin-left: 30px;
+    padding: 10px;
+    background: #eeeeee;
+    font-size: .75em;
 }
+
+.note-list .additional > span {
+    margin-right: 15px;
+}
+
+.note-list .additional .label {
+    font-weight: bold;
+}
+
 
 /* Styles for the notes page */
 .note {
