@@ -110,6 +110,10 @@
 
                 // collapse or expand all description and date
                 $('#collapse-expand').on('click', toggleCollapseExpand);
+
+                $('.note-list').on('click', 'h2', function(e){
+                    $(this).parents('li').toggleClass('expanded');
+                });
             }
         };
 
