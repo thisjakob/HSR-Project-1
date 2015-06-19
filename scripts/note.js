@@ -33,6 +33,8 @@
             i = l.indexOfNote( this.id),
             notes = l.getAllNotes();
 
+        this.modifiedDate = moment().valueOf();
+
         ( i < 0 ) ? notes.push( this ) : notes[ i ] = this;
 
         l.save(notes);
@@ -68,6 +70,8 @@
     ns.Note.prototype.update = function ( ) {
         var l = this.list;
         var notes = l.getAllNotes();
+
+        this.modifiedDate = moment().valueOf();
 
         for ( var i = 0, len = notes.length; i < len; i++ ) {
             if ( notes[i].id === this.id ) {
