@@ -1,3 +1,8 @@
+/* Font Awsome Extension */
+.fa-importance-low:before{content:"\f12a"}
+.fa-importance-medium:before{content:"\f12a\f12a"}
+.fa-importance-high:before{content:"\f12a\f12a\f12a"}
+
 /* Overall styles */
 html,
 body {
@@ -193,6 +198,13 @@ main {
     font-weight: bold;
 }
 
+.note-list .importance {
+    color: #aaa;
+    padding: 2px 0px 3px 5px;
+    display: inline-block;
+    width: 15px;
+    text-align: right;
+}
 
 /* Styles for the notes page */
 .note {
