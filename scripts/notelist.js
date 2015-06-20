@@ -213,7 +213,12 @@
         // sort notes by the given property
         var sort = function ( sortBy, sortOrder ) {
             allNotes.sort(function(a,b){
-                return (sortOrder === 'desc') ? a[ sortBy ] < b[ sortBy ] : a[ sortBy ] > b[ sortBy ];
+                // this makes sure that empty due dates show at the bottom of the list
+                // when the list is sorted by due date.
+                var aVal = (sortBy === 'dueDate')? (a[sortBy]) ? a[sortBy] : '9999-12-12' : a[sortBy];
+                var bVal = (sortBy === 'dueDate')? (b[sortBy]) ? b[sortBy] : '9999-12-12' : b[sortBy];
+                
+                return (sortOrder === 'desc') ? aVal < bVal : aVal > bVal;
             });
 
             // because importance is ordered by the numeric value (High = 1, Low = 3)
