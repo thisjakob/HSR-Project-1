@@ -58,7 +58,7 @@ header {
 }
 
 main {
-    padding: 10px;
+    padding: 10px 5px;
 }
 
 .functions,
@@ -142,6 +142,10 @@ main {
 
 .note-list .done .doneDate {
     display: inline;
+}
+
+.note-list input.done {
+    font-size: 1.2em;
 }
 
 .note-list .title-desc {
