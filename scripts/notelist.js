@@ -183,6 +183,7 @@
                     .replace(/\{note-title\}/, note.title)
                     .replace(/\{description\}/, note.description.replace(/\n/g,'<br>'))
                     .replace(/\{dueDate\}/, (note.dueDate === '') ? '' : moment(note.dueDate).fromNow() )
+                    .replace(/\{distance\}/, note.distanceToDueDate() )
                     .replace(/\{doneDate\}/, (note.doneDate === '') ? '' : moment(note.doneDate).format('YYYY-MM-DD') )
                     .replace(/\{createdDate\}/, moment(note.createdDate).format('YYYY-MM-DD HH:mm:ss'))
                     .replace(/\{modifiedDate\}/, moment(note.modifiedDate).format('YYYY-MM-DD HH:mm:ss'))

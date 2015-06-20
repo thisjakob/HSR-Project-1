@@ -88,5 +88,25 @@
         this.update();
         this.list.render();
     };
+
+    ns.Note.prototype.distanceToDueDate = function ( ) {
+        var now = moment().valueOf(),
+            diff = moment(this.dueDate).diff( now, 'days'),
+            distance = 'faraway';
+
+        if ( diff < 5) {
+            distance = 'insight';
+        }
+
+        if ( diff < 1 ) {
+            distance = 'upclose';
+        }
+
+        if ( diff < 0 ){
+            distance = 'ascloseasitgets';
+        }
+
+        return distance;
+    };
 })(jQuery, window, document, moment);
 

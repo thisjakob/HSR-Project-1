@@ -162,6 +162,22 @@ main {
     color: #ccc;
 }
 
+.note-list .dueDate.faraway {
+    color: green;
+}
+
+.note-list .dueDate.insight {
+    color: yellow;
+}
+
+.note-list .dueDate.upclose {
+    color: orange;
+}
+
+.note-list .dueDate.ascloseasitgets {
+    color: red;
+}
+
 .note-list .additional {
     margin-left: 30px;
     padding: 10px;
