@@ -102,6 +102,21 @@
                     me.render();
                 });
 
+                // click handler for collapse/expand all
+                $('#expandAll').on('click', function(e){
+                    e.preventDefault();
+                    var icon = $(this).find('span').first(),
+                        listItems = $('.note-list li');
+
+                    if ( icon.prop('class').match(/plus/) ) {
+                        icon.prop('class', icon.prop('class').replace(/plus/, 'minus') );
+                        listItems.addClass('expanded');
+                    } else {
+                        icon.prop('class', icon.prop('class').replace(/minus/, 'plus') );
+                        listItems.removeClass('expanded');
+                    }
+                });
+
                 // click handler for filter finished
                 $('#filter-finished').on('click', toggleFinishedNotes);
 

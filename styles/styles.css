@@ -67,6 +67,15 @@ main {
     margin-bottom: 0;
 }
 
+#filter-finished,
+#expandAll {
+    font-size: 1.2em;
+    color: #333;
+    display: inline-block;
+    width: 15px;
+    padding-right: 10px;
+}
+
 
 #search{
     position: relative;
