@@ -176,15 +176,15 @@ main {
 }
 
 .note-list .dueDate.insight {
-    color: yellow;
-}
-
-.note-list .dueDate.upclose {
     color: orange;
 }
 
-.note-list .dueDate.ascloseasitgets {
+.note-list .dueDate.upclose {
     color: red;
+}
+
+.note-list .dueDate.ascloseasitgets {
+    color: darkred;
 }
 
 .note-list .additional {
