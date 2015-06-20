@@ -72,6 +72,11 @@ main {
     margin-bottom: 0;
 }
 
+.filter .btn {
+    font-size: .8em;
+    padding: 2px 5px;
+}
+
 #filter-finished,
 #expandAll {
     font-size: 1.2em;
@@ -90,12 +95,12 @@ label[for="search"] {
 
 label[for="search"] span {
     position: absolute;
-    top: 2px;
-    left: 2px;
+    top: 3px;
+    left: 7px;
 }
 
 #search {
-    padding: 2px;
+    padding: 2px 3px 3px 3px;
 }
 
 .note-list {
