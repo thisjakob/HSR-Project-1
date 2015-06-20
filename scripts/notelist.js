@@ -12,6 +12,10 @@
                 1 : "High",
                 2 : "Medium",
                 3 : "Low"
+            },
+            dateFormat = {
+                short : 'YYYY-MM-DD',
+                full : 'YYYY-MM-DD HH:mm:ss'
             };
 
         // attach event handlers
@@ -187,11 +191,11 @@
                     .replace(/\{note-title\}/, note.title)
                     .replace(/\{description\}/, note.description.replace(/\n/g,'<br>'))
                     .replace(/\{dueDate\}/, (note.dueDate === '') ? '' : moment(note.dueDate).fromNow() )
-                    .replace(/\{dueDate-full\}/, (note.dueDate === '') ? '' : moment(note.dueDate).format('YYYY-MM-DD') )
+                    .replace(/\{dueDate-full\}/, (note.dueDate === '') ? '' : moment(note.dueDate).format( dateFormat.short ) )
                     .replace(/\{distance\}/, note.distanceToDueDate() )
-                    .replace(/\{doneDate\}/, (note.doneDate === '') ? '' : moment(note.doneDate).format('YYYY-MM-DD HH:mm:ss') )
-                    .replace(/\{createdDate\}/, moment(note.createdDate).format('YYYY-MM-DD HH:mm:ss'))
-                    .replace(/\{modifiedDate\}/, moment(note.modifiedDate).format('YYYY-MM-DD HH:mm:ss'))
+                    .replace(/\{doneDate\}/, (note.doneDate === '') ? '' : moment(note.doneDate).format( dateFormat.full ) )
+                    .replace(/\{createdDate\}/, moment(note.createdDate).format( dateFormat.full ) )
+                    .replace(/\{modifiedDate\}/, moment(note.modifiedDate).format( dateFormat.full ) )
                     .replace(/\{importance\}/g, importance[note.importance].toLowerCase() )
                     .replace(/\{done\}/, classdone);
 
