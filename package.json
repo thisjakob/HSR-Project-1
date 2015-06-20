@@ -1,0 +1,31 @@
+{
+  "name": "easy-notes",
+  "version": "0.1.0",
+  "description": "manages notes with due date and importance",
+  "main": "index.js",
+  "directories": {
+    "doc": "doc"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/thisjakob/HSR-Project-1.git"
+  },
+  "author": "thisjakob and pgiannini",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/thisjakob/HSR-Project-1/issues"
+  },
+  "homepage": "https://github.com/thisjakob/HSR-Project-1#readme",
+  "dependencies": {
+    "body-parser": "^1.13.1",
+    "express": "^4.12.4",
+    "express-hbs": "^0.8.4",
+    "fs": "0.0.2",
+    "method-override": "^2.3.3",
+    "morgan": "^1.6.0",
+    "nedb": "^1.1.2"
+  }
+}
