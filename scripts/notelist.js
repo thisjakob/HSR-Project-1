@@ -16,14 +16,15 @@
 
         // attach event handlers
         var init = function () {
+            var me = this;
             settings = ns.Data.loadSettings();
             allNotes = ns.Data.loadNotes();
 
             if ( window.location.href.match(/note\.html/) ){
-                var note, me = this;
+                var note;
 
-                $('#importance option').each(function(index, element){
-                    $(element).text(importance[index+1]);
+                $('#importance option').each(function(index, el){
+                    $(el).text(importance[index+1]);
                 });
 
                 if ( window.location.hash.match(/new/) ) {
@@ -51,13 +52,12 @@
                 });
 
             } else {
-                var me = this;
 
                 // default sorting
                 sort( settings.sortBy, settings.sortOrder );
-                var element = $('a[href*="' + settings.sortBy + '"]');
-                element.addClass('current');
-                element.find('span')
+                var el = $('a[href*="' + settings.sortBy + '"]');
+                el.addClass('current');
+                el.find('span')
                     .removeClass('fa-sort-amount-desc fa-sort-amount-asc')
                     .addClass('fa-sort-amount-' + settings.sortOrder);
 
@@ -83,8 +83,8 @@
                 // click handler for created date sort button
                 $('a.btn.sort').on('click', function(e){
                     e.preventDefault();
-                    var element = $(this);
-                    var sortBy = element.attr('href').split('#')[1];
+                    var el = $(this);
+                    var sortBy = el.attr('href').split('#')[1];
                     var newSortOrder = (settings.sortOrder === 'desc') ? 'asc' : 'desc';
                     sort.call(me, sortBy, newSortOrder);
                     updateSettings({
@@ -93,9 +93,9 @@
                     });
 
                     // update sort icon
-                    element.siblings('a').removeClass('current');
-                    element.addClass('current');
-                    element.find('span')
+                    el.siblings('a').removeClass('current');
+                    el.addClass('current');
+                    el.find('span')
                         .removeClass('fa-sort-amount-desc fa-sort-amount-asc')
                         .addClass('fa-sort-amount-' + settings.sortOrder);
 
@@ -218,7 +218,7 @@
                 // when the list is sorted by due date.
                 var aVal = (sortBy === 'dueDate')? (a[sortBy]) ? a[sortBy] : '9999-12-12' : a[sortBy];
                 var bVal = (sortBy === 'dueDate')? (b[sortBy]) ? b[sortBy] : '9999-12-12' : b[sortBy];
-                
+
                 return (sortOrder === 'desc') ? aVal < bVal : aVal > bVal;
             });
 
