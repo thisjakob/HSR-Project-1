@@ -136,6 +136,22 @@
                     $(this).parents('li').toggleClass('expanded');
                     updateSettings( {expanded : $.map( $("li.expanded"), function(n, i){ return n.id;} )} );
                 });
+
+                $('#search').on('focus', function(e){
+                   $(this).parent().find('span').hide();
+                }).on('blur',function(){
+                    if ( $(this).val() === '' ) {
+                        $(this).parent().find('span').show();
+                    }
+                });
+
+                $('#search').on('keyup', function(e){
+                    var term = $(this).val();
+                    clearFilter();
+                    if ( term.length > 0 ) {
+                        filter( term );
+                    }
+                });
             }
         };
 
@@ -293,6 +309,24 @@
 
         var save = function(notes) {
             ns.Data.saveNotes(notes);
+        };
+
+        var filter = function(term) {
+            var filteredNotes = allNotes.filter(function(note){
+                var pattern = new RegExp(term, 'i');
+                return ( pattern.test( note.title ) ) ? true : pattern.test( note.description );
+            });
+
+            var noteIds = $.map( filteredNotes, function(n, i){ return n.id;} );
+            $('.note-list').addClass('search');
+            $.each(noteIds, function(i, id){
+                $('#' + id).addClass('found');
+            });
+        };
+
+        var clearFilter = function(){
+            $('.note-list').removeClass('search');
+            $('.note-list li').removeClass('found');
         };
 
         return {

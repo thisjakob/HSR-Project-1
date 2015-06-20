@@ -82,17 +82,19 @@ main {
 }
 
 
-#search{
+label[for="search"] {
     position: relative;
+    font-size: .8em;
+    color: #888;
 }
 
-#search span {
+label[for="search"] span {
     position: absolute;
     top: 2px;
     left: 2px;
 }
 
-#search input {
+#search {
     padding: 2px;
 }
 
@@ -208,6 +210,14 @@ main {
     display: inline-block;
     width: 15px;
     text-align: right;
+}
+
+.note-list.search li {
+    display: none;
+}
+
+.note-list.search li.found {
+    display: list-item;
 }
 
 /* Styles for the notes page */
