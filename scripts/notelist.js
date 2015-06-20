@@ -111,9 +111,11 @@
                     if ( icon.prop('class').match(/plus/) ) {
                         icon.prop('class', icon.prop('class').replace(/plus/, 'minus') );
                         listItems.addClass('expanded');
+                        updateSettings( {expanded : $.map( $("li.expanded"), function(n, i){ return n.id;} )} );
                     } else {
                         icon.prop('class', icon.prop('class').replace(/minus/, 'plus') );
                         listItems.removeClass('expanded');
+                        updateSettings({expanded : []});
                     }
                 });
 
@@ -128,6 +130,7 @@
 
                 $('.note-list').on('click', 'h2', function(e){
                     $(this).parents('li').toggleClass('expanded');
+                    updateSettings( {expanded : $.map( $("li.expanded"), function(n, i){ return n.id;} )} );
                 });
             }
         };
@@ -180,6 +183,7 @@
                 }
 
                 html = html.replace(/\{id\}/g, note.id)
+                    .replace(/\{expanded\}/, ( settings.expanded.filter(function(val){return val === note.id}).length ) ? 'expanded' : '' )
                     .replace(/\{note-title\}/, note.title)
                     .replace(/\{description\}/, note.description.replace(/\n/g,'<br>'))
                     .replace(/\{dueDate\}/, (note.dueDate === '') ? '' : moment(note.dueDate).fromNow() )

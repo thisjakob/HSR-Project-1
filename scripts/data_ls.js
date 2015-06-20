@@ -9,7 +9,7 @@
                 sortBy : 'createdDate', // [dueDate, createdDate, modifiedDate, importance]
                 sortOrder : 'desc', // [asc, desc]
                 showFinished : false,
-                collapsed : false
+                expanded : []
             },
             savedProperties = ['id','title','description','dueDate','importance','doneDate','createdDate','modifiedDate'];
 
