@@ -18,8 +18,104 @@
                 full : 'YYYY-MM-DD HH:mm:ss'
             };
 
+        //####################
+        // private methods
+        //####################
+
+        // the template for each not is part of index.html
+        // find the template in the html code, save it and remove the template
+        // code from the html markup.
+        var loadNoteTmpl = function(){
+            var list = $('.note-list').first();
+            noteTmpl = list.html();
+            list.removeClass('hidden').html('');
+        };
+
+        // Getter for the private propery "noteTmpl"
+        var getNoteTmpl = function(){
+            return noteTmpl;
+        };
+
+        // update one or more particular setting(s) and save it
+        var updateSettings = function ( newSettings ) {
+            ns.Data.saveSettings( $.extend( settings, newSettings ) );
+        };
+
+        // switch skin
+        var switchStyle = function () {
+            // remove not selected body style classes
+            $(".style-switch option:not(:selected)").each(function(i, val){
+                $('body').removeClass(val.value);
+            });
+            // set body style class
+            $('body').addClass($(".style-switch option:selected").val());
+        };
+
+        // sort notes by the given property
+        var sort = function ( sortBy, sortOrder ) {
+            allNotes.sort(function(a,b){
+                // this makes sure that empty due dates show at the bottom of the list
+                // when the list is sorted by due date.
+                var aVal = (sortBy === 'dueDate')? (a[sortBy]) ? a[sortBy] : '9999-12-12' : a[sortBy];
+                var bVal = (sortBy === 'dueDate')? (b[sortBy]) ? b[sortBy] : '9999-12-12' : b[sortBy];
+
+                return (sortOrder === 'desc') ? aVal < bVal : aVal > bVal;
+            });
+
+            // because importance is ordered by the numeric value (High = 1, Low = 3)
+            // we need to reverse the order
+            if ( sortBy === 'importance' ) {
+                allNotes.reverse();
+            }
+        };
+
+        // show/hide finished notes
+        var toggleFinishedNotes = function(e) {
+            e.preventDefault();
+            var icon = $(this).find('span').toggleClass('fa-square-o');
+            if ( icon.hasClass('fa-square-o') ) {
+                // show finished
+                $('.note-list').addClass('hideFinishedNotes');
+                updateSettings( {showFinished : false} );
+            } else {
+                // hide finished
+                $('.note-list').removeClass('hideFinishedNotes');
+                updateSettings( {showFinished : true} );
+            }
+        };
+
+        // finds a particular note by its ID
+        // returns a single note object
+        var findNote = function ( id ) {
+            return $.grep( allNotes, function(note, index){
+                return (note.id === id);
+            })[0];
+        };
+
+        var filter = function(term) {
+            var filteredNotes = allNotes.filter(function(note){
+                var pattern = new RegExp(term, 'i');
+                return ( pattern.test( note.title ) ) ? true : pattern.test( note.description );
+            });
+
+            var noteIds = $.map( filteredNotes, function(n, i){ return n.id;} );
+            $('.note-list').addClass('search');
+            $.each(noteIds, function(i, id){
+                $('#' + id).addClass('found');
+            });
+        };
+
+        var clearFilter = function(){
+            $('.note-list').removeClass('search');
+            $('.note-list li').removeClass('found');
+        };
+
+        //####################
+        // public methods
+        //####################
+
         // attach event handlers
-        var init = function () {
+        var publicInit = function () {
             var me = this;
             settings = ns.Data.loadSettings();
             allNotes = ns.Data.loadNotes();
@@ -35,7 +131,7 @@
                     note = new ns.Note( {}, this);
                     $('#btn_delete').remove();
                 } else {
-                    note = this.findNote( window.location.hash.split('#')[1]) ;
+                    note = findNote( window.location.hash.split('#')[1]) ;
                 }
                 note.populate();
 
@@ -67,24 +163,24 @@
 
                 // render list
                 loadNoteTmpl();
-                render();
+                this.render();
 
                 var list = $('.note-list');
                 // click handler for all delete links
                 list.on('click','.delete',function(e){
-                    me.findNote( $(this).parents('li').attr('id') ).delete();
+                    findNote( $(this).parents('li').attr('id') ).delete();
                 });
 
                 // change handler for input finished
                 list.on('change', 'input.done', function(e){
                     var el = $(this);
-                    var note = me.findNote(
+                    var note = findNote(
                         el.parents('li').toggleClass('done').attr('id')
                     );
                     ( el.is(':checked') ) ? note.finish() : note.finish( true );
                 });
 
-                // click handler for created date sort button
+                // click handler for sort button
                 $('a.btn.sort').on('click', function(e){
                     e.preventDefault();
                     var el = $(this);
@@ -129,19 +225,22 @@
                 // change handler for style switcher
                 $('.style-switch').on('change', switchStyle);
 
+                // expand / collapse note details
                 $('.note-list').on('click', 'h2', function(e){
                     $(this).parents('li').toggleClass('expanded');
                     updateSettings( {expanded : $.map( $("li.expanded"), function(n, i){ return n.id;} )} );
                 });
 
+                // show / hide label on search field
                 $('#search').on('focus', function(e){
-                   $(this).parent().find('span').hide();
+                    $(this).parent().find('span').hide();
                 }).on('blur',function(){
                     if ( $(this).val() === '' ) {
                         $(this).parent().find('span').show();
                     }
                 });
 
+                // free text search for a note
                 $('#search').on('keyup', function(e){
                     var term = $(this).val();
                     clearFilter();
@@ -152,37 +251,14 @@
             }
         };
 
-        // the template for each not is part of index.html
-        // find the template in the html code, save it and remove the template
-        // code from the html markup.
-        var loadNoteTmpl = function(){
-            var list = $('.note-list').first();
-            noteTmpl = list.html();
-            list.removeClass('hidden').html('');
-        };
-
-        // Getter for the private propery "noteTmpl"
-        var getNoteTmpl = function(){
-            return noteTmpl;
-        };
-
-        // update one or more particular setting(s) and save it
-        var updateSettings = function ( newSettings ) {
-            ns.Data.saveSettings( $.extend( settings, newSettings ) );
-        };
-
-        // switch skin
-        var switchStyle = function () {
-            // remove not selected body style classes
-            $(".style-switch option:not(:selected)").each(function(i, val){
-                $('body').removeClass(val.value);
-            });
-            // set body style class
-            $('body').addClass($(".style-switch option:selected").val());
+        // get new unused ID for a new note
+        // => for now just use a timestamp
+        var publicGetNewID =function () {
+            return moment().valueOf().toString();
         };
 
         // render list of all notes
-        var render = function () {
+        var publicRender = function () {
             var notes = allNotes,
                 list = $('.note-list').first();
 
@@ -228,54 +304,17 @@
             // todo settings for collapse/expand
         };
 
-        // sort notes by the given property
-        var sort = function ( sortBy, sortOrder ) {
-            allNotes.sort(function(a,b){
-                // this makes sure that empty due dates show at the bottom of the list
-                // when the list is sorted by due date.
-                var aVal = (sortBy === 'dueDate')? (a[sortBy]) ? a[sortBy] : '9999-12-12' : a[sortBy];
-                var bVal = (sortBy === 'dueDate')? (b[sortBy]) ? b[sortBy] : '9999-12-12' : b[sortBy];
-
-                return (sortOrder === 'desc') ? aVal < bVal : aVal > bVal;
-            });
-
-            // because importance is ordered by the numeric value (High = 1, Low = 3)
-            // we need to reverse the order
-            if ( sortBy === 'importance' ) {
-                allNotes.reverse();
-            }
+        // get an array with all notes
+        var publicGetAllNotes = function () {
+            return allNotes;
         };
 
-        // show/hide finished notes
-        var toggleFinishedNotes = function(e) {
-            e.preventDefault();
-            var icon = $(this).find('span').toggleClass('fa-square-o');
-            if ( icon.hasClass('fa-square-o') ) {
-                // show finished
-                $('.note-list').addClass('hideFinishedNotes');
-                updateSettings( {showFinished : false} );
-            } else {
-                // hide finished
-                $('.note-list').removeClass('hideFinishedNotes');
-                updateSettings( {showFinished : true} );
-            }
+        var publicSave = function(notes) {
+            ns.Data.saveNotes(notes);
         };
 
-        // get new unused ID for a new note
-        // => for now just use a timestamp
-        var getNewID =function () {
-            return moment().valueOf().toString();
-        };
-
-        // finds a particular note by its ID
-        // returns a single note object
-        var findNote = function ( id ) {
-            return $.grep( allNotes, function(note, index){
-                return (note.id === id);
-            })[0];
-        };
-
-        var indexOfNote = function ( id ) {
+        // get index of a note by its ID
+        var publicIndexOfNote = function ( id ) {
             for ( var i = 0, l = allNotes.length; i < l; i++ ) {
                 if ( allNotes[i].id === id ) {
                     return i;
@@ -285,41 +324,13 @@
             return -1; // not found
         };
 
-        var getAllNotes = function () {
-            return allNotes;
-        };
-
-        var save = function(notes) {
-            ns.Data.saveNotes(notes);
-        };
-
-        var filter = function(term) {
-            var filteredNotes = allNotes.filter(function(note){
-                var pattern = new RegExp(term, 'i');
-                return ( pattern.test( note.title ) ) ? true : pattern.test( note.description );
-            });
-
-            var noteIds = $.map( filteredNotes, function(n, i){ return n.id;} );
-            $('.note-list').addClass('search');
-            $.each(noteIds, function(i, id){
-                $('#' + id).addClass('found');
-            });
-        };
-
-        var clearFilter = function(){
-            $('.note-list').removeClass('search');
-            $('.note-list li').removeClass('found');
-        };
-
         return {
-            init : init,
-            getNewID : getNewID,
-            getAllNotes : getAllNotes,
-            getNoteTmpl : getNoteTmpl,
-            findNote : findNote,
-            indexOfNote : indexOfNote,
-            render : render,
-            save : save
+            init : publicInit,
+            getNewID : publicGetNewID,
+            getAllNotes : publicGetAllNotes,
+            indexOfNote : publicIndexOfNote,
+            render : publicRender,
+            save : publicSave
         };
     })();
 
