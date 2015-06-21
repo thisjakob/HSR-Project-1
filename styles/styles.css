@@ -148,7 +148,7 @@ label[for="search"] span {
     visibility: hidden;
 }
 
-.note-list.hideFinished li.done {
+main .note-list.hideFinished li.done {
     display: none;
 }
 

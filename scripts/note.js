@@ -64,7 +64,6 @@
         }
 
         l.save(notes);
-        l.render();
     };
 
     ns.Note.prototype.update = function ( ) {
@@ -86,7 +85,6 @@
     ns.Note.prototype.finish = function ( reverse ) {
         this.doneDate = ( reverse ) ? '' : moment().valueOf();
         this.update();
-        this.list.render();
     };
 
     ns.Note.prototype.distanceToDueDate = function ( ) {
