@@ -224,23 +224,35 @@
                     updateSettings( {expanded : $.map( $("li.expanded"), function(n, i){ return n.id;} )} );
                 });
 
-                // show / hide label on search field
-                $('#search').on('focus', function(e){
-                    $(this).parent().find('span').hide();
-                }).on('blur',function(){
-                    if ( $(this).val() === '' ) {
-                        $(this).parent().find('span').show();
-                    }
-                });
+                // handle events on the search input field
+                var searchField = $('#search')
+                    // hide label on focus
+                    .on('focus', function(e){
+                        $(this).siblings('span').hide().siblings('a').show();
+                    })
+                    // show if focus is gone and input field is emptys
+                    .on('blur',function(e){
+                        if ( $(this).val() === '' ) {
+                            $(this).parent().find('span').show();
+                        }
+                    })
+                    // free text search for a note
+                    .on('keyup', function(e){
+                        var term = $(this).val();
+                        clearFilter();
+                        if ( term.length > 0 ) {
+                            filter( term );
+                        }
+                    });
 
-                // free text search for a note
-                $('#search').on('keyup', function(e){
-                    var term = $(this).val();
-                    clearFilter();
-                    if ( term.length > 0 ) {
-                        filter( term );
-                    }
-                });
+                // clear search field
+                searchField.parent().find('.clear').on('click', function(e){
+                        e.preventDefault();
+                        clearFilter();
+                        $(this)
+                            .hide()
+                            .siblings('input').val('').blur();
+                    })
             }
         };
 

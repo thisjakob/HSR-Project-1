@@ -108,6 +108,20 @@ label[for="search"] span {
     left: 7px;
 }
 
+label[for="search"] a.clear {
+    display: none;
+    position: absolute;
+    top: 4px;
+    right: 7px;
+    width: 10px;
+    height: 10px;
+    text-decoration: none;
+}
+
+label[for="search"] a.clear:before{
+    content:"\f057";
+}
+
 #search {
     padding: 2px 3px 3px 3px;
 }
