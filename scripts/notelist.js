@@ -103,6 +103,44 @@
             $('.note-list li').removeClass('found');
         };
 
+        // render list of all notes
+        var render = function () {
+            var notes = allNotes,
+                list = $('.note-list').first();
+
+            // clear note list
+            list.html( '' );
+
+            // (re)populate with current notes in list
+            for ( var i = 0; i < notes.length; i++) {
+                var note = notes[i],
+                    html = getNoteTmpl();
+
+                html = html.replace(/\{id\}/g, note.id)
+                    .replace(/\{expanded\}/, ( settings.expanded.filter(function(val){return val === note.id}).length ) ? 'expanded' : '' )
+                    .replace(/\{note-title\}/, note.title)
+                    .replace(/\{description\}/, note.description.replace(/\n/g,'<br>'))
+                    .replace(/\{dueDate\}/, (note.dueDate === '') ? '' : moment(note.dueDate).fromNow() )
+                    .replace(/\{dueDate-full\}/, (note.dueDate === '') ? '' : moment(note.dueDate).format( dateFormat.short ) )
+                    .replace(/\{distance\}/, note.distanceToDueDate() )
+                    .replace(/\{doneDate\}/, (note.doneDate === '') ? '' : moment(note.doneDate).format( dateFormat.full ) )
+                    .replace(/\{createdDate\}/, moment(note.createdDate).format( dateFormat.full ) )
+                    .replace(/\{modifiedDate\}/, moment(note.modifiedDate).format( dateFormat.full ) )
+                    .replace(/\{importance\}/g, importance[note.importance].toLowerCase() )
+                    .replace(/\{done\}/, (note.doneDate) ? 'done' : '');
+
+                list.append( html );
+            }
+
+            // initial state of show / hide finished notes
+            list.find('li.done .done').prop('checked', true);
+            $('#filter-finished')
+                .toggleClass('show', settings.showFinished)
+                .toggleClass('hide', !settings.showFinished);
+            list.toggleClass( 'showFinished', settings.showFinished);
+            list.toggleClass( 'hideFinished', !settings.showFinished);
+        };
+
         //####################
         // public methods
         //####################
@@ -156,12 +194,11 @@
 
                 // render list
                 loadNoteTmpl();
-                this.render();
-                var list = $('.note-list');
+                render();
 
                 // click handler for all delete links
-                list.on('click','.delete',function(e){
-                    findNote( $(this).parents('li').attr('id') ).delete();
+                var list = $('.note-list').on('click','.delete',function(e){
+                    findNote( $(this).parents('li').remove().attr('id') ).delete();
                 });
 
                 // change handler for input finished
@@ -192,7 +229,7 @@
                         .removeClass('fa-sort-amount-desc fa-sort-amount-asc')
                         .addClass('fa-sort-amount-' + settings.sortOrder);
 
-                    me.render();
+                    render();
                 });
 
                 // click handler for collapse/expand all
@@ -262,43 +299,6 @@
             return moment().valueOf().toString();
         };
 
-        // render list of all notes
-        var publicRender = function () {
-            var notes = allNotes,
-                list = $('.note-list').first();
-
-            // clear note list
-            list.html( '' );
-
-            // (re)populate with current notes in list
-            for ( var i = 0; i < notes.length; i++) {
-                var note = notes[i],
-                    html = getNoteTmpl();
-
-                html = html.replace(/\{id\}/g, note.id)
-                    .replace(/\{expanded\}/, ( settings.expanded.filter(function(val){return val === note.id}).length ) ? 'expanded' : '' )
-                    .replace(/\{note-title\}/, note.title)
-                    .replace(/\{description\}/, note.description.replace(/\n/g,'<br>'))
-                    .replace(/\{dueDate\}/, (note.dueDate === '') ? '' : moment(note.dueDate).fromNow() )
-                    .replace(/\{dueDate-full\}/, (note.dueDate === '') ? '' : moment(note.dueDate).format( dateFormat.short ) )
-                    .replace(/\{distance\}/, note.distanceToDueDate() )
-                    .replace(/\{doneDate\}/, (note.doneDate === '') ? '' : moment(note.doneDate).format( dateFormat.full ) )
-                    .replace(/\{createdDate\}/, moment(note.createdDate).format( dateFormat.full ) )
-                    .replace(/\{modifiedDate\}/, moment(note.modifiedDate).format( dateFormat.full ) )
-                    .replace(/\{importance\}/g, importance[note.importance].toLowerCase() )
-                    .replace(/\{done\}/, (note.doneDate) ? 'done' : '');
-
-                list.append( html );
-            }
-
-            // initial state of show / hide finished notes
-            list.find('li.done .done').prop('checked', true);
-            if ( !settings.showFinished ) {
-                $('#filter-finished').toggleClass('show hide');
-                list.toggleClass( 'showFinished hideFinished' );
-            }
-        };
-
         // get an array with all notes
         var publicGetAllNotes = function () {
             return allNotes;
@@ -324,7 +324,6 @@
             getNewID : publicGetNewID,
             getAllNotes : publicGetAllNotes,
             indexOfNote : publicIndexOfNote,
-            render : publicRender,
             save : publicSave
         };
     })();
