@@ -48,10 +48,6 @@
         $("#dueDate").val( this.dueDate );
     };
 
-    ns.Note.prototype.finish = function() {
-        this.doneDate = moment().valueOf();
-    };
-
     ns.Note.prototype.delete = function() {
         var l = this.list;
         var notes = l.getAllNotes();
