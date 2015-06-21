@@ -129,9 +129,6 @@
                 // change handler for style switcher
                 $('.style-switch').on('change', switchStyle);
 
-                // collapse or expand all description and date
-                $('#collapse-expand').on('click', toggleCollapseExpand);
-
                 $('.note-list').on('click', 'h2', function(e){
                     $(this).parents('li').toggleClass('expanded');
                     updateSettings( {expanded : $.map( $("li.expanded"), function(n, i){ return n.id;} )} );
@@ -262,21 +259,6 @@
                 $('.note-list').removeClass('hideFinishedNotes');
                 updateSettings( {showFinished : true} );
             }
-        };
-
-        var toggleCollapseExpand = function (e) {
-            var cmd = $(this).text();
-            if ( cmd === "Collapse") {
-                cmd = "Expand";
-                updateSettings( { collapsed : false } );
-            } else {
-                cmd = "Collapse"
-                updateSettings( { collapsed : true } );
-            }
-            $(this).contents().last()[0].textContent = cmd;
-            $(this).find('span').removeClass('icon-collapse icon-expand').addClass('icon-' + cmd.toLowerCase());
-            $('.note-desc').toggle();
-            $('.createdDate').toggle();
         };
 
         // get new unused ID for a new note
