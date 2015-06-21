@@ -24,10 +24,9 @@ app.use(require("method-override")(function(req, res){
     }
 }));
 
-/*app.get("/", function(req, res){
-    // res.sendfile("./public/html/ajaxSample.html")
-    res.sendFile(__dirname + "/index.html")
-});*/
+app.get("/", function(req, res){
+    res.sendFile(__dirname + "/public/html/notelist.html")
+});
 
 // notes routes
 app.use("/notes", require('./routes/notesRoutes.js'));
@@ -35,8 +34,9 @@ app.use("/notes", require('./routes/notesRoutes.js'));
 // get public docs
 app.use(express.static(__dirname + '/public'));
 app.use(express.static(__dirname + '/views'));
-app.use('/styles', express.static(__dirname + '/styles'));
-app.use('/fonts', express.static(__dirname + '/fonts'));
-app.use('/scripts', express.static(__dirname + '/scripts'));
+app.use('/', express.static(__dirname + '/public/html'));
+app.use('/styles', express.static(__dirname + '/public/styles'));
+app.use('/fonts', express.static(__dirname + '/public/fonts'));
+app.use('/scripts', express.static(__dirname + '/public/scripts'));
 
 http.createServer(app).listen(3333);

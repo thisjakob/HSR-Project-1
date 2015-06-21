@@ -46,10 +46,10 @@
                     note.importance = $('#importance').val();
                     note.dueDate = $('#dueDate').val();
                     note.save();
-                    window.location.href = 'index.html';
+                    window.location.href = '../../notelist.html';
                 });
                 $('#btn_cancel').on('click', function(){
-                    window.location.href = 'index.html';
+                    window.location.href = '../../notelist.html';
                 });
                 $('#btn_delete').on('click', function(){
                     me.delete.apply(me, arguments);
@@ -155,7 +155,7 @@
             }
         };
 
-        // the template for each not is part of index.html
+        // the template for each not is part of notelist.html
         // find the template in the html code, save it and remove the template
         // code from the html markup.
         var loadNoteTmpl = function(){
