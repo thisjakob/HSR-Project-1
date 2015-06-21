@@ -1,4 +1,4 @@
-/* Font Awsome Extension */
+/* Font Awesome Extension */
 .fa-importance-low:before{content:"\f12a"}
 .fa-importance-medium:before{content:"\f12a\f12a"}
 .fa-importance-high:before{content:"\f12a\f12a\f12a"}
@@ -84,6 +84,15 @@ main {
     display: inline-block;
     width: 15px;
     padding-right: 10px;
+    text-decoration: none;
+}
+
+#filter-finished.show:before{
+    content:"\f046"; /* font awesome */
+}
+
+#filter-finished.hide:before{
+    content:"\f096"; /* font awesome */
 }
 
 
@@ -139,7 +148,7 @@ label[for="search"] span {
     visibility: hidden;
 }
 
-.note-list.hideFinishedNotes li.done {
+.note-list.hideFinished li.done {
     display: none;
 }
 

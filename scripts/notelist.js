@@ -72,16 +72,9 @@
         // show/hide finished notes
         var toggleFinishedNotes = function(e) {
             e.preventDefault();
-            var icon = $(this).find('span').toggleClass('fa-square-o');
-            if ( icon.hasClass('fa-square-o') ) {
-                // show finished
-                $('.note-list').addClass('hideFinishedNotes');
-                updateSettings( {showFinished : false} );
-            } else {
-                // hide finished
-                $('.note-list').removeClass('hideFinishedNotes');
-                updateSettings( {showFinished : true} );
-            }
+            var el = $(this).toggleClass('show hide');
+            $('.note-list').toggleClass('showFinished hideFinished');
+            updateSettings( {showFinished : el.hasClass('show')} );
         };
 
         // finds a particular note by its ID
@@ -164,8 +157,8 @@
                 // render list
                 loadNoteTmpl();
                 this.render();
-
                 var list = $('.note-list');
+
                 // click handler for all delete links
                 list.on('click','.delete',function(e){
                     findNote( $(this).parents('li').attr('id') ).delete();
@@ -226,7 +219,7 @@
                 $('.style-switch').on('change', switchStyle);
 
                 // expand / collapse note details
-                $('.note-list').on('click', 'h2', function(e){
+                list.on('click', 'h2', function(e){
                     $(this).parents('li').toggleClass('expanded');
                     updateSettings( {expanded : $.map( $("li.expanded"), function(n, i){ return n.id;} )} );
                 });
@@ -270,11 +263,6 @@
                 var note = notes[i],
                     html = getNoteTmpl();
 
-                var classdone = "";
-                if (note.doneDate !== "") {
-                    classdone = "done";
-                }
-
                 html = html.replace(/\{id\}/g, note.id)
                     .replace(/\{expanded\}/, ( settings.expanded.filter(function(val){return val === note.id}).length ) ? 'expanded' : '' )
                     .replace(/\{note-title\}/, note.title)
@@ -286,22 +274,17 @@
                     .replace(/\{createdDate\}/, moment(note.createdDate).format( dateFormat.full ) )
                     .replace(/\{modifiedDate\}/, moment(note.modifiedDate).format( dateFormat.full ) )
                     .replace(/\{importance\}/g, importance[note.importance].toLowerCase() )
-                    .replace(/\{done\}/, classdone);
+                    .replace(/\{done\}/, (note.doneDate) ? 'done' : '');
 
                 list.append( html );
-
-                if (classdone === "done") {
-                    $("#" + note.id + " input")[0].checked = true;
-                }
             }
 
+            // initial state of show / hide finished notes
+            list.find('li.done .done').prop('checked', true);
             if ( !settings.showFinished ) {
-                list.addClass( 'hideFinishedNotes' );
-            } else {
-                $('#filter-finished span').removeClass('fa-square-o');
+                $('#filter-finished').toggleClass('show hide');
+                list.toggleClass( 'showFinished hideFinished' );
             }
-
-            // todo settings for collapse/expand
         };
 
         // get an array with all notes
