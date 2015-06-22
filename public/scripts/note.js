@@ -102,5 +102,6 @@
 
         return distance;
     };
+
 })(jQuery, window, document, moment);
 

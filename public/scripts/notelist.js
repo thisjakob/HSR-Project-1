@@ -173,10 +173,10 @@
                     note.importance = $('#importance').val();
                     note.dueDate = $('#dueDate').val();
                     note.save();
-                    window.location.href = 'index.html';
+                    window.location.href = '../../notelist.html';
                 });
                 $('#btn_cancel').on('click', function(){
-                    window.location.href = 'index.html';
+                    window.location.href = '../../notelist.html';
                 });
                 $('#btn_delete').on('click', function(){
                     me.delete.apply(me, arguments);

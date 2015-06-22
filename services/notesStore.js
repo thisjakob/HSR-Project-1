@@ -20,17 +20,30 @@ function publicAddNote(par, callback) {
     });
 }
 
+function publicSaveNotes(notes, callback) {
+    // delete all
+    db.remove({}, {}, function (err, numRemoved) {
+        // save notes
+        var n = notes;
+        db.insert(n, function (err, note) {
+            callback(err, note);
+        });
+    });
+}
+
 function publicGetNote(id, callback) {
     db.find({ title: id }, function (err, doc) {
         callback( err, doc);
     });
 }
 
-function publicGetAllNotes () {
+function publicGetAllNotes (callback) {
     db.find({}, function (err, docs) {
         callback( err, docs);
     });
+
 }
+
 
 function publicDeleteNote(id, callback) {
     db.update({ id: id }, {$set: {"state": "DELETED"}}, {}, function (err, count) {
@@ -40,6 +53,7 @@ function publicDeleteNote(id, callback) {
 
 module.exports = {
     add : publicAddNote,
+    save : publicSaveNotes,
     get : publicGetNote,
     all : publicGetAllNotes,
     delete : publicDeleteNote
