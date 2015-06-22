@@ -11,6 +11,18 @@ module.exports.addNote = function(req, res)
     });
 };
 
+module.exports.saveNotes = function(req, res)
+{
+    var notes = req.body;
+    store.save(notes, function(err, note) {
+        res.format({
+            'application/json': function(){
+                res.json(note);
+            },
+        });
+    });
+};
+
 module.exports.getNote = function(req, res) {
     store.get(req.params.id, function(err, note) {
         res.format({
@@ -25,6 +37,7 @@ module.exports.getAllNotes = function(req, res) {
     store.all(function(err, notes) {
         res.format({
             'application/json': function () {
+                var n = notes[0];
                 res.json(notes);
             }
         });

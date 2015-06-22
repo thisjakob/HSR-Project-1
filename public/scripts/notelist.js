@@ -227,8 +227,6 @@
             } else {
                 $('#filter-finished span').removeClass('fa-square-o');
             }
-
-            // todo settings for collapse/expand
         };
 
         // sort notes by the given property
