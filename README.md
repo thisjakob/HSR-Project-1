@@ -1,5 +1,13 @@
 # HSR-Project-1: Notes
-"npm install" will install all modules
+#install
+npm install
+
+# run
+run index.js
+
+# start page in browser
+http://localhost:3333
+
 
 ## to do
 - sort by note title
