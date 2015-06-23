@@ -1,5 +1,7 @@
 var Datastore = require('nedb');
 var db = new Datastore({ filename: './db/notes.db', autoload: true });
+var fs = require('fs');
+var filename = "db/notesFile.txt";
 
 function Note(note)
 {
@@ -24,9 +26,26 @@ function publicSaveNotes(notes, callback) {
     // delete all
     db.remove({}, {}, function (err, numRemoved) {
         // save notes
-        var n = notes;
-        db.insert(n, function (err, note) {
+        var notesStr = JSON.stringify(notes);
+        db.insert(notesStr, function (err, note) {
             callback(err, note);
+        });
+    });
+}
+
+function publicSaveNotesFile(notes, callback) {
+    // save notes in file
+    var notesStr = JSON.stringify(notes);
+    fs.writeFile(filename, notesStr, function(err) {
+        if (err) return privateHandleError(err, callback);
+
+        fs.readFile(filename, {encoding: 'utf8'}, function(err, content) {
+            if (err) return privateHandleError(err, callback);
+
+            fs.unlink(filename, function(err) {
+                if (err) return privateHandleError(err, callback);
+                if (callback) callback(err, content);
+            });
         });
     });
 }
@@ -41,7 +60,16 @@ function publicGetAllNotes (callback) {
     db.find({}, function (err, docs) {
         callback( err, docs);
     });
+}
 
+function publicGetAllNotesFile (callback) {
+    fs.readFile(filename, {encoding: 'utf8'}, function (err, content) {
+        if (err) return privateHandleError(err, callback);
+
+        fs.unlink(filename, function(err) {
+            callback( err, content);
+        });
+    });
 }
 
 
@@ -51,10 +79,16 @@ function publicDeleteNote(id, callback) {
     });
 }
 
+function privateHandleError(err, callback) {
+    if (callback) callback(err);
+}
+
 module.exports = {
     add : publicAddNote,
     save : publicSaveNotes,
+    saveFile : publicSaveNotesFile,
     get : publicGetNote,
     all : publicGetAllNotes,
+    allFile : publicGetAllNotesFile,
     delete : publicDeleteNote
 };

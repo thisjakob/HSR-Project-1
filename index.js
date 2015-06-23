@@ -4,6 +4,7 @@ var bodyParser = require('body-parser');
 var hbs = require('express-hbs');
 
 var app = express();
+// handlebars
 app.engine('hbs', hbs.express4());
 app.set('view engine', 'hbs');
 app.set('views', __dirname + '/views');
@@ -14,6 +15,7 @@ var morgan = require('morgan');
 var accessLogStream = fs.createWriteStream(__dirname + '/access.log', {flags: 'a'})
 app.use(morgan('combined', {stream: accessLogStream}))
 
+// middleware
 app.use(bodyParser.urlencoded());
 app.use(bodyParser.json())
 app.use(require("method-override")(function(req, res){
@@ -24,6 +26,7 @@ app.use(require("method-override")(function(req, res){
     }
 }));
 
+// first access send html page
 app.get("/", function(req, res){
     res.sendFile(__dirname + "/public/html/notelist.html")
 });
@@ -31,12 +34,12 @@ app.get("/", function(req, res){
 // notes routes
 app.use("/notes", require('./routes/notesRoutes.js'));
 
-// get public docs
+// redirects
 app.use(express.static(__dirname + '/public'));
-app.use(express.static(__dirname + '/views'));
 app.use('/', express.static(__dirname + '/public/html'));
 app.use('/styles', express.static(__dirname + '/public/styles'));
 app.use('/fonts', express.static(__dirname + '/public/fonts'));
 app.use('/scripts', express.static(__dirname + '/public/scripts'));
 
+// start server
 http.createServer(app).listen(3333);

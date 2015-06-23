@@ -11,6 +11,18 @@ module.exports.addNote = function(req, res)
     });
 };
 
+module.exports.saveNotesFile = function(req, res)
+{
+    var notes = req.body;
+    store.saveFile(notes, function(err, note) {
+        res.format({
+            'application/json': function(){
+                res.json(note);
+            },
+        });
+    });
+};
+
 module.exports.saveNotes = function(req, res)
 {
     var notes = req.body;
@@ -39,6 +51,21 @@ module.exports.getAllNotes = function(req, res) {
             'application/json': function () {
                 var n = notes[0];
                 res.json(notes);
+            }
+        });
+    });
+};
+
+module.exports.getAllNotesFile = function(req, res) {
+    store.allFile(function(err, notes) {
+        res.format({
+            'application/json': function () {
+                if (notes !== undefined) {
+                    var n = notes[0];
+                    res.json(notes);
+                } else {
+                    res.end("");
+                }
             }
         });
     });
