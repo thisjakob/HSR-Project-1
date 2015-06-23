@@ -121,7 +121,7 @@
                     .replace(/\{note-title\}/, note.title)
                     .replace(/\{description\}/, note.description.replace(/\n/g,'<br>'))
                     .replace(/\{dueDate\}/, (note.dueDate === '') ? '' : moment(note.dueDate).fromNow() )
-                    .replace(/\{dueDate-full\}/, (note.dueDate === '') ? '' : moment(note.dueDate).format( dateFormat.short ) )
+                    .replace(/\{dueDate-full\}/g, (note.dueDate === '') ? '' : moment(note.dueDate).format( dateFormat.short ) )
                     .replace(/\{distance\}/, note.distanceToDueDate() )
                     .replace(/\{doneDate-full\}/g, (note.doneDate === '') ? '' : moment(note.doneDate).format( dateFormat.full ) )
                     .replace(/\{doneDate\}/, (note.doneDate === '') ? '' : moment(note.doneDate).fromNow() )
