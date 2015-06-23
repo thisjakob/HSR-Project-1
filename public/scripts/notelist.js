@@ -123,9 +123,12 @@
                     .replace(/\{dueDate\}/, (note.dueDate === '') ? '' : moment(note.dueDate).fromNow() )
                     .replace(/\{dueDate-full\}/, (note.dueDate === '') ? '' : moment(note.dueDate).format( dateFormat.short ) )
                     .replace(/\{distance\}/, note.distanceToDueDate() )
-                    .replace(/\{doneDate\}/, (note.doneDate === '') ? '' : moment(note.doneDate).format( dateFormat.full ) )
-                    .replace(/\{createdDate\}/, moment(note.createdDate).format( dateFormat.full ) )
-                    .replace(/\{modifiedDate\}/, moment(note.modifiedDate).format( dateFormat.full ) )
+                    .replace(/\{doneDate-full\}/g, (note.doneDate === '') ? '' : moment(note.doneDate).format( dateFormat.full ) )
+                    .replace(/\{doneDate\}/, (note.doneDate === '') ? '' : moment(note.doneDate).fromNow() )
+                    .replace(/\{createdDate-full\}/g, moment(note.createdDate).format( dateFormat.full ) )
+                    .replace(/\{createdDate\}/, moment(note.createdDate).fromNow() )
+                    .replace(/\{modifiedDate-full\}/g, moment(note.modifiedDate).format( dateFormat.full ) )
+                    .replace(/\{modifiedDate\}/, moment(note.modifiedDate).fromNow() )
                     .replace(/\{importance\}/g, importance[note.importance].toLowerCase() )
                     .replace(/\{done\}/, (note.doneDate) ? 'done' : '');
 
@@ -293,9 +296,16 @@
             }
         };
 
+        // update the done date for the given note
+        var publicRenderDoneDate = function(note){
+            $('#' + note.id + ' .doneDate time')
+                .text(moment(note.doneDate).fromNow())
+                .attr('datetime', moment(note.doneDate).format(dateFormat.full));
+        };
+
         // get new unused ID for a new note
         // => for now just use a timestamp
-        var publicGetNewID =function () {
+        var publicGetNewID = function () {
             return moment().valueOf().toString();
         };
 
@@ -324,7 +334,8 @@
             getNewID : publicGetNewID,
             getAllNotes : publicGetAllNotes,
             indexOfNote : publicIndexOfNote,
-            save : publicSave
+            save : publicSave,
+            renderDoneDate : publicRenderDoneDate
         };
     })();
 

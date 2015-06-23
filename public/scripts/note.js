@@ -81,6 +81,7 @@
     ns.Note.prototype.finish = function ( reverse ) {
         this.doneDate = ( reverse ) ? '' : moment().valueOf();
         this.update();
+        this.list.renderDoneDate(this);
     };
 
     ns.Note.prototype.distanceToDueDate = function ( ) {
@@ -92,11 +93,11 @@
             distance = 'insight';
         }
 
-        if ( diff < 1 ) {
+        if ( diff < 2 ) {
             distance = 'upclose';
         }
 
-        if ( diff < 0 ){
+        if ( diff < 1 ){
             distance = 'ascloseasitgets';
         }
 
