@@ -30,7 +30,7 @@
         var loadNotes = function(){
             var notes = [];
             // push notelist to server
-/*            $.ajax({
+            $.ajax({
                 dataType:  "json",
                 method: "GET",
                 url: "/notes/all"
@@ -50,7 +50,7 @@
             }).fail(function( msg ) {
                 console.log (JSON.stringify(msg));
             });
-*/
+
             // todo callback function
             return notes || [];
         };
