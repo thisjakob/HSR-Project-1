@@ -18,7 +18,7 @@
         this.id = list.getNewID();
         this.title = '';
         this.description = '';
-        this.dueDate = now;
+        this.dueDate = moment().format('YYYY-MM-DD');
         this.importance = 2;
         this.doneDate = '';
         this.createdDate = now;
