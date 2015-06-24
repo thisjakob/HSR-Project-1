@@ -27,13 +27,15 @@
             localStorage.setItem( localStorageHandle_Settings, JSON.stringify(settings) );
         };
 
+        // todo aufruf mit callbackfunction
         var loadNotes = function(){
             var notes = [];
             // push notelist to server
             $.ajax({
                 dataType:  "json",
                 method: "GET",
-                url: "/notes/all"
+                url: "/notes/all",
+                async: false
             }).done(function( msg ) {
                 if (msg.length > 0) {
                     notes = JSON.parse(msg);
@@ -51,16 +53,14 @@
                 console.log (JSON.stringify(msg));
             });
 
-            // todo callback function
             return notes || [];
         };
 
         var saveNotes = function(notes){
             //var allNotes = (notes) ? JSON.stringify(notes) : ns.Notelist.getAllNotes();
-            // todo ev. each
             var allNotes = JSON.stringify(notes, ["id", "createdDate", "description", "doneDate", "dueDate", "importance", "modifiedDate", "title"]);
-            console.log("notes: "+ notes);
             console.log("allNotes: " + allNotes);
+
             // push notelist to server
             $.ajax({
                 dataType:  "json",

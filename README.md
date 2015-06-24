@@ -8,6 +8,12 @@ run index.js
 # start page in browser
 http://localhost:3333
 
+# options
+localStorage or db on server change include javascript in public/html/notelist.html:
+localStorage: 
+    <script src="../scripts/data_ls.js"></script>
+db (file or nedb: change routes in notesRoutes.js):
+    <script src="../scripts/data_db.js"></script>
 
 ## to do
 - sort by note title

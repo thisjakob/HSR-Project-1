@@ -35,18 +35,9 @@ function publicSaveNotes(notes, callback) {
 
 function publicSaveNotesFile(notes, callback) {
     // save notes in file
-    var notesStr = JSON.stringify(notes);
-    fs.writeFile(filename, notesStr, function(err) {
+    fs.writeFile(filename, JSON.stringify(notes), "utf8", function(err) {
         if (err) return privateHandleError(err, callback);
-
-        fs.readFile(filename, {encoding: 'utf8'}, function(err, content) {
-            if (err) return privateHandleError(err, callback);
-
-            fs.unlink(filename, function(err) {
-                if (err) return privateHandleError(err, callback);
-                if (callback) callback(err, content);
-            });
-        });
+        if (callback) callback(err, notes);
     });
 }
 
@@ -65,10 +56,7 @@ function publicGetAllNotes (callback) {
 function publicGetAllNotesFile (callback) {
     fs.readFile(filename, {encoding: 'utf8'}, function (err, content) {
         if (err) return privateHandleError(err, callback);
-
-        fs.unlink(filename, function(err) {
-            callback( err, content);
-        });
+        if (callback) callback(err, content);
     });
 }
 
