@@ -17,6 +17,7 @@ body.skin-dark {
     background: #ccc;
 }
 
+/* general button style */
 .btn {
     padding: 5px 10px;
     background: #ccc;
@@ -51,7 +52,7 @@ body.skin-dark {
     /* use different technique to hide page title for better SEO results */
 }
 
-/* Styles for the overview page */
+/* Styles for the notelist page */
 header {
     padding: 10px;
     border-bottom: 1px solid #333;
@@ -61,6 +62,9 @@ main {
     padding: 10px 5px;
 }
 
+/******************************/
+/* Function and Filter box
+*/
 .functions,
 .filter {
     display: flex;
@@ -95,7 +99,7 @@ main {
     content:"\f096"; /* font awesome */
 }
 
-
+/* Search box */
 label[for="search"] {
     position: relative;
     font-size: .8em;
@@ -116,6 +120,7 @@ label[for="search"] a.clear {
     width: 10px;
     height: 10px;
     text-decoration: none;
+    color: #888;
 }
 
 label[for="search"] a.clear:before{
@@ -123,8 +128,13 @@ label[for="search"] a.clear:before{
 }
 
 #search {
+    width: 250px;
+    margin-top: -1px;
     padding: 2px 3px 3px 3px;
 }
+/******************************/
+
+
 
 .note-list {
     list-style: none;

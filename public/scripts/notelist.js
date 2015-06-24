@@ -157,6 +157,8 @@
             if ( window.location.href.match(/note\.html/) ){
                 var note;
 
+                $('#title').focus();
+
                 $('#importance option').each(function(index, el){
                     $(el).text(importance[index+1]);
                 });
@@ -270,10 +272,10 @@
                     .on('focus', function(e){
                         $(this).siblings('span').hide().siblings('a').show();
                     })
-                    // show if focus is gone and input field is emptys
+                    // show label if focus is gone and input field is empty
                     .on('blur',function(e){
                         if ( $(this).val() === '' ) {
-                            $(this).parent().find('span').show();
+                            $(this).siblings('span').show().siblings('a').hide();
                         }
                     })
                     // free text search for a note
