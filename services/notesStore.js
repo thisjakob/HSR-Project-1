@@ -1,5 +1,7 @@
 var Datastore = require('nedb');
 var db = new Datastore({ filename: './db/notes.db', autoload: true });
+db.loadDatabase();
+
 var fs = require('fs');
 var filename = "db/notesFile.txt";
 
@@ -27,7 +29,7 @@ function publicSaveNotes(notes, callback) {
     db.remove({}, {}, function (err, numRemoved) {
         // save notes
         var notesStr = JSON.stringify(notes);
-        db.insert(notesStr, function (err, note) {
+        db.insert({notelist:notesStr}, function (err, note) {
             callback(err, note);
         });
     });
