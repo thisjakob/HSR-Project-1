@@ -49,8 +49,7 @@ module.exports.getAllNotes = function(req, res) {
     store.all(function(err, notes) {
         res.format({
             'application/json': function () {
-                var n = notes[0];
-                res.json(notes);
+                res.json(notes[0].notelist);
             }
         });
     });
