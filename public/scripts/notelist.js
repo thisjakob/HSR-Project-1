@@ -300,7 +300,8 @@
         var publicRenderDoneDate = function(note){
             $('#' + note.id + ' .doneDate time')
                 .text(moment(note.doneDate).fromNow())
-                .attr('datetime', moment(note.doneDate).format(dateFormat.full));
+                .attr('datetime', moment(note.doneDate).format(dateFormat.full))
+                .attr('title', moment(note.doneDate).format(dateFormat.full));
         };
 
         // get new unused ID for a new note
