@@ -1,5 +1,6 @@
 var store = require("../services/notesStore.js");
 
+// add note to db
 module.exports.addNote = function(req, res)
 {
    var note = store.add(req.body, function(err, note) {
@@ -11,6 +12,7 @@ module.exports.addNote = function(req, res)
     });
 };
 
+// save all notes in file
 module.exports.saveNotesFile = function(req, res)
 {
     var notes = req.body;
@@ -23,6 +25,7 @@ module.exports.saveNotesFile = function(req, res)
     });
 };
 
+// save all notes in db
 module.exports.saveNotes = function(req, res)
 {
     var notes = req.body;
@@ -35,6 +38,7 @@ module.exports.saveNotes = function(req, res)
     });
 };
 
+// get on note with id
 module.exports.getNote = function(req, res) {
     store.get(req.params.id, function(err, note) {
         res.format({
@@ -45,6 +49,7 @@ module.exports.getNote = function(req, res) {
     });
 };
 
+// get all notes from db
 module.exports.getAllNotes = function(req, res) {
     store.all(function(err, notes) {
         res.format({
@@ -55,6 +60,7 @@ module.exports.getAllNotes = function(req, res) {
     });
 };
 
+// read all notes from file
 module.exports.getAllNotesFile = function(req, res) {
     store.allFile(function(err, notes) {
         res.format({
@@ -70,6 +76,7 @@ module.exports.getAllNotesFile = function(req, res) {
     });
 };
 
+// delete one note in db
 module.exports.deleteNote =  function (req, res)
 {
     store.delete(req.params.id, function(err, note) {

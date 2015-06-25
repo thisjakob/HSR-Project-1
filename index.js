@@ -4,10 +4,6 @@ var bodyParser = require('body-parser');
 var hbs = require('express-hbs');
 
 var app = express();
-// handlebars
-app.engine('hbs', hbs.express4());
-app.set('view engine', 'hbs');
-app.set('views', __dirname + '/views');
 
 // access logger
 var fs = require('fs');
@@ -26,7 +22,7 @@ app.use(require("method-override")(function(req, res){
     }
 }));
 
-// first access send html page
+// first access send html file
 app.get("/", function(req, res){
     res.sendFile(__dirname + "/public/html/notelist.html")
 });
@@ -34,7 +30,7 @@ app.get("/", function(req, res){
 // notes routes
 app.use("/notes", require('./routes/notesRoutes.js'));
 
-// redirects
+// static redirects
 app.use(express.static(__dirname + '/public'));
 app.use('/', express.static(__dirname + '/public/html'));
 app.use('/styles', express.static(__dirname + '/public/styles'));
