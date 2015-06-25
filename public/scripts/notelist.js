@@ -144,6 +144,14 @@
             list.toggleClass( 'hideFinished', !settings.showFinished);
         };
 
+        var callbackNotes = function(notes) {
+            // Create a Note object for each note
+            for (var i = 0, l = notes.length; i < l; i++) {
+                allNotes[i] = new ns.Note(notes[i], ns.Notelist);
+            }
+            render();
+        };
+
         //####################
         // public methods
         //####################
@@ -152,7 +160,7 @@
         var publicInit = function () {
             var me = this;
             settings = ns.Data.loadSettings();
-            allNotes = ns.Data.loadNotes();
+            ns.Data.loadNotes(callbackNotes);
 
             if ( window.location.href.match(/note\.html/) ){
                 var note;

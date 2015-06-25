@@ -27,39 +27,32 @@
             localStorage.setItem( localStorageHandle_Settings, JSON.stringify(settings) );
         };
 
-        // todo aufruf mit callbackfunction
-        var loadNotes = function(){
+        //load notes from server
+        var loadNotes = function(callback){
             var notes = [];
             // push notelist to server
             $.ajax({
                 dataType:  "json",
                 method: "GET",
                 url: "/notes/all",
-                async: false
+                async: true
             }).done(function( msg ) {
                 if (msg.length > 0) {
                     notes = JSON.parse(msg);
                     if (notes != []) {
-                        console.log(JSON.stringify(msg));
-                        // Create a Note object for each note
-                        for (var i = 0, l = notes.length; i < l; i++) {
-                            notes[i] = new ns.Note(notes[i], ns.Notelist);
-                        }
+                        callback(notes);
                     }
                 } else {
                     console.log("no notes in db");
                 }
             }).fail(function( msg ) {
-                console.log (JSON.stringify(msg));
+                console.error (JSON.stringify(msg));
             });
-
-            return notes || [];
         };
 
+        // save notes on server
         var saveNotes = function(notes){
-            //var allNotes = (notes) ? JSON.stringify(notes) : ns.Notelist.getAllNotes();
             var allNotes = JSON.stringify(notes, ["id", "createdDate", "description", "doneDate", "dueDate", "importance", "modifiedDate", "title"]);
-            console.log("allNotes: " + allNotes);
 
             // push notelist to server
             $.ajax({
@@ -71,11 +64,12 @@
             }).done(function( msg ) {
                 console.log (JSON.stringify(msg));
             }).fail(function( msg ) {
-                console.log (JSON.stringify(msg));
+                console.error (JSON.stringify(msg));
             });
 
         };
 
+        // public interface
         return {
             loadSettings : loadSettings,
             saveSettings : saveSettings,
