@@ -7,7 +7,7 @@ run index.js
 http://localhost:3333
 
 # requirements
-- only chrome
+- browsers: only chrome
 
 ## to do
 - sort by note title
@@ -15,6 +15,7 @@ http://localhost:3333
 - provide better dark skin
 - create better ID than just a timestamp (some kind of short hash example: hj48i)
 - add form validation
+- delete in note
 - [done] ~~render notes list~~
 - [done] ~~style switch~~
 - [done] ~~add delete note~~
@@ -26,6 +27,3 @@ http://localhost:3333
 ## Ideas for additional features
 - undo delete note
 - settings: last skin, last filter
-- header fixed
-
-## failure
