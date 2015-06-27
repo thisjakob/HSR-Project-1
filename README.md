@@ -17,15 +17,14 @@
 - delete note
 - finish note
 - filter finished notes
-- sort notes by title, due date, created date, modified date and importance
+- sort notes by title, due date, created date, modified date and importance (descending / ascending)
 - search text in title and description
 - change skin between light and dark
 - expand / collapse dates and descriptions
 
 ## ideas for additional features
-- undo delete note
-- settings: last skin, last filter
 - create better ID than just a timestamp (some kind of short hash example: hj48i)
 - add form validation
 - delete in note
-- provide better dark skin
+- undo delete note
+- fixed header
