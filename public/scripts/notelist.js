@@ -49,6 +49,7 @@
             });
             // set body style class
             $('body').addClass($(".style-switch option:selected").val());
+            updateSettings( {skin : $(".style-switch option:selected").val()} );
         };
 
         // sort notes by the given property
@@ -202,6 +203,8 @@
             if ( window.location.href.match(/note\.html/) ){
                 var note;
 
+                $('body').addClass(settings.skin);
+
                 $('#title').focus();
 
                 $('#importance option').each(function(index, el){
@@ -225,6 +228,11 @@
                 });
 
             } else {
+                // set default skin
+                if (settings.skin !== $('.style-switch.btn').val()) {
+                    $('.style-switch.btn').val(settings.skin);
+                    switchStyle();
+                }
 
                 // default sorting
                 sort( settings.sortBy, settings.sortOrder );
