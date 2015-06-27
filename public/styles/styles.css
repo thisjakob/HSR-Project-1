@@ -288,3 +288,7 @@ main .note-list.hideFinished li.done {
 .note #date {
     width: 120px;
 }
+
+.note #btn_delete {
+    display: none;
+}
