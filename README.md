@@ -1,12 +1,13 @@
-# HSR-Project-1: Notes
-#install
-npm install
+# HSR-Project-1: Easy Notes
 
-# run
-run index.js
-http://localhost:3333
+## install
+- npm install
 
-# requirements
+## run
+- run index.js
+- http://localhost:3333
+
+## requirements
 - browsers: only chrome
 
 ## to do
