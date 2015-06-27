@@ -13,9 +13,6 @@ body {
     font-family: Arial, Helvetica, sans-serif;
 }
 
-body.skin-dark {
-    background: #787676;
-}
 
 /* general button style */
 .btn {
@@ -292,3 +289,13 @@ main .note-list.hideFinished li.done {
 .note #btn_delete {
     display: none;
 }
+
+/* dark skin */
+body.skin-dark {
+    background: #787676;
+}
+
+.skin-dark .note-list .additional {
+    background-color: #787676;
+}
+
