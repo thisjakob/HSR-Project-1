@@ -80,7 +80,8 @@
         // finds a particular note by its ID
         // returns a single note object
         var findNote = function ( id ) {
-            return $.grep( allNotes, function(note, index){
+            var notes = publicGetAllNotes();
+            return $.grep( notes, function(note, index){
                 return (note.id === id);
             })[0];
         };
@@ -144,13 +145,6 @@
             list.toggleClass( 'hideFinished', !settings.showFinished);
         };
 
-        var callbackNotes = function(notes) {
-            // Create a Note object for each note
-            for (var i = 0, l = notes.length; i < l; i++) {
-                allNotes[i] = new ns.Note(notes[i], ns.Notelist);
-            }
-            render();
-        };
 
         //####################
         // public methods
@@ -159,8 +153,51 @@
         // attach event handlers
         var publicInit = function () {
             var me = this;
+
+            // show notes in a list or if edit show one note with id
+            var showNotes = function(notes) {
+                // Create a Note object for each note
+                for (var i = 0, l = notes.length; i < l; i++) {
+                    allNotes[i] = new ns.Note(notes[i], ns.Notelist);
+                }
+
+                // show note/s
+                if ( window.location.href.match(/note\.html/) ) {
+                    if (!window.location.hash.match(/new/)) {
+                        me.note = findNote(window.location.hash.split('#')[1]);
+                        me.note.populate();
+                    }
+                } else {
+                    render();
+                }
+            };
+
+            // read note attributs and save it in note object
+            var setNote = function(){
+                if ( window.location.hash.match(/new/) ) {
+                    note.title = $('#title').val();
+                    note.description = $('#desc').val();
+                    note.importance = $('#importance').val();
+                    note.dueDate = $('#dueDate').val();
+                    note.save();
+
+                } else {
+                    me.note.title = $('#title').val();
+                    me.note.description = $('#desc').val();
+                    me.note.importance = $('#importance').val();
+                    me.note.dueDate = $('#dueDate').val();
+                    me.note.save();
+                }
+                window.location.href = '../../notelist.html';
+            };
+
+            // delete note
+            var deletNote = function(){
+                me.delete.apply(me, arguments);
+            };
+
             settings = ns.Data.loadSettings();
-            ns.Data.loadNotes(callbackNotes);
+            ns.Data.loadNotes(showNotes);
 
             if ( window.location.href.match(/note\.html/) ){
                 var note;
@@ -174,24 +211,16 @@
                 if ( window.location.hash.match(/new/) ) {
                     note = new ns.Note( {}, this);
                     $('#btn_delete').remove();
-                } else {
-                    note = findNote( window.location.hash.split('#')[1]) ;
+                    note.populate();
                 }
-                note.populate();
 
                 // event handler
-                $('#btn_save').on('click', function(){
-                    note.title = $('#title').val();
-                    note.description = $('#desc').val();
-                    note.importance = $('#importance').val();
-                    note.dueDate = $('#dueDate').val();
-                    note.save();
-                    window.location.href = '../../notelist.html';
-                });
+                $('#btn_save').on('click', setNote);
                 $('#btn_cancel').on('click', function(){
                     window.location.href = '../../notelist.html';
                 });
                 $('#btn_delete').on('click', function(){
+                    // todo funktioniert nicht mehr
                     me.delete.apply(me, arguments);
                 });
 
