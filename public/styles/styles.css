@@ -44,6 +44,10 @@ body {
     color: rgb(233, 247, 191);
 }
 
+.btn.undo-delete {
+    color: #cc0000;
+}
+
 .hidden {
     display: none;
     /* use different technique to hide page title for better SEO results */

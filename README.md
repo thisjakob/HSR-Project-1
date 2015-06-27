@@ -15,6 +15,7 @@
 - save notes on server
 - edit note
 - delete note
+- undo delete note
 - finish note
 - filter finished notes
 - sort notes by title, due date, created date, modified date and importance (descending / ascending)
@@ -26,5 +27,4 @@
 - create better ID than just a timestamp (some kind of short hash example: hj48i)
 - add form validation
 - delete in note
-- undo delete note
 - fixed header

@@ -154,6 +154,7 @@
         // attach event handlers
         var publicInit = function () {
             var me = this;
+            var lastDeletedNote = {};
 
             // show notes in a list or if edit show one note with id
             var showNotes = function(notes) {
@@ -223,7 +224,6 @@
                     window.location.href = '../../notelist.html';
                 });
                 $('#btn_delete').on('click', function(){
-                    // todo funktioniert nicht mehr
                     me.delete.apply(me, arguments);
                 });
 
@@ -248,7 +248,17 @@
 
                 // click handler for all delete links
                 var list = $('.note-list').on('click','.delete',function(e){
-                    findNote( $(this).parents('li').remove().attr('id') ).delete();
+                    lastDeletedNote = findNote( $(this).parents('li').remove().attr('id') );
+                    lastDeletedNote.delete();
+                    // undo button
+                    $('.btn.undo-delete').show();
+                });
+
+                // click handler for undo button
+                $('.btn.undo-delete').on('click', function() {
+                    $('.btn.undo-delete').hide();
+                    lastDeletedNote.save();
+                    render();
                 });
 
                 // change handler for input finished
