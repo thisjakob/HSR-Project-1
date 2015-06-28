@@ -317,7 +317,7 @@ main .note-list.hideFinished li.done {
     border-color: #eee;
 }
 .skin-dark .btn {
-    background-color: #ADADAD;
+    background-color: #9C9C9C;
 }
 .skin-dark .btn {
     border-color: #eee;
@@ -328,7 +328,7 @@ main .note-list.hideFinished li.done {
 }
 
 .skin-dark .note-list .additional {
-    background-color: #aaa;
+    background-color: #9C9C9C;
 }
 
 .skin-dark .note-list .importance {
