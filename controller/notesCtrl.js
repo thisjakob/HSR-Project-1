@@ -43,7 +43,11 @@ module.exports.getNote = function(req, res) {
     store.get(req.params.id, function(err, note) {
         res.format({
             'application/json': function(){
-                res.json(note);
+                if (note !== undefined) {
+                    res.json(note);
+                } else {
+                    res.end("");
+                };
             },
         });
     });
@@ -54,7 +58,11 @@ module.exports.getAllNotes = function(req, res) {
     store.all(function(err, notes) {
         res.format({
             'application/json': function () {
-                res.json(notes[0].notelist);
+                if (notes.length > 0) {
+                    res.json(notes[0].notelist);
+                } else {
+                    res.end("");
+                }
             }
         });
     });
