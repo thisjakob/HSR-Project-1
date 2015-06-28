@@ -1,8 +1,3 @@
-/* Font Awesome Extension */
-.fa-importance-low:before{content:"\f12a"}
-.fa-importance-medium:before{content:"\f12a\f12a"}
-.fa-importance-high:before{content:"\f12a\f12a\f12a"}
-
 /* Overall styles */
 html,
 body {
@@ -12,7 +7,6 @@ body {
     padding: 0;
     font-family: Arial, Helvetica, sans-serif;
 }
-
 
 /* general button style */
 .btn {
@@ -32,10 +26,10 @@ body {
     background: rgb(252, 252, 179);
 }
 
-.btn span {
-    padding: 2px 0 1px 0;
-    margin-right: 5px;
-    font-size: 1em;
+.btn i {
+    margin-right: 7px;
+    font-size: 0.9em;
+    font-style: normal;
 }
 
 .btn.new-note {
@@ -87,7 +81,15 @@ main {
 
 .filter .btn {
     font-size: .8em;
-    padding: 2px 5px;
+    padding: 3px 5px;
+}
+
+.filter .btn.sort.desc i:before {
+    content:"\f161";
+}
+
+.filter .btn.sort.asc i:before {
+    content:"\f160";
 }
 
 #filter-finished,
@@ -101,11 +103,11 @@ main {
 }
 
 #filter-finished.show:before{
-    content:"\f046"; /* font awesome */
+    content:"\f046";
 }
 
 #filter-finished.hide:before{
-    content:"\f096"; /* font awesome */
+    content:"\f096";
 }
 
 /* Search box */
@@ -175,6 +177,14 @@ label[for="search"] a.clear:before{
     color: inherit;
     text-decoration: none;
     font-size: 1.2em;
+}
+
+.commands .edit:before {
+    content:"\f040";
+}
+
+.commands .delete:before {
+    content:"\f014";
 }
 
 .note-list li.done .commands {
@@ -258,6 +268,10 @@ main .note-list.hideFinished li.done {
     width: 15px;
     text-align: right;
 }
+
+.note-list .importance.low:before{content:"\f12a"}
+.note-list .importance.medium:before{content:"\f12a\f12a"}
+.note-list .importance.high:before{content:"\f12a\f12a\f12a"}
 
 .note-list.search li {
     display: none;
