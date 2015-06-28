@@ -81,7 +81,8 @@
     ns.Note.prototype.finish = function ( reverse ) {
         this.doneDate = ( reverse ) ? '' : moment().valueOf();
         this.update();
-        this.list.renderDoneDate(this);
+        this.list.renderDate(this, 'doneDate');
+        this.list.renderDate(this, 'modifiedDate');
     };
 
     ns.Note.prototype.distanceToDueDate = function ( ) {

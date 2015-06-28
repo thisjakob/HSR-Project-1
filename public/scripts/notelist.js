@@ -362,11 +362,11 @@
         };
 
         // update the done date for the given note
-        var publicRenderDoneDate = function(note){
-            $('#' + note.id + ' .doneDate time')
-                .text(moment(note.doneDate).fromNow())
-                .attr('datetime', moment(note.doneDate).format(dateFormat.full))
-                .attr('title', moment(note.doneDate).format(dateFormat.full));
+        var publicRenderDate = function(note, date){
+            $('#' + note.id + ' .' + date + ' time')
+                .text(moment(note[date]).fromNow())
+                .attr('datetime', moment(note[date]).format(dateFormat.full))
+                .attr('title', moment(note[date]).format(dateFormat.full));
         };
 
         // get new unused ID for a new note
@@ -401,7 +401,7 @@
             getAllNotes : publicGetAllNotes,
             indexOfNote : publicIndexOfNote,
             save : publicSave,
-            renderDoneDate : publicRenderDoneDate
+            renderDate : publicRenderDate
         };
     })();
 
