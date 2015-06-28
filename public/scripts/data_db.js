@@ -3,8 +3,7 @@
     var ns = window.eznotes = window.eznotes || {};
 
     ns.Data = (function(){
-        var localStorageHandle_Data = 'notes-data',
-            localStorageHandle_Settings = 'notes-settings',
+        var localStorageHandle_Settings = 'notes-settings',
             defaultSettings = {
                 sortBy : 'createdDate', // [dueDate, createdDate, modifiedDate, importance]
                 sortOrder : 'desc', // [asc, desc]

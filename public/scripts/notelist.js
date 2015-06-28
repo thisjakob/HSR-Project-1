@@ -193,12 +193,6 @@
                     note.dueDate = $('#dueDate').val();
                     note.save();
 
-                } else {
-                    me.note.title = $('#title').val();
-                    me.note.description = $('#desc').val();
-                    me.note.importance = $('#importance').val();
-                    me.note.dueDate = $('#dueDate').val();
-                    me.note.save();
                 }
                 window.location.href = '../../notelist.html';
             };
