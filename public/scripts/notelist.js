@@ -55,10 +55,20 @@
         // sort notes by the given property
         var sort = function ( sortBy, sortOrder ) {
             allNotes.sort(function(a,b){
-                // this makes sure that empty due dates show at the bottom of the list
-                // when the list is sorted by due date.
-                var aVal = (sortBy === 'dueDate')? (a[sortBy]) ? a[sortBy] : '9999-12-12' : a[sortBy];
-                var bVal = (sortBy === 'dueDate')? (b[sortBy]) ? b[sortBy] : '9999-12-12' : b[sortBy];
+                var aVal = a[sortBy],
+                    bVal = b[sortBy];
+
+                if ( sortBy === 'title' ) {
+                    aVal = a[sortBy].toLowerCase();
+                    bVal = b[sortBy].toLowerCase();
+                }
+
+                if ( sortBy === 'dueDate') {
+                    // this makes sure that empty due dates show at the bottom of the list
+                    // when the list is sorted by due date.
+                    aVal = (a[sortBy]) ? a[sortBy] : '9999-12-12';
+                    bVal = (b[sortBy]) ? b[sortBy] : '9999-12-12';
+                }
 
                 return (sortOrder === 'desc') ? aVal < bVal : aVal > bVal;
             });
@@ -179,7 +189,7 @@
                 if ( window.location.hash.match(/new/) ) {
                     note.title = $('#title').val();
                     note.description = $('#desc').val();
-                    note.importance = $('#importance').val();
+                    note.importance = parseInt( $('#importance').val() );
                     note.dueDate = $('#dueDate').val();
                     note.save();
 
