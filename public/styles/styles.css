@@ -275,6 +275,10 @@ main .note-list.hideFinished li.done {
     width: 100%;
 }
 
+.note main {
+    padding: 10px 5px;
+}
+
 .note .item {
     display: flex;
     margin: 10px;
