@@ -16,6 +16,15 @@
             dateFormat = {
                 short : 'YYYY-MM-DD',
                 full : 'YYYY-MM-DD HH:mm:ss'
+            },
+            entityMap = {
+                "&": "&amp;",
+                "<": "&lt;",
+                ">": "&gt;",
+                '"': '&quot;',
+                "'": '&#39;',
+                "/": '&#x2F;',
+                "\n": "<br>"
             };
 
         //####################
@@ -138,8 +147,8 @@
 
                 html = html.replace(/\{id\}/g, note.id)
                     .replace(/\{expanded\}/, ( settings.expanded.filter(function(val){return val === note.id}).length ) ? 'expanded' : '' )
-                    .replace(/\{note-title\}/, note.title)
-                    .replace(/\{description\}/, note.description.replace(/\n/g,'<br>'))
+                    .replace(/\{note-title\}/, escapeHtml(note.title) )
+                    .replace(/\{description\}/, escapeHtml( note.description) )
                     .replace(/\{dueDate\}/, (note.dueDate === '') ? '' : moment(note.dueDate).fromNow() )
                     .replace(/\{dueDate-full\}/g, (note.dueDate === '') ? '' : moment(note.dueDate).format( dateFormat.short ) )
                     .replace(/\{distance\}/, note.distanceToDueDate() )
@@ -160,6 +169,12 @@
 
             list.toggleClass( 'showFinished', settings.showFinished)
                 .toggleClass( 'hideFinished', !settings.showFinished);
+        };
+
+        var escapeHtml = function ( string ) {
+            return String(string).replace(/[&<>"'\/]|[\n]/g, function (s) {
+                return entityMap[s];
+            });
         };
 
 
@@ -284,6 +299,7 @@
                 $('.btn.undo-delete').on('click', function() {
                     $('.btn.undo-delete').hide();
                     lastDeletedNote.save();
+                    sort( settings.sortBy, settings.sortOrder );
                     render();
                 });
 
