@@ -22,9 +22,9 @@
 - search text in title and description
 - change skin between light and dark
 - expand / collapse dates and descriptions
+- fixed header
 
 ## ideas for additional features
 - create better ID than just a timestamp (some kind of short hash example: hj48i)
 - add form validation
 - delete in note
-- fixed header
