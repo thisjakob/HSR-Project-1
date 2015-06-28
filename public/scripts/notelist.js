@@ -186,6 +186,7 @@
                         me.note.populate();
                     }
                 } else {
+                    sort( settings.sortBy, settings.sortOrder );
                     render();
                 }
             };
@@ -248,12 +249,10 @@
                 switchStyle();
 
                 // default sorting
-                sort( settings.sortBy, settings.sortOrder );
                 var el = $('a[href*="' + settings.sortBy + '"]');
                 el.addClass('current');
-                el.find('span')
-                    .removeClass('fa-sort-amount-desc fa-sort-amount-asc')
-                    .addClass('fa-sort-amount-' + settings.sortOrder);
+                el.removeClass('desc asc')
+                    .addClass(settings.sortOrder);
 
                 // render list
                 loadNoteTmpl();
@@ -298,9 +297,7 @@
                     // update sort icon
                     el.siblings('a').removeClass('current');
                     el.addClass('current');
-                    el.find('span')
-                        .removeClass('fa-sort-amount-desc fa-sort-amount-asc')
-                        .addClass('fa-sort-amount-' + settings.sortOrder);
+                    el.removeClass('desc asc').addClass(settings.sortOrder);
 
                     render();
                 });
