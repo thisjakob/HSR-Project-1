@@ -55,12 +55,17 @@ body {
 
 /* Styles for the notelist page */
 header {
-    padding: 10px;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    min-width: 200px;
+    max-width: 800px;
+    padding: 10px 0;
     border-bottom: 1px solid #333;
 }
 
 main {
-    padding: 10px 5px;
+    padding: 95px 5px 10px 5px;
 }
 
 /******************************/
@@ -71,6 +76,7 @@ main {
     display: flex;
     justify-content: space-between;
     margin-bottom: 20px;
+    padding: 0 10px;
 }
 
 .filter {
