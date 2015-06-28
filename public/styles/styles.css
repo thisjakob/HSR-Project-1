@@ -20,7 +20,7 @@ body {
     background: #ccc;
     border: 1px solid #333;
     text-decoration: none;
-    color: black;
+    color: inherit;
     font-size: .8em;
 }
 
@@ -62,6 +62,8 @@ header {
     max-width: 800px;
     padding: 10px 0;
     border-bottom: 1px solid #333;
+    background: #fff;
+    z-index: 1000;
 }
 
 main {
@@ -91,7 +93,7 @@ main {
 #filter-finished,
 #expandAll {
     font-size: 1.2em;
-    color: #333;
+    color: inherit;
     display: inline-block;
     width: 15px;
     padding-right: 10px;
@@ -170,7 +172,7 @@ label[for="search"] a.clear:before{
 
 .commands a {
     padding: 3px;
-    color: #333;
+    color: inherit;
     text-decoration: none;
     font-size: 1.2em;
 }
@@ -237,7 +239,7 @@ main .note-list.hideFinished li.done {
 .note-list .additional {
     margin-left: 53px;
     padding: 10px;
-    background: #eeeeee;
+    background: #eee;
     font-size: .75em;
 }
 
@@ -301,11 +303,34 @@ main .note-list.hideFinished li.done {
 }
 
 /* dark skin */
-body.skin-dark {
+body.skin-dark,
+body.skin-dark header {
+    color: #eee;
     background: #787676;
 }
 
-.skin-dark .note-list .additional {
-    background-color: #787676;
+body.skin-dark header {
+    border-color: #eee;
 }
+
+.skin-dark .btn {
+    border-color: #eee;
+}
+
+.skin-dark .btn.current {
+    background-color: orange;
+}
+
+.skin-dark .note-list .additional {
+    background-color: #aaa;
+}
+
+.skin-dark .note-list .importance {
+    color: #ccc;
+}
+
+.skin-dark .note-list .dueDate.faraway {
+    color: lightgreen;
+}
+
 
