@@ -238,11 +238,9 @@
                 });
 
             } else {
-                // set default skin
-                if (settings.skin !== $('.style-switch.btn').val()) {
-                    $('.style-switch.btn').val(settings.skin);
-                    switchStyle();
-                }
+                // select default skin
+                $('.style-switch [name="' + settings.skin + '"]').prop('selected',true);
+                switchStyle();
 
                 // default sorting
                 sort( settings.sortBy, settings.sortOrder );
