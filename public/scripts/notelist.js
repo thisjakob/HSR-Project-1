@@ -149,11 +149,13 @@
 
             // initial state of show / hide finished notes
             list.find('li.done .done').prop('checked', true);
+
             $('#filter-finished')
                 .toggleClass('show', settings.showFinished)
                 .toggleClass('hide', !settings.showFinished);
-            list.toggleClass( 'showFinished', settings.showFinished);
-            list.toggleClass( 'hideFinished', !settings.showFinished);
+
+            list.toggleClass( 'showFinished', settings.showFinished)
+                .toggleClass( 'hideFinished', !settings.showFinished);
         };
 
 
@@ -203,7 +205,7 @@
             };
 
             settings = ns.Data.loadSettings();
-            ns.Data.loadNotes(showNotes);
+            ns.Data.loadNotes( showNotes );
 
             if ( window.location.href.match(/note\.html/) ){
                 var note;
