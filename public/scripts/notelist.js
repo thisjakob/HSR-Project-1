@@ -190,6 +190,14 @@
                         me.note.populate();
                     }
                 } else {
+                    // initialize expandAll button correctly
+                    if ( notes.length === settings.expanded.length ) {
+                        $('#expandAll').addClass('expanded');
+                    } else {
+                        $('#expandAll').addClass('collapsed');
+                    }
+
+                    // sort and render
                     sort( settings.sortBy, settings.sortOrder );
                     render();
                 }
@@ -309,18 +317,11 @@
                 // click handler for collapse/expand all
                 $('#expandAll').on('click', function(e){
                     e.preventDefault();
-                    var icon = $(this).find('span').first(),
-                        listItems = $('.note-list li');
 
-                    if ( icon.prop('class').match(/plus/) ) {
-                        icon.prop('class', icon.prop('class').replace(/plus/, 'minus') );
-                        listItems.addClass('expanded');
-                        updateSettings( {expanded : $.map( $("li.expanded"), function(n, i){ return n.id;} )} );
-                    } else {
-                        icon.prop('class', icon.prop('class').replace(/minus/, 'plus') );
-                        listItems.removeClass('expanded');
-                        updateSettings({expanded : []});
-                    }
+                    $(this).toggleClass('collapsed expanded');
+                    $('.note-list li').toggleClass('expanded', $(this).hasClass('expanded'));
+                    updateSettings( {expanded : $.map( $("li.expanded"), function(n, i){ return n.id;} )} );
+
                 });
 
                 // click handler for filter finished

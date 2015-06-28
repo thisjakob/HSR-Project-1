@@ -110,6 +110,14 @@ main {
     content:"\f096";
 }
 
+#expandAll.expanded:before {
+    content:"\f147";
+}
+
+#expandAll.collapsed:before {
+    content:"\f196";
+}
+
 /* Search box */
 label[for="search"] {
     position: relative;
