@@ -43,13 +43,17 @@
 
         // switch skin
         var switchStyle = function () {
+            var skins = $('.style-switch option');
+
             // remove not selected body style classes
-            $(".style-switch option:not(:selected)").each(function(i, val){
-                $('body').removeClass(val.value);
+            skins.each(function(i, style){
+                $('body').removeClass( style.value );
             });
+
             // set body style class
-            $('body').addClass($(".style-switch option:selected").val());
-            updateSettings( {skin : $(".style-switch option:selected").val()} );
+            var newSkin = skins.filter(':selected').val();
+            $('body').addClass( newSkin );
+            updateSettings( {skin : newSkin} );
         };
 
         // sort notes by the given property
