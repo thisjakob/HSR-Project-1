@@ -1,4 +1,6 @@
-/* Overall styles */
+/******************************/
+/* Overall styles
+*/
 html,
 body {
     min-width: 200px;
@@ -44,10 +46,11 @@ body {
 
 .hidden {
     display: none;
-    /* use different technique to hide page title for better SEO results */
 }
 
-/* Styles for the notelist page */
+/******************************/
+/* Styles for the notelist page
+*/
 header {
     position: fixed;
     top: 0;
@@ -151,10 +154,10 @@ label[for="search"] a.clear:before{
     margin-top: -1px;
     padding: 2px 3px 3px 3px;
 }
+
 /******************************/
-
-
-
+/* List of notes
+*/
 .note-list {
     list-style: none;
     padding: 0;
@@ -289,7 +292,9 @@ main .note-list.hideFinished li.done {
     display: list-item;
 }
 
-/* Styles for the notes page */
+/******************************/
+/* Styles for the notes page
+*/
 .note {
     display: block;
     margin-top: 30px;
@@ -328,7 +333,9 @@ main .note-list.hideFinished li.done {
     display: none;
 }
 
-/* dark skin */
+/******************************/
+/* dark skin
+*/
 .skin-dark,
 .skin-dark header {
     color: #eee;

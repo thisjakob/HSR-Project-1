@@ -225,7 +225,7 @@
             settings = ns.Data.loadSettings();
             ns.Data.loadNotes( showNotes );
 
-            if ( window.location.href.match(/note\.html/) ){
+            if ( window.location.href.match(/note\.html/) ){ // single note
                 var note;
 
                 $('body').addClass(settings.skin);
@@ -251,7 +251,8 @@
                     me.delete.apply(me, arguments);
                 });
 
-            } else {
+            } else { // the entire notelist
+
                 // select default skin
                 $('.style-switch [name="' + settings.skin + '"]').prop('selected',true);
                 switchStyle();
