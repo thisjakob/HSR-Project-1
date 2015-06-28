@@ -74,7 +74,11 @@
                     bVal = (b[sortBy]) ? b[sortBy] : '9999-12-12';
                 }
 
-                return (sortOrder === 'desc') ? aVal < bVal : aVal > bVal;
+                if ( sortOrder === 'desc' ) {
+                    return ( aVal > bVal ) ? 1 : ( aVal < bVal ) ? -1 : 0;
+                } else {
+                    return ( bVal > aVal ) ? 1 : ( bVal < aVal ) ? -1 : 0;
+                }
             });
 
             // because importance is ordered by the numeric value (High = 1, Low = 3)
