@@ -158,10 +158,6 @@
             // initial state of show / hide finished notes
             list.find('li.done .done').prop('checked', true);
 
-            $('#filter-finished')
-                .toggleClass('show', settings.showFinished)
-                .toggleClass('hide', !settings.showFinished);
-
             list.toggleClass( 'showFinished', settings.showFinished)
                 .toggleClass( 'hideFinished', !settings.showFinished);
         };
@@ -265,6 +261,11 @@
                 el.addClass('current');
                 el.removeClass('desc asc')
                     .addClass(settings.sortOrder);
+
+                // show finished button
+                $('#filter-finished')
+                    .toggleClass('show', settings.showFinished)
+                    .toggleClass('hide', !settings.showFinished);
 
                 // render list
                 loadNoteTmpl();
