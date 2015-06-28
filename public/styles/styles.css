@@ -307,16 +307,18 @@ main .note-list.hideFinished li.done {
 }
 
 /* dark skin */
-body.skin-dark,
-body.skin-dark header {
+.skin-dark,
+.skin-dark header {
     color: #eee;
     background: #787676;
 }
 
-body.skin-dark header {
+.skin-dark header {
     border-color: #eee;
 }
-
+.skin-dark .btn {
+    background-color: #ADADAD;
+}
 .skin-dark .btn {
     border-color: #eee;
 }
